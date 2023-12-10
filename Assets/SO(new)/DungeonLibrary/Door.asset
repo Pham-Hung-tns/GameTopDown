@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd3ae130082d7a42908e0b54ac47782, type: 3}
+  m_Name: Door
+  m_EditorClassIdentifier: 
+  levels:
+  - levelName: Level 1
+    dungeons:
+    - {fileID: 4545745746637584148, guid: 9591379a80f532c4eae8ad11e006105a, type: 3}
+    - {fileID: 4856641190978783900, guid: 38565e1ef59d7d74aaf3c497ab42de87, type: 3}
+    - {fileID: 8463583914700312723, guid: 74299cc8cddf45d46938c2e83da52f07, type: 3}
+    - {fileID: 1483940130570009003, guid: 0452f288d4f5c644daa8652a3e681182, type: 3}
+  doorN: {fileID: 2691284941704623238, guid: c7074e2eddb18504391d9a69eb00b140, type: 3}
+  doorE: {fileID: 641547503425466578, guid: 9db4a5295405eab4785203b88ed3a734, type: 3}
+  doorS: {fileID: 8732975251202166322, guid: 06c43c32caaec8a4cb2a9c4c71210a9b, type: 3}
+  doorW: {fileID: 8933087503031250858, guid: 16ad081d5d79a88429c4c37a8876c405, type: 3}
