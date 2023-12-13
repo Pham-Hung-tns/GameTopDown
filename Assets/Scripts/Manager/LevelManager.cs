@@ -17,8 +17,8 @@ public class LevelManager : MonoBehaviour
     public DungeonLibrary DoorSO => dungeonLibrary;
 
     private Room currentRoom;
-    private int currentLevelIndex;
-    private int currentDungeonIndex;
+    private int currentLevelIndex = 0;
+    private int currentDungeonIndex = 0;
     private GameObject currentDungeonGO;
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour
     private void CreateLevel()
     {
         currentDungeonGO =  Instantiate(dungeonLibrary.levels[currentLevelIndex].dungeons[currentDungeonIndex], transform);
+        PositionOfPlayerInDungeon();
     }
 
     private void OnEnable()
@@ -47,7 +48,7 @@ public class LevelManager : MonoBehaviour
 
     private void PortalEventCallBack()
     {
-        ContinueDungeonNext();  
+        StartCoroutine(IEContinueDungeon());
     }
 
     public void PositionOfPlayerInDungeon()
@@ -89,7 +90,15 @@ public class LevelManager : MonoBehaviour
         currentRoom = room;
         if (!currentRoom.roomCompleted)
         {
-            //currentRoom.CloseRoom();
+            currentRoom.CloseRoom();
         }
+    }
+
+    private IEnumerator IEContinueDungeon()
+    {
+        UIManager.Instance.FadeNewDungeon(1);
+        yield return new WaitForSeconds(2f);
+        ContinueDungeonNext();
+        UIManager.Instance.FadeNewDungeon(0f);
     }
 }

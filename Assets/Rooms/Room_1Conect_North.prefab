@@ -75,6 +75,10 @@ MonoBehaviour:
   useDebug: 1
   roomType: 3
   extraTilemap: {fileID: 9186909838313759107}
+  posDoorN: []
+  posDoorW: []
+  posDoorE: []
+  posDoorS: []
 --- !u!1 &9186909838057442880
 GameObject:
   m_ObjectHideFlags: 0

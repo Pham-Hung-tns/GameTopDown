@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-   public void HideDoor()
+    private Animator anim;
+
+    private void Awake()
     {
-        gameObject.SetActive(false);
+        anim = GetComponent<Animator>();
+    }
+    public void HideDoor()
+    {
+        anim.SetTrigger("Open");
     }
 
     public void ShowDoor()
     {
-        gameObject.SetActive(true);
+       anim.SetTrigger("Close");
     }
 
     

@@ -11,10 +11,8 @@ public class DungeonLibrary : ScriptableObject
     public Level[] levels;
 
     [Header("Door")]
-    public GameObject doorN;
-    public GameObject doorE;
-    public GameObject doorS;
-    public GameObject doorW;
+    public GameObject doorNS;
+    public GameObject doorWE;
 }
 
 [Serializable]

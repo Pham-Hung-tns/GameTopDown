@@ -6,6 +6,8 @@ using TMPro;
 
 public class UIManager: MonoBehaviour
 {
+    public static UIManager Instance;
+
     [Header("References")]
     [SerializeField] private PlayerConfig playerConfig;
 
@@ -17,6 +19,14 @@ public class UIManager: MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI energyText;
+
+    [Header("Fade")]
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Update()
     {
@@ -39,4 +49,8 @@ public class UIManager: MonoBehaviour
         energyText.text = playerConfig.currentEnergy + "/" + playerConfig.MaxEnergy;
     }
 
+    public void FadeNewDungeon(float value)
+    {
+        StartCoroutine(Helper.IEFade(canvasGroup, value, 1.5f));
+    }
 }

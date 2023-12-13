@@ -48,11 +48,11 @@ TagManager:
   - name: Walls
     uniqueID: 2020064685
     locked: 0
-  - name: Door
-    uniqueID: 2174873391
-    locked: 0
   - name: Extra
     uniqueID: 4061544169
+    locked: 0
+  - name: Door
+    uniqueID: 2174873391
     locked: 0
   - name: Props
     uniqueID: 1249629529
