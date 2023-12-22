@@ -17971,7 +17971,7 @@ GameObject:
   - component: {fileID: 8221326728650081676}
   - component: {fileID: 8221326728650081679}
   - component: {fileID: -5194727595937717337}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Room_1Conect_East
   m_TagString: Untagged
   m_Icon: {fileID: 0}

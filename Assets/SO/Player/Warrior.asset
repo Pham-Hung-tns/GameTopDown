@@ -19,7 +19,7 @@ MonoBehaviour:
   MaxHealth: 5
   currentArmor: 3
   MaxArmor: 3
-  currentEnergy: 150
+  currentEnergy: 0
   MaxEnergy: 150
   CriticalChance: 10
   CriticalDamage: 10

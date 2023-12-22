@@ -12,9 +12,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Room
+  - Projectile
   - 
   - 
   - 
@@ -56,6 +56,9 @@ TagManager:
     locked: 0
   - name: Props
     uniqueID: 1249629529
+    locked: 0
+  - name: Weapon
+    uniqueID: 1957423847
     locked: 0
   - name: Player
     uniqueID: 561647781

@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weapon Stat", menuName = "Weapon/ new Weapon")]
-public class Weapon : ScriptableObject
+public class Weapon : MonoBehaviour
 {
-    [Header("Information")]
-    public string Name;
-    public Sprite icon;
+    [SerializeField] protected Transform shootTrans;
+    [SerializeField] protected WeaponData weaponData;
 
-    [Header("Stat")]
-    public int damage;
-    public int energy;
-    public int minSpread;
-    public int maxSpread;
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+    public WeaponData WeaponData => weaponData;
+    public virtual void UseWeapon()
+    {
+        if(animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
+    }
 }
