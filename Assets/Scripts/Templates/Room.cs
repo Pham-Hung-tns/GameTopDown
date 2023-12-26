@@ -22,10 +22,9 @@ public class Room : MonoBehaviour
     [SerializeField] private Tilemap extraTilemap;
 
     [Header("Door Transform")]
-    [SerializeField] private Transform[] posDoorN;
-    [SerializeField] private Transform[] posDoorW;
-    [SerializeField] private Transform[] posDoorE;
-    [SerializeField] private Transform[] posDoorS;
+    [SerializeField] private Transform[] posDoorNS;
+    [SerializeField] private Transform[] posDoorWE;
+
 
 
     private Dictionary<Vector3, bool> tiles = new Dictionary<Vector3, bool>();
@@ -84,43 +83,23 @@ public class Room : MonoBehaviour
     // chua co du asset nen dung cach nay
     private void GenerateDoor()
     {
-        if(posDoorN.Length > 0)
+        if(posDoorNS.Length > 0)
         {
-            for(int i = 0; i < posDoorN.Length; i++)
+            for(int i = 0; i < posDoorNS.Length; i++)
             {
-                GameObject doorN_GO = Instantiate(LevelManager.instance.DoorSO.doorN, posDoorN[i]);
-                Door door = doorN_GO.GetComponent<Door>();
+                GameObject doorN_GO = Instantiate(LevelManager.instance.DoorSO.doorNS, posDoorNS[i]);
+                Door door = doorN_GO.GetComponentInChildren<Door>();
                 door.HideDoor();
                 doorsOfRoom.Add(door);
             }
         }
 
-        if(posDoorS.Length > 0)
+        if (posDoorWE.Length > 0)
         {
-            for (int i = 0;i < posDoorS.Length; i++)
+            for (int i = 0; i < posDoorWE.Length; i++)
             {
-                GameObject doorS_GO = Instantiate(LevelManager.instance.DoorSO.doorS, posDoorS[i]);
-                Door door = doorS_GO.GetComponent<Door>();
-                door.HideDoor();
-                doorsOfRoom.Add(door);
-            }
-        }
-        if (posDoorW.Length > 0)
-        {
-            for (int i = 0; i < posDoorW.Length; i++)
-            {
-                GameObject doorW_GO = Instantiate(LevelManager.instance.DoorSO.doorW, posDoorW[i]);
-                Door door = doorW_GO.GetComponent<Door>();
-                door.HideDoor();
-                doorsOfRoom.Add(door);
-            }
-        }
-        if (posDoorE.Length > 0)
-        {
-            for (int i = 0; i < posDoorE.Length; i++)
-            {
-                GameObject doorE_GO = Instantiate(LevelManager.instance.DoorSO.doorE, posDoorE[i]);
-                Door door = doorE_GO.GetComponent<Door>();
+                GameObject doorE_GO = Instantiate(LevelManager.instance.DoorSO.doorWE, posDoorWE[i]);
+                Door door = doorE_GO.GetComponentInChildren<Door>();
                 door.HideDoor();
                 doorsOfRoom.Add(door);
             }

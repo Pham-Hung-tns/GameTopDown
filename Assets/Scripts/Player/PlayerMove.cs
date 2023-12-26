@@ -1,11 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -26,6 +20,9 @@ public class PlayerMove : MonoBehaviour
 
     private float currentSpeed;
     public Vector3 lastPos;
+
+    public Vector2 MoveDirection => moveDirection;
+    public bool Flip => spriteRenderer.flipX;
     void Awake()
     {
         actions = new PlayerControls();
@@ -42,7 +39,7 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb2D.MovePosition(rb2D.position + moveDirection*(currentSpeed * Time.fixedDeltaTime));
+        rb2D.MovePosition(rb2D.position + moveDirection.normalized * (currentSpeed * Time.fixedDeltaTime));
         animator.SetBool("moveMotion", moveDirection != Vector2.zero);
 
     }
@@ -53,9 +50,14 @@ public class PlayerMove : MonoBehaviour
         RotationPlayer();
     }
 
-    private void ClaimInput()
+    public void ClaimInput()
     {
-        moveDirection = actions.Movement.Move.ReadValue<Vector2>().normalized;
+        moveDirection = actions.Movement.Move.ReadValue<Vector2>();
+    }
+
+    public void FacingRightDirection()
+    {
+        spriteRenderer.flipX = false;
     }
     private void Dash()
     {
@@ -98,9 +100,9 @@ public class PlayerMove : MonoBehaviour
 
     private void RotationPlayer()
     {
-        if(moveDirection.x >= 0.01f)
+        if (moveDirection.x >= 0.01f)
             spriteRenderer.flipX = false;
-        else if(moveDirection.x < 0f)
+        else if (moveDirection.x < 0f)
             spriteRenderer.flipX = true;
     }
 }

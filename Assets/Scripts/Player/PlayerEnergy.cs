@@ -6,6 +6,7 @@ public class PlayerEnergy : MonoBehaviour
 {
     [SerializeField] PlayerConfig playerConfig;
 
+    public bool CanUseEnergy => playerConfig.currentEnergy > 0;
     public void RecoverHealth(float amount)
     {
         playerConfig.currentEnergy += amount;

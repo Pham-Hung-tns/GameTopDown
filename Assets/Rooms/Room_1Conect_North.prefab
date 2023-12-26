@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9186909837363386504}
   - component: {fileID: 9186909837363386507}
   - component: {fileID: 1368806709866778167}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Room_1Conect_North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,6 +75,8 @@ MonoBehaviour:
   useDebug: 1
   roomType: 3
   extraTilemap: {fileID: 9186909838313759107}
+  posDoorNS: []
+  posDoorWE: []
 --- !u!1 &9186909838057442880
 GameObject:
   m_ObjectHideFlags: 0
