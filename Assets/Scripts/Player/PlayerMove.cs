@@ -54,6 +54,11 @@ public class PlayerMove : MonoBehaviour
     {
         moveDirection = actions.Movement.Move.ReadValue<Vector2>();
     }
+
+    public void FacingRightDirection()
+    {
+        spriteRenderer.flipX = false;
+    }
     private void Dash()
     {
         if (usingDash)

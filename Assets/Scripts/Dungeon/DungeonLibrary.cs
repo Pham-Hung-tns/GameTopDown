@@ -20,4 +20,5 @@ public class Level
 {
     public string levelName;
     public GameObject[] dungeons;
+    public ChestItem itemsInThisLevel;
 }
