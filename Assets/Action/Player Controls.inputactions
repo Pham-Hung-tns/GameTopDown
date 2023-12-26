@@ -142,6 +142,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Interactions",
+            "id": "ac79657d-3243-4bdc-befb-2dc4405597aa",
+            "actions": [
+                {
+                    "name": "Pickup",
+                    "type": "Button",
+                    "id": "a32013ac-52e7-4821-8788-f090a6b7e63f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeWeapon",
+                    "type": "Button",
+                    "id": "9357f4be-6223-43cb-9c30-cb750e25d439",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ce956625-4f93-4453-982e-a07c90598c03",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae86f1ec-d0e6-4d0e-8198-87985f5f46b8",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

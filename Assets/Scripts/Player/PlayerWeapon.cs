@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,13 +12,19 @@ public class PlayerWeapon : MonoBehaviour
 
     private Weapon currentWeapon;
     private PlayerMove playerMove;
-    private PlayerControls action;
+    private PlayerControls actions;
     private PlayerEnergy playerEnergy;
     private float flip;
     private bool useFire;
+
+    private int weaponIndex; // 0 - 1
+    private Weapon[] equippedWeapons = new Weapon[2];
+
+    private Coroutine weaponCoroutine;
+    private ItemText weaponNameText;
     private void Awake()
     {
-        action = new PlayerControls();
+        actions = new PlayerControls();
         playerMove = GetComponent<PlayerMove>();
         playerEnergy = GetComponent<PlayerEnergy>();
     }
@@ -25,7 +32,7 @@ public class PlayerWeapon : MonoBehaviour
     void Start()
     { 
         CreateWeapon(initialWeapon);
-        
+        actions.Interactions.ChangeWeapon.performed += ctx => ChangeWeapon();
     }
 
 
@@ -64,8 +71,47 @@ public class PlayerWeapon : MonoBehaviour
     private void CreateWeapon(Weapon weaponPrefab)
     {
         currentWeapon = Instantiate(weaponPrefab, weaponPos.position, Quaternion.identity, weaponPos);
+        equippedWeapons[weaponIndex] = currentWeapon;
+        ShowCurrentWeaponName();
+    }
+    public void EquipWeapon(Weapon weapon)
+    {
+        if (equippedWeapons[0] == null)
+        {
+            CreateWeapon(weapon);
+            return;
+        }
+
+        if (equippedWeapons[1] == null)
+        {
+            weaponIndex++;
+            equippedWeapons[0].gameObject.SetActive(false);
+            CreateWeapon(weapon);
+            return;
+        }
+
+        // Destroy current weapon
+        currentWeapon.DestroyWeapon();
+        equippedWeapons[weaponIndex] = null;
+
+        // Create new weapon
+        CreateWeapon(weapon);
     }
 
+    private void ChangeWeapon()
+    {
+        if (equippedWeapons[1] == null) return;
+        for (int i = 0; i < equippedWeapons.Length; i++)
+        {
+            equippedWeapons[i].gameObject.SetActive(false);
+        }
+
+        weaponIndex = 1 - weaponIndex;
+        currentWeapon = equippedWeapons[weaponIndex];
+        currentWeapon.gameObject.SetActive(true);
+        ResetWeaponForChange();
+        ShowCurrentWeaponName();
+    }
     public bool CanUseWeapon()
     {
         if(currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerEnergy.CanUseEnergy)
@@ -79,39 +125,67 @@ public class PlayerWeapon : MonoBehaviour
     public void RotateToPlayer(Vector3 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        //if(dir.x > 0f)
-        //{
-        //    currentWeapon.transform.localScale = Vector3.one;
-        //    weaponPos.localScale = Vector3.one;
-        //}
-        //else
-
-        if (playerMove.Flip)
+        if (dir.x > 0f) // Facing Right
+        {
+            weaponPos.localScale = Vector3.one;
+            currentWeapon.transform.localScale = Vector3.one;
+        }
+        else // Facing Left
         {
             weaponPos.localScale = new Vector3(-1, 1, 1);
             currentWeapon.transform.localScale = new Vector3(-1, -1, 1);
         }
-        else
-        {
-            weaponPos.localScale = new Vector3(1, 1, 1);
-            currentWeapon.transform.localScale = new Vector3(1, 1, 1);
-        }
 
-
-        currentWeapon.transform.eulerAngles = new Vector3(0, 0, angle);
+        currentWeapon.transform.eulerAngles = new Vector3(0f, 0f, angle);
 
     }
+
+    private void ShowCurrentWeaponName()
+    {
+        if (weaponCoroutine != null)
+        {
+            StopCoroutine(weaponCoroutine);
+        }
+
+        if (weaponNameText != null && weaponNameText.gameObject.activeInHierarchy)
+        {
+            Destroy(weaponNameText.gameObject);
+        }
+
+        weaponCoroutine = StartCoroutine(IEShowName());
+    }
+    private IEnumerator IEShowName()
+    {
+        Vector3 textPos = transform.position + Vector3.up;
+        Color weaponNameColor = GameManager.Instance.
+            ChooseColorForWeapon(currentWeapon.WeaponData);
+        weaponNameText = ItemTextManager.Instance
+            .ShowName(currentWeapon.WeaponData.name, weaponNameColor,
+                textPos);
+        weaponNameText.transform.SetParent(transform);
+        yield return new WaitForSeconds(1f);
+        Destroy(weaponNameText.gameObject);
+    }
+
+    private void ResetWeaponForChange()
+    {
+        Transform weaponTransform = currentWeapon.transform;
+        weaponTransform.rotation = Quaternion.identity;
+        weaponTransform.localScale = Vector3.one;
+        weaponPos.rotation = Quaternion.identity;
+        weaponPos.localScale = Vector3.one;
+        playerMove.FacingRightDirection();
+    } 
     private void OnEnable()
     {
-        action.Enable();
-        action.Weapon.Shoot.performed += _ => StartShooting(); 
+        actions.Enable();
+        actions.Weapon.Shoot.performed += _ => StartShooting(); 
         
     }
     private void OnDisable()
     {
-        action.Disable();
-        action.Weapon.Shoot.performed -= _ => StartShooting();
+        actions.Disable();
+        actions.Weapon.Shoot.performed -= _ => StartShooting();
         
     }
 }

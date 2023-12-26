@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickableItem : MonoBehaviour
+public class PickableItems : MonoBehaviour
 {
     [SerializeField] ItemData item;
     
@@ -36,7 +36,7 @@ public class PickableItem : MonoBehaviour
 
     private void Update()
     {
-        if(isPlayerInRange && actions.Interaction.PickItem.IsPressed())
+        if(isPlayerInRange && actions.Interactions.Pickup.IsPressed())
         {
             item.Pickup();
             Destroy(gameObject);
