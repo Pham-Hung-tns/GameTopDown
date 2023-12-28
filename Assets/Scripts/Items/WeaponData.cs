@@ -31,4 +31,10 @@ public class WeaponData : ItemData
     // do lech cua dan
     public int minSpread;
     public int maxSpread;
+
+    public Weapon weapon;
+    public override void PickUp()
+    {
+        LevelManager.Instance.Player.GetComponent<PlayerWeapon>().EquipWeapon(weapon);
+    }
 }

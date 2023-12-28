@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
-    public static LevelManager instance;
+
 
     [Header("Player")]
     [SerializeField] private PlayerMove player;
@@ -15,14 +15,19 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private DungeonLibrary dungeonLibrary;
     public RoomTemplate RoomTemplates => roomTemplates;
     public DungeonLibrary DoorSO => dungeonLibrary;
+    public PlayerMove Player => player;
 
     private Room currentRoom;
     private int currentLevelIndex = 0;
     private int currentDungeonIndex = 0;
     private GameObject currentDungeonGO;
-    private void Awake()
+
+    private List<PickableItem> itemsInTheLevel = new List<PickableItem>();
+
+
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
     }
     private void Start()
     {
@@ -31,6 +36,8 @@ public class LevelManager : MonoBehaviour
     private void CreateLevel()
     {
         currentDungeonGO =  Instantiate(dungeonLibrary.levels[currentLevelIndex].dungeons[currentDungeonIndex], transform);
+        itemsInTheLevel = new List<PickableItem>
+            (dungeonLibrary.levels[currentLevelIndex].itemsInThisLevel.AvalibleItems);
         PositionOfPlayerInDungeon();
     }
 
@@ -100,5 +107,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         ContinueDungeonNext();
         UIManager.Instance.FadeNewDungeon(0f);
+    }
+
+    public GameObject RandomItemInEachChest()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, itemsInTheLevel.Count);
+        return itemsInTheLevel[randomIndex].gameObject;
     }
 }

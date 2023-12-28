@@ -13,4 +13,9 @@ public class MeleeWeapon : Weapon
     {
         //if(collision.GetComponent<>)
     }
+
+    public override void DestroyWeapon()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -18,4 +18,9 @@ public class RangeWeapon : Weapon
         bullet.transform.Rotate(0,0,transform.rotation.eulerAngles.z);
 
     }
+
+    public override void DestroyWeapon()
+    {
+        Destroy(gameObject);
+    }
 }
