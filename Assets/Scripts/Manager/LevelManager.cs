@@ -1,21 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
 
-
-    [Header("Player")]
-    [SerializeField] private PlayerMove player;
+    public GameObject SelectedPlayer { get; set; }
 
     [Header("Templates")]
     [SerializeField] private RoomTemplate roomTemplates;
     [SerializeField] private DungeonLibrary dungeonLibrary;
     public RoomTemplate RoomTemplates => roomTemplates;
     public DungeonLibrary DoorSO => dungeonLibrary;
-    public PlayerMove Player => player;
 
     private Room currentRoom;
     private int currentLevelIndex = 0;
@@ -28,6 +26,8 @@ public class LevelManager : Singleton<LevelManager>
     protected override void Awake()
     {
         base.Awake();
+        CreatePlayerInDungeon();
+
     }
     private void Start()
     {
@@ -39,6 +39,14 @@ public class LevelManager : Singleton<LevelManager>
         itemsInTheLevel = new List<PickableItem>
             (dungeonLibrary.levels[currentLevelIndex].itemsInThisLevel.AvalibleItems);
         PositionOfPlayerInDungeon();
+    }
+
+    private void CreatePlayerInDungeon()
+    {
+        if(GameManager.Instance.playerPrefab != null)
+        {
+            SelectedPlayer =  Instantiate(GameManager.Instance.playerPrefab.playerPrefab);
+        }
     }
 
     private void OnEnable()
@@ -72,9 +80,9 @@ public class LevelManager : Singleton<LevelManager>
 
         if(posDefault != null)
         {
-            if(player != null)
+            if(SelectedPlayer != null)
             {
-                player.transform.position = posDefault.transform.position;
+                SelectedPlayer.transform.position = posDefault.transform.position;
             }
         }
     }

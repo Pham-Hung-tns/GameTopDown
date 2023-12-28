@@ -25,4 +25,7 @@ public class PlayerConfig : ScriptableObject
     public int unlockCost;
     public int upgradeCost;
     public int upgradeCostPercent;
+
+    [Header("Prefab")]
+    public GameObject playerPrefab;
 }

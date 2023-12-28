@@ -35,6 +35,6 @@ public class WeaponData : ItemData
     public Weapon weapon;
     public override void PickUp()
     {
-        LevelManager.Instance.Player.GetComponent<PlayerWeapon>().EquipWeapon(weapon);
+        LevelManager.Instance.SelectedPlayer.GetComponent<PlayerWeapon>().EquipWeapon(weapon);
     }
 }

@@ -54,9 +54,10 @@ public class MenuManager : Singleton<MenuManager>
     }
 
 
-    // allow current player move
+    // Select character
     public void EnableMovement()
     {
+        GameManager.Instance.playerPrefab = currentPlayer.PlayerConfig;
         playerPanel.SetActive(false);
         currentPlayer.GetComponent<PlayerMove>().enabled = true;
         currentPlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;

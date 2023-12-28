@@ -19,5 +19,6 @@ MonoBehaviour:
     - {fileID: 4856641190978783900, guid: 38565e1ef59d7d74aaf3c497ab42de87, type: 3}
     - {fileID: 8463583914700312723, guid: 74299cc8cddf45d46938c2e83da52f07, type: 3}
     - {fileID: 1483940130570009003, guid: 0452f288d4f5c644daa8652a3e681182, type: 3}
+    itemsInThisLevel: {fileID: 11400000, guid: e25bfdc690494c340841dfa20a349a18, type: 2}
   doorNS: {fileID: 4794979778358250718, guid: c784c1277d983184da85f5b0d384b1ea, type: 3}
   doorWE: {fileID: 6143454631257090644, guid: 5c85d316940d48d4db476a889504cfc6, type: 3}

@@ -23,3 +23,8 @@ MonoBehaviour:
   MaxEnergy: 200
   CriticalChance: 10
   CriticalDamage: 10
+  unlock: 1
+  unlockCost: 0
+  upgradeCost: 0
+  upgradeCostPercent: 0
+  playerPrefab: {fileID: 8036680113951382889, guid: 9cf9e9263d19a8545a76cee07ef00420, type: 3}

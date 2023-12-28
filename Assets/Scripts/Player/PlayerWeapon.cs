@@ -109,7 +109,7 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
-        if (playerMove.MoveDirection != Vector2.zero)
+        if (playerMove.MoveDirection != Vector2.zero && currentWeapon != null)
         {
             RotateToPlayer(playerMove.MoveDirection);
         }

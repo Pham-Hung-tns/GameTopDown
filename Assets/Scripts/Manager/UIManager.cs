@@ -8,8 +8,6 @@ public class UIManager: MonoBehaviour
 {
     public static UIManager Instance;
 
-    [Header("References")]
-    [SerializeField] private PlayerConfig playerConfig;
 
     [Header("Player UI")]
     [SerializeField] private Image healthBarImage;
@@ -34,6 +32,7 @@ public class UIManager: MonoBehaviour
     }
     private void UpdateUI()
     {
+        PlayerConfig playerConfig = GameManager.Instance.playerPrefab;
         healthBarImage.fillAmount = Mathf.Lerp(healthBarImage.fillAmount
             , playerConfig.currentHealth / playerConfig.MaxHealth
             , 10 * Time.deltaTime);

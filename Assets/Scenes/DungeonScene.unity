@@ -220,7 +220,7 @@ RectTransform:
   - {fileID: 232936285}
   - {fileID: 260791857}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -299,7 +299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &469647694
 MonoBehaviour:
@@ -609,7 +609,7 @@ Transform:
   m_Children:
   - {fileID: 1080427832}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051979969
 GameObject:
@@ -640,7 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d940f3e071b634cb03ae87bc5cb982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   roomTemplates: {fileID: 11400000, guid: b760f2ed3c86a8e4b9fc44d3484132ec, type: 2}
   dungeonLibrary: {fileID: 11400000, guid: 37794bf098970a149a2f8caac6cc0a46, type: 2}
 --- !u!4 &1051979971
@@ -768,54 +767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1380195941
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1380195943}
-  - component: {fileID: 1380195942}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1380195942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1380195941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7de6fb061d5928a488580e85e062d894, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponNormalColor: {r: 1, g: 1, b: 1, a: 1}
-  weaponRareColor: {r: 0, g: 0.61362386, b: 1, a: 1}
-  weaponEpicColor: {r: 0.9150943, g: 0.7860941, b: 0.16747947, a: 1}
-  weaponLegendColor: {r: 0.8018868, g: 0.055980746, b: 0.055980746, a: 1}
---- !u!4 &1380195943
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1380195941}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550571799
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309ef2b32621fbe438c6f80042f74ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerConfig: {fileID: 11400000, guid: e83408552ec2f5b419b70b87b51ab416, type: 2}
   healthBarImage: {fileID: 1164002559}
   ArmorBarImage: {fileID: 527001591}
   EnergyBarImage: {fileID: 1969211708}
@@ -955,7 +905,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1745003986
 GameObject:
@@ -1066,7 +1016,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1969211708 stripped
 MonoBehaviour:
