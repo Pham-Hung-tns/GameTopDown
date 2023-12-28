@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangeWeapon : Weapon
 {
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] protected Transform shootTrans;
+
     public override void UseWeapon()
     {
         //Create projectile

@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPos: {fileID: 2543308806785210403}
-  usePredefinedItemFromChest: 0
+  usePredefinedItemFromChest: 1
   predefinedItem: {fileID: 0}
 --- !u!1 &2543308806785210402
 GameObject:

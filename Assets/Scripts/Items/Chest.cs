@@ -38,7 +38,7 @@ public class Chest : MonoBehaviour
         }
         else
         {
-            Instantiate(LevelManager.Instance.GetRandomItemForChest(), transform.position, Quaternion.identity, itemPos.parent);
+            Instantiate(LevelManager.Instance.RandomItemInEachChest(), transform.position, Quaternion.identity, itemPos.parent);
         }
             openChest = true;
     }

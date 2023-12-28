@@ -9,8 +9,5 @@ public class ItemData : ScriptableObject
     public string Name;
     public Sprite icon;
 
-    public virtual void Pickup()
-    {
-
-    }
+    
 }

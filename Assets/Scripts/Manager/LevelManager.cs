@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : Singleton<LevelManager>
+public class LevelManager : MonoBehaviour
 {
+    public static LevelManager instance;
 
     [Header("Player")]
     [SerializeField] private PlayerMove player;
@@ -14,18 +15,14 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private DungeonLibrary dungeonLibrary;
     public RoomTemplate RoomTemplates => roomTemplates;
     public DungeonLibrary DoorSO => dungeonLibrary;
-    public PlayerMove Player => player;
 
     private Room currentRoom;
     private int currentLevelIndex = 0;
     private int currentDungeonIndex = 0;
     private GameObject currentDungeonGO;
-
-    private List<PickableItems> itemsAvalibleInTheLevel = new List<PickableItems>();
-
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        instance = this;
     }
     private void Start()
     {
@@ -34,12 +31,20 @@ public class LevelManager : Singleton<LevelManager>
     private void CreateLevel()
     {
         currentDungeonGO =  Instantiate(dungeonLibrary.levels[currentLevelIndex].dungeons[currentDungeonIndex], transform);
-        itemsAvalibleInTheLevel = new List<PickableItems>(dungeonLibrary.
-            levels[currentDungeonIndex].itemsInThisLevel.AvalibleItems
-            );
         PositionOfPlayerInDungeon();
     }
 
+    private void OnEnable()
+    {
+        Room.OnPlayerEnterTheRoom += PlayerEnterRoom;
+        Portal.OnNextDungeon += PortalEventCallBack;
+    }
+
+    private void OnDisable()
+    {
+        Room.OnPlayerEnterTheRoom -= PlayerEnterRoom;
+        Portal.OnNextDungeon -= PortalEventCallBack;
+    }
 
     private void PortalEventCallBack()
     {
@@ -95,23 +100,5 @@ public class LevelManager : Singleton<LevelManager>
         yield return new WaitForSeconds(2f);
         ContinueDungeonNext();
         UIManager.Instance.FadeNewDungeon(0f);
-    }
-
-    public GameObject GetRandomItemForChest()
-    {
-        int randomIndex = UnityEngine.Random.Range(0, itemsAvalibleInTheLevel.Count);
-        return itemsAvalibleInTheLevel[randomIndex].gameObject;
-    }
-
-    private void OnEnable()
-    {
-        Room.OnPlayerEnterTheRoom += PlayerEnterRoom;
-        Portal.OnNextDungeon += PortalEventCallBack;
-    }
-
-    private void OnDisable()
-    {
-        Room.OnPlayerEnterTheRoom -= PlayerEnterRoom;
-        Portal.OnNextDungeon -= PortalEventCallBack;
     }
 }

@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: UnknowMan
   m_EditorClassIdentifier: 
   Level: 0
-  Name: 
-  Icon: {fileID: 0}
+  Name: UnKnow Man
+  Icon: {fileID: 21300000, guid: a159e9fe8a4ef8c4e907201cf926677e, type: 3}
   currentHealth: 5
   MaxHealth: 5
-  currentArmor: 0
+  currentArmor: 3
   MaxArmor: 3
-  currentEnergy: 0
+  currentEnergy: 250
   MaxEnergy: 250
   CriticalChance: 10
   CriticalDamage: 10
+  unlock: 1
+  unlockCost: 10
+  upgradeCost: 200
+  upgradeCostPercent: 0

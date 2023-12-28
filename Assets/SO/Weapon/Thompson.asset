@@ -17,7 +17,6 @@ MonoBehaviour:
   damage: 0
   energy: 1
   weaponType: 1
-  weaponRarity: 1
+  weaponRarity: 0
   minSpread: 0
   maxSpread: 0
-  weaponPrefab: {fileID: 8736767362372929312, guid: 2e2ad4fd7c99eaa4aaeef593c1b922ee, type: 3}

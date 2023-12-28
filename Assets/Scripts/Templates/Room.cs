@@ -87,7 +87,7 @@ public class Room : MonoBehaviour
         {
             for(int i = 0; i < posDoorNS.Length; i++)
             {
-                GameObject doorN_GO = Instantiate(LevelManager.Instance.DoorSO.doorNS, posDoorNS[i]);
+                GameObject doorN_GO = Instantiate(LevelManager.instance.DoorSO.doorNS, posDoorNS[i]);
                 Door door = doorN_GO.GetComponentInChildren<Door>();
                 door.HideDoor();
                 doorsOfRoom.Add(door);
@@ -98,7 +98,7 @@ public class Room : MonoBehaviour
         {
             for (int i = 0; i < posDoorWE.Length; i++)
             {
-                GameObject doorE_GO = Instantiate(LevelManager.Instance.DoorSO.doorWE, posDoorWE[i]);
+                GameObject doorE_GO = Instantiate(LevelManager.instance.DoorSO.doorWE, posDoorWE[i]);
                 Door door = doorE_GO.GetComponentInChildren<Door>();
                 door.HideDoor();
                 doorsOfRoom.Add(door);
@@ -128,8 +128,8 @@ public class Room : MonoBehaviour
             return;
         }
         //chon template ngau nhien
-        int randomTemplate = UnityEngine.Random.Range(0, LevelManager.Instance.RoomTemplates.Textures.Length);
-        Texture2D texture = LevelManager.Instance.RoomTemplates.Textures[randomTemplate];
+        int randomTemplate = UnityEngine.Random.Range(0, LevelManager.instance.RoomTemplates.Textures.Length);
+        Texture2D texture = LevelManager.instance.RoomTemplates.Textures[randomTemplate];
 
         // danh sach cac position duoc danh dau tu truoc
         List<Vector3> positions = new List<Vector3>(tiles.Keys);
@@ -141,7 +141,7 @@ public class Room : MonoBehaviour
                 Color pixelColor = texture.GetPixel(x,y);
 
                 // so sanh voi danh sach mau co san => tao Prop theo mau
-                foreach(RoomProp prop in LevelManager.Instance.RoomTemplates.Props)
+                foreach(RoomProp prop in LevelManager.instance.RoomTemplates.Props)
                 {
                     if(pixelColor == prop.PropColor)
                     {

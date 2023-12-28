@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager: Singleton<UIManager>
+public class UIManager: MonoBehaviour
 {
     public static UIManager Instance;
 
@@ -23,10 +23,11 @@ public class UIManager: Singleton<UIManager>
     [Header("Fade")]
     [SerializeField] private CanvasGroup canvasGroup;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        Instance = this;
     }
+
     private void Update()
     {
         UpdateUI();
