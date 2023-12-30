@@ -51,11 +51,11 @@ TagManager:
   - name: Extra
     uniqueID: 4061544169
     locked: 0
-  - name: Door
-    uniqueID: 2174873391
-    locked: 0
   - name: Props
     uniqueID: 1249629529
+    locked: 0
+  - name: Door
+    uniqueID: 1069915683
     locked: 0
   - name: Weapon
     uniqueID: 1957423847

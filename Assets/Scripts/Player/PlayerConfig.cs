@@ -19,4 +19,13 @@ public class PlayerConfig : ScriptableObject
     public float MaxEnergy;
     public float CriticalChance;
     public float CriticalDamage;
+
+    [Header("Extra")]
+    public bool unlock;
+    public int unlockCost;
+    public int upgradeCost;
+    public int upgradeCostPercent;
+
+    [Header("Prefab")]
+    public GameObject playerPrefab;
 }

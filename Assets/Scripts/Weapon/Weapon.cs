@@ -21,4 +21,8 @@ public class Weapon : MonoBehaviour
             animator.SetTrigger("Attack");
         }
     }
+    public virtual void DestroyWeapon()
+    {
+
+    }
 }

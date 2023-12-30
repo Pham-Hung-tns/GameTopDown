@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6fad791d2afb445921115b95dbec1c, type: 3}
   m_Name: Warrior2
   m_EditorClassIdentifier: 
-  Level: 0
-  Name: Warrior 2
+  Level: 1
+  Name: Brother Warrior
   Icon: {fileID: 21300000, guid: 7b621c5cb9a7284469db921a7efd6bab, type: 3}
   currentHealth: 6
-  MaxHealth: 6
+  MaxHealth: 7
   currentArmor: 0
-  MaxArmor: 4
+  MaxArmor: 5
   currentEnergy: 0
-  MaxEnergy: 120
+  MaxEnergy: 130
   CriticalChance: 10
   CriticalDamage: 10
+  unlock: 1
+  unlockCost: 10
+  upgradeCost: 0
+  upgradeCostPercent: 0

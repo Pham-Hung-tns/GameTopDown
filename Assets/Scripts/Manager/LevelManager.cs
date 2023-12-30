@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
-    public static LevelManager instance;
 
-    [Header("Player")]
-    [SerializeField] private PlayerMove player;
+    public GameObject SelectedPlayer { get; set; }
 
     [Header("Templates")]
     [SerializeField] private RoomTemplate roomTemplates;
@@ -20,9 +19,15 @@ public class LevelManager : MonoBehaviour
     private int currentLevelIndex = 0;
     private int currentDungeonIndex = 0;
     private GameObject currentDungeonGO;
-    private void Awake()
+
+    private List<PickableItem> itemsInTheLevel = new List<PickableItem>();
+
+
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
+        CreatePlayerInDungeon();
+
     }
     private void Start()
     {
@@ -31,7 +36,17 @@ public class LevelManager : MonoBehaviour
     private void CreateLevel()
     {
         currentDungeonGO =  Instantiate(dungeonLibrary.levels[currentLevelIndex].dungeons[currentDungeonIndex], transform);
+        itemsInTheLevel = new List<PickableItem>
+            (dungeonLibrary.levels[currentLevelIndex].itemsInThisLevel.AvalibleItems);
         PositionOfPlayerInDungeon();
+    }
+
+    private void CreatePlayerInDungeon()
+    {
+        if(GameManager.Instance.playerPrefab != null)
+        {
+            SelectedPlayer =  Instantiate(GameManager.Instance.playerPrefab.playerPrefab);
+        }
     }
 
     private void OnEnable()
@@ -65,9 +80,9 @@ public class LevelManager : MonoBehaviour
 
         if(posDefault != null)
         {
-            if(player != null)
+            if(SelectedPlayer != null)
             {
-                player.transform.position = posDefault.transform.position;
+                SelectedPlayer.transform.position = posDefault.transform.position;
             }
         }
     }
@@ -100,5 +115,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         ContinueDungeonNext();
         UIManager.Instance.FadeNewDungeon(0f);
+    }
+
+    public GameObject RandomItemInEachChest()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, itemsInTheLevel.Count);
+        return itemsInTheLevel[randomIndex].gameObject;
     }
 }

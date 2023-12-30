@@ -38,7 +38,7 @@ public class PickableItem : MonoBehaviour
     {
         if(isPlayerInRange && actions.Interaction.PickItem.IsPressed())
         {
-            item.Pickup();
+            item.PickUp();
             Destroy(gameObject);
         }
     }
