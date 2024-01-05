@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public enum RoomType
 {
@@ -156,6 +157,16 @@ public class Room : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector3 GetTilePosition()
+    {
+        List<Vector3> availibleTiles = (from tile in tiles
+                                        where tile.Value
+                                        select tile.Key).ToList();
+        int randomTileIndex = UnityEngine.Random.Range(0, availibleTiles.Count);
+        Vector3 pos = availibleTiles[randomTileIndex];
+        return pos;
     }
 
     private bool NormalRoom()

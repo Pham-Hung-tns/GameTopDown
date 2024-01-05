@@ -18,6 +18,7 @@ public class LevelManager : Singleton<LevelManager>
     private Room currentRoom;
     private int currentLevelIndex = 0;
     private int currentDungeonIndex = 0;
+    private int amountOfEnemies;
     private GameObject currentDungeonGO;
 
     private List<PickableItem> itemsInTheLevel = new List<PickableItem>();
@@ -49,6 +50,30 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    private void CreateEnemies()
+    {
+        int amount = GetAmountOfEnemies();
+        amountOfEnemies = amount;
+        for(int i = 0; i < amountOfEnemies; i++)
+        {
+            Vector3 tilePos = currentRoom.GetTilePosition();
+            Instantiate(GetEnemies(), tilePos, Quaternion.identity, currentRoom.transform);
+        } 
+    }
+
+    private EnemyStateMachine GetEnemies()
+    {
+        EnemyStateMachine[] enemies = dungeonLibrary.levels[currentLevelIndex].enemies;
+        int randomIndex = UnityEngine.Random.Range(0, enemies.Length);
+        return enemies[randomIndex];
+    }
+
+    private int GetAmountOfEnemies()
+    {
+        int amount = UnityEngine.Random.Range(dungeonLibrary.levels[currentLevelIndex].minEnemiesPerRoom, 
+            dungeonLibrary.levels[currentLevelIndex].maxEnemiesPerRoom);
+        return amount;
+    }
     private void OnEnable()
     {
         Room.OnPlayerEnterTheRoom += PlayerEnterRoom;
@@ -87,7 +112,7 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    private void ContinueDungeonNext()
+    private void ContinueNextLevel()
     {
         currentDungeonIndex++;
         if (currentDungeonIndex >= dungeonLibrary.levels[currentLevelIndex].dungeons.Length)
@@ -106,6 +131,14 @@ public class LevelManager : Singleton<LevelManager>
         if (!currentRoom.roomCompleted)
         {
             currentRoom.CloseRoom();
+            switch (currentRoom.RoomType)
+            {
+                case RoomType.RoomEnemy:
+                    CreateEnemies();
+                    break;
+                case RoomType.RoomBoss 
+                    : break;
+            }
         }
     }
 
@@ -113,7 +146,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         UIManager.Instance.FadeNewDungeon(1);
         yield return new WaitForSeconds(2f);
-        ContinueDungeonNext();
+        ContinueNextLevel();
         UIManager.Instance.FadeNewDungeon(0f);
     }
 

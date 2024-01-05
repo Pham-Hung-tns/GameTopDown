@@ -14,8 +14,6 @@ public class PlayerWeapon : MonoBehaviour
     private PlayerMove playerMove;
     private PlayerControls actions;
     private PlayerEnergy playerEnergy;
-    private float flip;
-    private bool useFire;
 
     private Coroutine weaponCoroutine;
     private ItemText weaponNameText;
@@ -31,7 +29,7 @@ public class PlayerWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
+        //actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
     }
 
     private void CreateWeapon(Weapon weaponPrefab)
@@ -179,14 +177,14 @@ public class PlayerWeapon : MonoBehaviour
     }
     private void OnEnable()
     {
-        actions.Enable();
-        actions.Weapon.Shoot.performed += _ => StartShooting(); 
+        //actions.Enable();
+        //actions.Weapon.Shoot.performed += _ => StartShooting(); 
         
     }
     private void OnDisable()
     {
-        actions.Disable();
-        actions.Weapon.Shoot.performed -= _ => StartShooting();
+        //actions.Disable();
+        //actions.Weapon.Shoot.performed -= _ => StartShooting();
         
     }
 }

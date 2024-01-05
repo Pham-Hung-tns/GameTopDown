@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088c5ab8b4b22ec48ac879326c9f9438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cmVC: {fileID: 0}
+  cmVC: {fileID: 694959814}
 --- !u!1 &1051979969
 GameObject:
   m_ObjectHideFlags: 0
@@ -958,7 +958,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 000000002be2aceaadbd6778e93e16f22fefa18159d57b4ae7eaab74a5107a2145c14049
+  m_ApplyToSortingLayers: 000000002be2aceaadbd6778e93e16f259d57b4a239ec53fef68e903a5107a21e7eaab7445c14049
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

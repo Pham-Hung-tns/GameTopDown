@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4539270754891536226}
   - component: {fileID: 8036680112849361990}
   - component: {fileID: 8036680112849361985}
+  - component: {fileID: 7008291028533099346}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Player
@@ -197,17 +198,36 @@ MonoBehaviour:
     m_ActionName: Weapon/Shoot[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a32013ac-52e7-4821-8788-f090a6b7e63f
-    m_ActionName: Interactions/Pickup[/Keyboard/i]
+    m_ActionId: 54c33de2-cf57-41cb-8571-ad01747b9ea3
+    m_ActionName: Interaction/PickItem[/Keyboard/i]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9357f4be-6223-43cb-9c30-cb750e25d439
-    m_ActionName: Interactions/ChangeWeapon[/Keyboard/o]
+    m_ActionId: 3dd731d7-051a-4b76-8632-f801ccc7317d
+    m_ActionName: Interaction/ChangeItem[/Keyboard/o]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7008291028533099346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036680113951382889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d79652c232f7ea4ba6f831ef85e3ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangeDetect: 3.15
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  obstaceLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &8036680113977354334
 GameObject:
   m_ObjectHideFlags: 0

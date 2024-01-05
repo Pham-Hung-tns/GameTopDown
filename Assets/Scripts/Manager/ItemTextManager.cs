@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ItemTextManager : Singleton<ItemTextManager>
 {
-    public static ItemTextManager Instance;
 
     [SerializeField] private ItemText itemTextPrefab;
 

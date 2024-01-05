@@ -21,4 +21,8 @@ public class Level
     public string levelName;
     public GameObject[] dungeons;
     public ChestItem itemsInThisLevel;
+    public EnemyStateMachine[] enemies;
+
+    public int minEnemiesPerRoom;
+    public int maxEnemiesPerRoom;
 }

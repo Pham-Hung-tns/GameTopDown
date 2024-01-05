@@ -20,5 +20,10 @@ MonoBehaviour:
     - {fileID: 8463583914700312723, guid: 74299cc8cddf45d46938c2e83da52f07, type: 3}
     - {fileID: 1483940130570009003, guid: 0452f288d4f5c644daa8652a3e681182, type: 3}
     itemsInThisLevel: {fileID: 11400000, guid: e25bfdc690494c340841dfa20a349a18, type: 2}
+    enemies:
+    - {fileID: 1083561999, guid: 99313e1a0d43f564580d821b30e84000, type: 3}
+    - {fileID: 3714772209609182970, guid: 2f004fa07762d264b9f644804d0ac175, type: 3}
+    minEnemiesPerRoom: 4
+    maxEnemiesPerRoom: 6
   doorNS: {fileID: 4794979778358250718, guid: c784c1277d983184da85f5b0d384b1ea, type: 3}
   doorWE: {fileID: 6143454631257090644, guid: 5c85d316940d48d4db476a889504cfc6, type: 3}
