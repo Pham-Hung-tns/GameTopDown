@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangeWeapon : Weapon
 {
     [SerializeField] private Projectile projectilePrefab;
-
+    [SerializeField] protected Transform shootTrans;
     public override void UseWeapon()
     {
         //Create projectile
@@ -16,6 +16,15 @@ public class RangeWeapon : Weapon
         //tao do lech cua duong dan
         float spread =  Random.Range(weaponData.minSpread, weaponData.maxSpread);
         bullet.transform.Rotate(0,0,transform.rotation.eulerAngles.z);
+
+        if(Character is PlayerWeapon player)
+        {
+            bullet.Damage = player.GetDamageCritical();
+        }
+        else
+        {
+            bullet.Damage = weaponData.damage;
+        }
 
     }
 

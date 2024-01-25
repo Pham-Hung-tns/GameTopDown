@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, ITakeDamage
 {
-    [SerializeField] PlayerConfig playerConfig;
+    public static event Action OnPlayerDeathEvent;
+    public PlayerConfig playerConfig;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -26,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        DamageManager.Instance.ShowDmg(amount, transform);
         //playerConfig.currentHealth -= amount;
         if (playerConfig.currentArmor > 0)
         {
@@ -42,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
         }
         if (playerConfig.currentHealth <= 0f)
         {
+            OnPlayerDeathEvent?.Invoke();
             PlayerDead();
         }
     }

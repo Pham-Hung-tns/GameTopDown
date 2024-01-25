@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1711446940785215538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7779324289389373322}
+  - component: {fileID: 4246420208324608301}
+  m_Layer: 2
+  m_Name: DetectionEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7779324289389373322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711446940785215538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8036680113951382892}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4246420208324608301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711446940785215538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d79652c232f7ea4ba6f831ef85e3ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangeDetect: 6
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  obstaceLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &8036680113951382889
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +67,6 @@ GameObject:
   - component: {fileID: 4539270754891536226}
   - component: {fileID: 8036680112849361990}
   - component: {fileID: 8036680112849361985}
-  - component: {fileID: 7008291028533099346}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Player
@@ -33,11 +83,12 @@ Transform:
   m_GameObject: {fileID: 8036680113951382889}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8036680113977354335}
   - {fileID: 9141284531428713868}
+  - {fileID: 7779324289389373322}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +126,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03416884, y: -0.18792903}
+  m_Offset: {x: 0.020849302, y: -0.3078047}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -86,7 +137,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6583111, y: 1.1025069}
+  m_Size: {x: 0.52511597, y: 0.86275554}
   m_EdgeRadius: 0
 --- !u!114 &8036680113951382893
 MonoBehaviour:
@@ -100,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7515b05d1efb2241acfd3ce77eb226f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 6
   rb2D: {fileID: 8036680113951382894}
   dashSpeed: 10
   dashTime: 0.3
@@ -145,8 +196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b2302c05e43d2409309583371193fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialWeapon: {fileID: 3664214532384036474, guid: ed816368c05bcae4c98ab48998654335, type: 3}
   weaponPos: {fileID: 9141284531428713868}
+  initialWeapon: {fileID: 0}
+  playerConfig: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
 --- !u!114 &8036680112849361985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,25 +261,6 @@ MonoBehaviour:
   m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7008291028533099346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8036680113951382889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d79652c232f7ea4ba6f831ef85e3ed3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangeDetect: 3.15
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  obstaceLayer:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!1 &8036680113977354334
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +391,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9141284531428713869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: -0.49, z: 0}
+  m_LocalPosition: {x: 0.09, y: -0.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -77,9 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed4f4b995fe2df449cc5ba8b2fffa64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootTrans: {fileID: 8611305048995522395}
   weaponData: {fileID: 11400000, guid: 6c6e28c0c1f97bf40a5efce3c89f5774, type: 2}
   projectilePrefab: {fileID: 2206017541237943248, guid: cccb20a41240d9843a936ff24f5d3d71, type: 3}
+  shootTrans: {fileID: 8611305048995522395}
 --- !u!1 &7405308881061975025
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1957423847
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -1010989698, guid: e3600cc063e24ce4d8b3cc92c197b44a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

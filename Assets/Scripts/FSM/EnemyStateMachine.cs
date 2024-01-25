@@ -11,7 +11,8 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private FSMState[] states;
     
     public FSMState CurrentState { get; set; }
-
+    public Room CurrentRoom { get; set; }
+    public Transform Player {  get; set; }
     private void Start()
     {
         ChangeState(initialStateName);

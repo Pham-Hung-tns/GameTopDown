@@ -6,28 +6,28 @@ public class Projectile : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private float speed;
-    [SerializeField] private float damaged;
-
+    public float Damage { get; set; }
+    public float Speed { get; set; }
     public Vector3 Direction { get; set; }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Speed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Direction * (speed * Time.deltaTime),Space.World);
+        transform.Translate(Direction * (Speed * Time.deltaTime),Space.World);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.GetComponent<ITakeDamage>() != null)
         {
-            collision.GetComponent<ITakeDamage>().TakeDamage(1f);            
+            collision.GetComponent<ITakeDamage>().TakeDamage(Damage);            
         }
         Destroy(gameObject);
     }

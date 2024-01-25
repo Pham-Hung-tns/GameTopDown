@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd3ae130082d7a42908e0b54ac47782, type: 3}
+  m_Name: DungeonLibrary
+  m_EditorClassIdentifier: 
+  levels:
+  - levelName: Level 1
+    dungeons:
+    - {fileID: 4545745746637584148, guid: 9591379a80f532c4eae8ad11e006105a, type: 3}
+    - {fileID: 4856641190978783900, guid: 38565e1ef59d7d74aaf3c497ab42de87, type: 3}
+    - {fileID: 8463583914700312723, guid: 74299cc8cddf45d46938c2e83da52f07, type: 3}
+    - {fileID: 8463583914700312723, guid: f6250a02e48286e46aed723493f66622, type: 3}
+    itemsInThisLevel: {fileID: 11400000, guid: e25bfdc690494c340841dfa20a349a18, type: 2}
+    Boss: {fileID: 0}
+    enemies:
+    - {fileID: 1083561999, guid: 99313e1a0d43f564580d821b30e84000, type: 3}
+    minEnemiesPerRoom: 1
+    maxEnemiesPerRoom: 1
+    maxBonus: 0
+    minBonus: 0
+  doorNS: {fileID: 4794979778358250718, guid: c784c1277d983184da85f5b0d384b1ea, type: 3}
+  doorWE: {fileID: 6143454631257090644, guid: 5c85d316940d48d4db476a889504cfc6, type: 3}
+  chest: {fileID: 2543308805713309664, guid: 01cfebaddbfc2374f9f8162bb716df9b, type: 3}
+  bonus: []
+  range: 2

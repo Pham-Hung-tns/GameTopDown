@@ -8,14 +8,9 @@ public class DetectionEnemy : MonoBehaviour
     [SerializeField] private float rangeDetect;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask obstaceLayer;
-    [SerializeField] private RaycastHit2D[] hit;
+    private RaycastHit2D[] hit = new RaycastHit2D[100];
     private List<GameObject> EnemyInSight = new List<GameObject>();
-    public EnemyHealth EnemyTarget{ get; private set; }
-
-    void Start()
-    {
-        
-    }
+    public EnemyHealth EnemyTarget { get; private set; } = null;
 
     private void Update()
     {
@@ -76,13 +71,18 @@ public class DetectionEnemy : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
+    
     {
         Gizmos.DrawWireSphere(transform.position, rangeDetect);
+        if (hit.Length <= 0) return;
         foreach(var i in hit)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, i.collider.transform.position);
+            if (i.collider != null)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(transform.position, i.collider.transform.position);
+            }
         }
 
         if(EnemyTarget != null)

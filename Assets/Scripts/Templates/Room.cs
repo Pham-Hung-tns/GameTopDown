@@ -54,13 +54,6 @@ public class Room : MonoBehaviour
             {
                 OnPlayerEnterTheRoom?.Invoke(this);
             }
-            //if(doorsOfRoom.Count > 0)
-            //{
-            //    foreach(Door door in doorsOfRoom)
-            //    {
-            //        door.ShowDoor();
-            //    }
-            //}
         }
     }
 
@@ -71,7 +64,11 @@ public class Room : MonoBehaviour
             door.HideDoor();
         }
     }
-
+    public void SetRoomCompleted()
+    {
+        roomCompleted = true;
+        OpenRoom();
+    }
     public void CloseRoom()
     {
         foreach (Door door in doorsOfRoom)

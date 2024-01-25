@@ -7,6 +7,7 @@ public class WanderAction : FSMAction
     [Header("Config")]
     [SerializeField] private bool useRandomWander;
     [SerializeField] private bool useDebug;
+    [SerializeField] private bool useTilesPosition;
 
     [Header("Movement")]
     [SerializeField] private float wanderSpeed;
@@ -17,27 +18,58 @@ public class WanderAction : FSMAction
     [SerializeField] private LayerMask obstaceLayer;
     [SerializeField] private float rangeCanDetectObstacle;
 
+    [Header("Idle")]
+    [SerializeField] private float timeToIdle;
     private Vector3 movePos;
     private Vector3 moveDir;
+    private EnemyStateMachine enemy;
+    private float timer;
+
+    private void Awake()
+    {
+        enemy = GetComponent<EnemyStateMachine>();
+    }
 
     private void Start()
     {
         GetNewRandomPosition();
+        timer = timeToIdle;
     }
     public override void Act()
     {
         moveDir = (movePos - transform.position).normalized;
         transform.Translate(moveDir * (wanderSpeed * Time.deltaTime));
-        if(CanGetNewPosition())
+        timer -= Time.deltaTime;
+
+        if (CanGetNewPosition() && timer >0f)
         {
             GetNewRandomPosition();
         }
+        else if (timer < 0f)
+        {
+            Debug.Log("idle");
+            transform.Translate(Vector3.zero);
+        }
+        if (timer <= -2f)
+        {
+            Debug.Log("wander");
+            timer = timeToIdle;
+        }
+       
+            
+        
     }
 
+    // enemy can use random position or availible tile position to move. 
     private void GetNewRandomPosition()
     {
         if (useRandomWander)
             movePos = transform.position + GetRandomDirection();
+
+        if (useTilesPosition)
+        {
+            movePos =  enemy.CurrentRoom.GetTilePosition();
+        }
     }
 
     private Vector3 GetRandomDirection()

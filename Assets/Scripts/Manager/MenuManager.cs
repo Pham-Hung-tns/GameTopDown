@@ -23,11 +23,13 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private TextMeshProUGUI unlockCharacterText;
     [SerializeField] private TextMeshProUGUI upgradeCharacterText;
     private SelectCharacter currentPlayer;
+    private bool playerSelected;
 
     [Header("Button")]
     [SerializeField] Button unlockButton;
     [SerializeField] Button upgradeButton;
     [SerializeField] Button chooseButton;
+    [SerializeField] GameObject moveButton;
     protected override void Awake()
     {
         base.Awake();
@@ -57,10 +59,14 @@ public class MenuManager : Singleton<MenuManager>
     // Select character
     public void EnableMovement()
     {
+        if (playerSelected) return;
+
         GameManager.Instance.playerPrefab = currentPlayer.PlayerConfig;
         playerPanel.SetActive(false);
         currentPlayer.GetComponent<PlayerMove>().enabled = true;
         currentPlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        playerSelected = true;
+        moveButton.SetActive(true);
     }
 
     // show stat of current player
@@ -126,7 +132,7 @@ public class MenuManager : Singleton<MenuManager>
         config.MaxHealth++;
         config.MaxEnergy += 10;
         config.MaxArmor++;
-        config.upgradeCost = (int)(config.upgradeCost + config.upgradeCost * (config.upgradeCostPercent / 100f));
+        config.upgradeCost = Mathf.RoundToInt(config.upgradeCost + config.upgradeCost * (config.upgradeCostPercent / 100f));
         upgradeCharacterText.text = $"Upgrade\n({config.upgradeCost.ToString()})";
         ResetStat();
     }

@@ -1,16 +1,14 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.OnScreen;
 
-public class PlayerWeapon : MonoBehaviour
+public class PlayerWeapon : CharacterWeapon
 {
+    public static event Action<Weapon> OnShowUIWeaponEvent;
     [SerializeField] Weapon initialWeapon;
-    [SerializeField] Transform weaponPos;
 
-    private Weapon currentWeapon;
+    [SerializeField] private PlayerConfig playerConfig;
+
     private PlayerMove playerMove;
     private PlayerControls actions;
     private PlayerEnergy playerEnergy;
@@ -18,18 +16,20 @@ public class PlayerWeapon : MonoBehaviour
     private Coroutine weaponCoroutine;
     private ItemText weaponNameText;
 
-    private int weaponIndex; // 0 - 1
-    private Weapon[] equippedWeapons = new Weapon[2];
-    private void Awake()
+    private DetectionEnemy detection;
+    protected override void Awake()
     {
+        base.Awake();
         actions = new PlayerControls();
         playerMove = GetComponent<PlayerMove>();
         playerEnergy = GetComponent<PlayerEnergy>();
+        detection = GetComponentInChildren<DetectionEnemy>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        //actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
+        
+        //CreateWeapon(initialWeapon);
     }
 
     private void CreateWeapon(Weapon weaponPrefab)
@@ -37,7 +37,9 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon = Instantiate(weaponPrefab, weaponPos.position,
             Quaternion.identity, weaponPos);
         equippedWeapons[weaponIndex] = currentWeapon;
+        equippedWeapons[weaponIndex].Character = this;
         ShowCurrentWeaponName();
+        OnShowUIWeaponEvent?.Invoke(currentWeapon);
     }
 
     public void EquipWeapon(Weapon weapon)
@@ -77,22 +79,24 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.gameObject.SetActive(true);
         ResetWeaponForChange();
         ShowCurrentWeaponName();
+        OnShowUIWeaponEvent?.Invoke(currentWeapon);
     }
 
 
-    //private void StopShooting()
-    //{
-    //    if (!action.Weapon.Shoot.ReadValue<float>().Equals(false))
-    //    {
-    //        Debug.Log(action.Weapon.Shoot.ReadValue<float>());
-    //        return;
-    //    }
-    //    Debug.Log(action.Weapon.Shoot.ReadValue<float>());
-
-    //    CancelInvoke("ShootWeapon");
-    //}
+    private void StopShooting()
+    {
+        if (actions.Weapon.Shoot.ReadValue<float>().Equals(0f))
+        {
+            CancelInvoke(nameof(Shoot));
+            return;
+        }
+    }
 
     public void StartShooting()
+    {
+        InvokeRepeating(nameof(Shoot), 0.1f, 0.2f);
+    }
+    public void Shoot()
     {
         if (currentWeapon == null)
             return;
@@ -104,12 +108,33 @@ public class PlayerWeapon : MonoBehaviour
         else
             return;
     }
-
+    public float GetDamageCritical()
+    {
+        float damage = currentWeapon.WeaponData.damage;
+        float per = UnityEngine.Random.Range(0, 100f);
+        if (per <= playerConfig.CriticalChance)
+        {
+            damage = Mathf.RoundToInt(damage + (playerConfig.CriticalDamage / 100) * damage);
+            return damage;
+        }
+        return damage;
+    }
     private void Update()
+    {
+        RotateWeapon();
+    }
+
+    private void RotateWeapon()
     {
         if (playerMove.MoveDirection != Vector2.zero && currentWeapon != null)
         {
-            RotateToPlayer(playerMove.MoveDirection);
+            RotateWeapon(playerMove.MoveDirection);
+        }
+
+        if (detection != null && detection.EnemyTarget != null)
+        {
+            Vector3 dirToEnemy = detection.EnemyTarget.transform.position - transform.position;
+            RotateWeapon(dirToEnemy);
         }
     }
     private void ShowCurrentWeaponName()
@@ -141,9 +166,9 @@ public class PlayerWeapon : MonoBehaviour
     }
     public bool CanUseWeapon()
     {
-        if(currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerEnergy.CanUseEnergy)
+        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerEnergy.CanUseEnergy)
             return true;
-        if(currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Melee)
+        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Melee)
             return true;
 
         return false;
@@ -158,33 +183,20 @@ public class PlayerWeapon : MonoBehaviour
         weaponPos.localScale = Vector3.one;
         playerMove.FacingRightDirection();
     }
-    public void RotateToPlayer(Vector3 dir)
-    {
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        if (dir.x > 0f) // Facing Right
-        {
-            weaponPos.localScale = Vector3.one;
-            currentWeapon.transform.localScale = Vector3.one;
-        }
-        else // Facing Left
-        {
-            weaponPos.localScale = new Vector3(-1, 1, 1);
-            currentWeapon.transform.localScale = new Vector3(-1, -1, 1);
-        }
 
-        currentWeapon.transform.eulerAngles = new Vector3(0f, 0f, angle);
-
-    }
     private void OnEnable()
     {
-        //actions.Enable();
-        //actions.Weapon.Shoot.performed += _ => StartShooting(); 
-        
+        actions.Enable();
+        actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
+        actions.Weapon.Shoot.performed += _ => StartShooting();
+        actions.Weapon.Shoot.canceled += _ => StopShooting();
+
     }
     private void OnDisable()
     {
-        //actions.Disable();
-        //actions.Weapon.Shoot.performed -= _ => StartShooting();
-        
+        actions.Disable();
+        actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
+        actions.Weapon.Shoot.performed -= _ => StartShooting();
+        actions.Weapon.Shoot.canceled -= _ => StopShooting();
     }
 }

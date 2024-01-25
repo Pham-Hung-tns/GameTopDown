@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: ThompsonMini
   icon: {fileID: 317526674, guid: e3600cc063e24ce4d8b3cc92c197b44a, type: 3}
-  damage: 0
+  damage: 3
   energy: 0
   weaponType: 1
   weaponRarity: 0
   minSpread: 0
   maxSpread: 0
+  weapon: {fileID: -2116123172400689928, guid: 351cd1340ceed5e4282ed5b7f1591f3b, type: 3}

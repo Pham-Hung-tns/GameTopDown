@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,11 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
 {
 
     [SerializeField] private float health;
+    public static event Action<Transform> OnEnemyKilledEvent;
     private SpriteRenderer spr;
     private float enemyHealth;
     private Coroutine coroutine;
+    private Color initialColor;
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();   
@@ -17,6 +20,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     void Start()
     {
         enemyHealth = health;
+        initialColor = spr.color;
     }
 
     // Update is called once per frame
@@ -27,6 +31,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     public void TakeDamage(float amount)
     {
         enemyHealth -= amount;
+        DamageManager.Instance.ShowDmg(amount, transform);
         if(coroutine != null)
         {
             coroutine = null;
@@ -35,6 +40,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
 
         if(enemyHealth <= 0)
         {
+            OnEnemyKilledEvent?.Invoke(transform);
             Destroy(gameObject);
         }
     }
@@ -43,6 +49,6 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     {
         spr.color = Color.red;
         yield return new WaitForSeconds(0.3f);
-        spr.color = Color.white;
+        spr.color = initialColor;
     }
 }
