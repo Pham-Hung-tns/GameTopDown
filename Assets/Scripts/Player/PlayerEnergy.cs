@@ -7,7 +7,7 @@ public class PlayerEnergy : MonoBehaviour
     [SerializeField] PlayerConfig playerConfig;
 
     public bool CanUseEnergy => playerConfig.currentEnergy > 0;
-    public void RecoverHealth(float amount)
+    public void RecoverEnergy(float amount)
     {
         playerConfig.currentEnergy += amount;
         if (playerConfig.currentEnergy > playerConfig.MaxEnergy)

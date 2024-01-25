@@ -32,6 +32,7 @@ public class WeaponData : ItemData
     public int minSpread;
     public int maxSpread;
 
+    public float timeBetweenAttacks;
     public Weapon weapon;
     public override void PickUp()
     {

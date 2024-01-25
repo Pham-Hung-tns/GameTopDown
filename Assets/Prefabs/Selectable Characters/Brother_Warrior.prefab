@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 4544345032415867937}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4544345032439693591}
@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b2302c05e43d2409309583371193fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialWeapon: {fileID: 0}
   weaponPos: {fileID: 3333958503934266564}
+  initialWeapon: {fileID: 0}
+  playerConfig: {fileID: 0}
 --- !u!114 &4544345031437513993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,12 +214,12 @@ MonoBehaviour:
     m_ActionName: Weapon/Shoot[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: a32013ac-52e7-4821-8788-f090a6b7e63f
-    m_ActionName: Interactions/Pickup[/Keyboard/i]
+    m_ActionId: 54c33de2-cf57-41cb-8571-ad01747b9ea3
+    m_ActionName: Interaction/PickItem[/Keyboard/i]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 9357f4be-6223-43cb-9c30-cb750e25d439
-    m_ActionName: Interactions/ChangeWeapon[/Keyboard/o]
+    m_ActionId: 3dd731d7-051a-4b76-8632-f801ccc7317d
+    m_ActionName: Interaction/ChangeItem[/Keyboard/o]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement

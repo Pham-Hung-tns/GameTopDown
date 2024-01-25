@@ -18,6 +18,7 @@ public class MenuDoor : MonoBehaviour
         {
             anim.SetTrigger("Open");
             StartCoroutine(IELoadDungeon());
+            collision.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
         }
     }
 

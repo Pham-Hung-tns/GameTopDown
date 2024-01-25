@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public enum RoomType
 {
@@ -53,13 +54,6 @@ public class Room : MonoBehaviour
             {
                 OnPlayerEnterTheRoom?.Invoke(this);
             }
-            //if(doorsOfRoom.Count > 0)
-            //{
-            //    foreach(Door door in doorsOfRoom)
-            //    {
-            //        door.ShowDoor();
-            //    }
-            //}
         }
     }
 
@@ -70,7 +64,11 @@ public class Room : MonoBehaviour
             door.HideDoor();
         }
     }
-
+    public void SetRoomCompleted()
+    {
+        roomCompleted = true;
+        OpenRoom();
+    }
     public void CloseRoom()
     {
         foreach (Door door in doorsOfRoom)
@@ -156,6 +154,16 @@ public class Room : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Vector3 GetTilePosition()
+    {
+        List<Vector3> availibleTiles = (from tile in tiles
+                                        where tile.Value
+                                        select tile.Key).ToList();
+        int randomTileIndex = UnityEngine.Random.Range(0, availibleTiles.Count);
+        Vector3 pos = availibleTiles[randomTileIndex];
+        return pos;
     }
 
     private bool NormalRoom()

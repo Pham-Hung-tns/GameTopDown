@@ -21,6 +21,7 @@ public class PickableItem : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             ShowNameOfTheItem();
+            UIManager.Instance.ShowPickupButton(true);
             isPlayerInRange = true;
         }
     }
@@ -30,6 +31,7 @@ public class PickableItem : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isPlayerInRange = false;
+            UIManager.Instance.ShowPickupButton(false);
             Destroy(nameText.gameObject);
         }
     }

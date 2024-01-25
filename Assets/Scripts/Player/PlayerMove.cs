@@ -53,6 +53,7 @@ public class PlayerMove : MonoBehaviour
     public void ClaimInput()
     {
         moveDirection = actions.Movement.Move.ReadValue<Vector2>();
+      
     }
 
     public void FacingRightDirection()
