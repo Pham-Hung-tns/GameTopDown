@@ -15,11 +15,11 @@ MonoBehaviour:
   Level: 0
   Name: Knight
   Icon: {fileID: 21300000, guid: 68e9ffa3c841d024a9b1cc2ad0d76195, type: 3}
-  currentHealth: 2
+  currentHealth: 0
   MaxHealth: 5
   currentArmor: 0
   MaxArmor: 5
-  currentEnergy: 183
+  currentEnergy: 200
   MaxEnergy: 200
   CriticalChance: 45
   CriticalDamage: 20

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Energy Potion
   m_EditorClassIdentifier: 
   Name: Energy Potion
-  icon: {fileID: 800161953, guid: 13206ce5c0155524f8b9066ce518f830, type: 3}
-  energy: 10
+  icon: {fileID: -959227592, guid: eb60f75154913de4f82eb4c34b1b4284, type: 3}
+  energy: 30

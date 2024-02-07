@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, ITakeDamage
 {
     public static event Action OnPlayerDeathEvent;
+    public static event Action OnPlayerTakeDamage;
     public PlayerConfig playerConfig;
     private void Update()
     {
@@ -27,8 +28,9 @@ public class PlayerHealth : MonoBehaviour, ITakeDamage
 
     public void TakeDamage(float amount)
     {
+        AudioManager.Instance.PlaySFX("Human_Damage");
         DamageManager.Instance.ShowDmg(amount, transform);
-        //playerConfig.currentHealth -= amount;
+        OnPlayerTakeDamage?.Invoke();
         if (playerConfig.currentArmor > 0)
         {
             float remaningDamage = amount - playerConfig.currentArmor;
@@ -44,6 +46,9 @@ public class PlayerHealth : MonoBehaviour, ITakeDamage
         }
         if (playerConfig.currentHealth <= 0f)
         {
+            GameManager.Instance.gameData.totalCoin += CoinManager.Instance.totalCoins;
+            SaveSystem.Save(GameManager.Instance.gameData);
+            AudioManager.Instance.PlaySFX("Human_Defeat");
             OnPlayerDeathEvent?.Invoke();
             PlayerDead();
         }

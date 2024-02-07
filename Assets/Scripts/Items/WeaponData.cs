@@ -29,8 +29,8 @@ public class WeaponData : ItemData
     public WeaponRarity weaponRarity;
 
     // do lech cua dan
-    public int minSpread;
-    public int maxSpread;
+    public float minSpread;
+    public float maxSpread;
 
     public float timeBetweenAttacks;
     public Weapon weapon;

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Knife
   icon: {fileID: 771962469, guid: e3600cc063e24ce4d8b3cc92c197b44a, type: 3}
-  damage: 2
+  damage: 1
   energy: 0
   weaponType: 0
   weaponRarity: 0
   minSpread: 0
   maxSpread: 0
+  timeBetweenAttacks: 0.1
   weapon: {fileID: 7679479177752551622, guid: ed816368c05bcae4c98ab48998654335, type: 3}

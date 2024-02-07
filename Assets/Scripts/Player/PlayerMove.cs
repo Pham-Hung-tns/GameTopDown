@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] float transperency;
     private SpriteRenderer spriteRenderer;
     private bool usingDash;
-
+    private bool cooldown;
     private float currentSpeed;
     public Vector3 lastPos;
 
@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         currentSpeed = moveSpeed;
-        actions.Movement.Dash.performed += context => Dash();
+        actions.Movement.Skill.performed += context => Dash();
     }
 
 
@@ -48,6 +48,10 @@ public class PlayerMove : MonoBehaviour
     {
         ClaimInput();
         RotationPlayer();
+        if(cooldown)
+        {
+            UIManager.Instance.CoolDownSkill(dashWaitTime);
+        }
     }
 
     public void ClaimInput()
@@ -76,12 +80,14 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
         currentSpeed = moveSpeed;
         ModifyColorForDash(1f);
+        cooldown = true;
         StartCoroutine(ControlDash());
     }
     IEnumerator ControlDash()
     {
         yield return new WaitForSeconds(dashWaitTime);
         usingDash = false;
+        cooldown = false;
     }
     private void ModifyColorForDash(float alpha)
     {

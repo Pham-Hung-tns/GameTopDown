@@ -11,6 +11,7 @@ public class MeleeWeapon : Weapon
     public override void UseWeapon()
     {
         base.UseWeapon();
+        AudioManager.Instance.PlaySFX("Sword_Hit");
     }
 
     public override void DestroyWeapon()
@@ -41,8 +42,11 @@ public class MeleeWeapon : Weapon
                     obj.TakeDamage(weaponData.damage);
                     Vector3 knockBack = (collider.transform.position - Character.transform.position).normalized;
                     Rigidbody2D rb = collider.GetComponent<Rigidbody2D>();
-                    rb.AddForce(knockBack * knockBackSpeed, ForceMode2D.Force);
-                    StartCoroutine(IEStopKnockBack(knockBackDelay,rb));
+                    if (rb != null)
+                    {
+                        rb.AddForce(knockBack * knockBackSpeed, ForceMode2D.Force);
+                        StartCoroutine(IEStopKnockBack(knockBackDelay, rb));
+                    }
                 }
             }
         }

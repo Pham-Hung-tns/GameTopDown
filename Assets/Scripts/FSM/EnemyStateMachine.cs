@@ -1,43 +1,112 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStateMachine : MonoBehaviour
 {
-    [Header("Config")]
-    [SerializeField] private string initialStateName;
+    public const string IDLE_STATE = "idle";
+    public const string WANDER_STATE = "wander";
+    public const string ATTACK_STATE = "attack";
 
-    [Header("States")]
-    [SerializeField] private FSMState[] states;
-    
-    public FSMState CurrentState { get; set; }
-    public Room CurrentRoom { get; set; }
-    public Transform Player {  get; set; }
-    private void Start()
+    [SerializeField] private Animator anim;
+    [SerializeField] private SpriteRenderer spr;
+    [SerializeField] private Rigidbody2D rb;
+
+    [Header("Detection")]
+    [SerializeField] private LayerMask whatIsPlayer;
+    [SerializeField] private LayerMask whatIsObstacle;
+    [SerializeField] private float rangeCanDetect;
+    [SerializeField] private float distanceToPlayer;
+    [SerializeField] private Transform detectpos;
+
+    private State currentState;
+    private Transform player;
+    private Room currentRoom;
+    private string currentAnim;
+
+    public Rigidbody2D Rb { get => rb; set => rb = value; }
+    public Transform Player { get => player; set => player = value; }
+    public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
+    public float RangeCanDetect { get => rangeCanDetect; set => rangeCanDetect = value; }
+    public SpriteRenderer Spr { get => spr; set => spr = value; }
+
+    protected virtual void Start()
     {
-        ChangeState(initialStateName);
+        //EnemyHealth.OnChangeState -= EnemyDead;
+        //EnemyHealth.OnChangeState += EnemyDead;
     }
-    private void Update()
+    protected virtual void Update()
     {
-        CurrentState.ExcuteState(this);
-    }
-    public void ChangeState(string newStateName)
-    {
-        FSMState newstate = GetState(newStateName);
-        if (newstate != null)
+        if (currentState != null)
         {
-            CurrentState = newstate;
+            Debug.Log(currentState);
+            currentState.OnUpdate();
         }
-        else return;
+    }
+    public void EnemyDead()
+    {
+        //ChangeState(null);
+    }
+    public void ChangeState(State newState)
+    {
+        if (newState == null)
+            return;
+        if (currentState != null)
+        {
+            currentState.OnExit();
+        }
+        currentState = newState;
+        currentState.OnEnter();
+    }
+    public void ChangeAnim(string animName)
+    {
+        if (currentAnim != animName)
+        {
+            anim.ResetTrigger(animName);
+            currentAnim = animName;
+            anim.SetTrigger(currentAnim);
+        }
+    }
+    public virtual void ChangeDirection(Vector3 newPosition)
+    {
+        
     }
 
-    private FSMState GetState(string newStateName)
+    public bool DetectPlayerInRange()
     {
-        for (int i = 0; i < states.Length; i++)
+        Collider2D hit = Physics2D.OverlapCircle(detectpos.position, RangeCanDetect, whatIsPlayer);
+        if(hit != null)
         {
-            if (states[i].stateName == newStateName)
-                return states[i];
+            player = hit.transform;
+            return DetectObstace();
         }
-        return null;
+        player = null;
+        return false;
+    }
+    // detect obstace which is between enemy and player;
+    public bool DetectObstace()
+    {
+        if((player.transform.position - detectpos.position).magnitude > distanceToPlayer)
+        {
+            return false;
+        }
+        Vector3 direction = (player.transform.position - detectpos.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(detectpos.position,direction, distanceToPlayer, whatIsObstacle);
+        if(hit.collider == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // Gizmos
+    public virtual void OnDrawGizmos()
+    {
+        //Detect Player
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(detectpos.position, RangeCanDetect);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(detectpos.position, Vector2.down * distanceToPlayer);
     }
 }

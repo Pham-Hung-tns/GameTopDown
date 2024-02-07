@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5237619572224539885}
   - component: {fileID: 5237619572224539882}
   - component: {fileID: -2565688611113801221}
+  - component: {fileID: 2302042568883134476}
   m_Layer: 6
   m_Name: Elf_Girl
   m_TagString: Player
@@ -195,6 +196,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerConfig: {fileID: 11400000, guid: 28b4d7fa5656da34fbee1e336bd42925, type: 2}
+--- !u!114 &2302042568883134476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5237619573200666050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20527ae9e5cd9594e80605348ef0d0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5237619573243922677
 GameObject:
   m_ObjectHideFlags: 0

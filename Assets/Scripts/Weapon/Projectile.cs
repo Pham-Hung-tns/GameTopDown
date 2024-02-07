@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,15 +21,25 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Direction * (Speed * Time.deltaTime),Space.World);
+        transform.Translate(Direction * (speed *Time.deltaTime), Space.World);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.GetComponent<ITakeDamage>() != null)
         {
-            collision.GetComponent<ITakeDamage>().TakeDamage(Damage);            
+            collision.GetComponent<ITakeDamage>().TakeDamage(Damage);
+            ReturnBullet();
         }
-        Destroy(gameObject);
+
+        if (collision.CompareTag("Obstacle"))
+        {
+            ReturnBullet();
+        }
+    }
+
+    private void ReturnBullet()
+    {
+        ObjPoolManager.Instance.ReturnBullet(this);
     }
 }

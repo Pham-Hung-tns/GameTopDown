@@ -150,7 +150,7 @@ public class MenuManager : Singleton<MenuManager>
     }
     private void Update()
     {
-        //coinUI.text = CoinManager.Instance.totalCoins.ToString();
+        coinUI.text = CoinManager.Instance.totalCoins.ToString();
     }
 }
 

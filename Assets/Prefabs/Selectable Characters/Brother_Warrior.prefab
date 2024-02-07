@@ -46,7 +46,8 @@ GameObject:
   - component: {fileID: 4544345031437513998}
   - component: {fileID: 4544345031437513993}
   - component: {fileID: 8837031012982991790}
-  m_Layer: 6
+  - component: {fileID: -8211011435057701421}
+  m_Layer: 12
   m_Name: Brother_Warrior
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -238,6 +239,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerConfig: {fileID: 11400000, guid: b2bd11022e8ed9042a1527ed7dbf9105, type: 2}
+--- !u!114 &-8211011435057701421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544345032415867937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20527ae9e5cd9594e80605348ef0d0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4544345032439693590
 GameObject:
   m_ObjectHideFlags: 0

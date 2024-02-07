@@ -13,36 +13,28 @@ MonoBehaviour:
   m_Name: NewRoomTemplate
   m_EditorClassIdentifier: 
   Textures:
-  - {fileID: 2800000, guid: b94ac30495abd8345bb3109938ab53e7, type: 3}
-  - {fileID: 2800000, guid: ccd90a62864594141af472dc0fd0aedb, type: 3}
-  - {fileID: 2800000, guid: 4e45e660040bb014e9954bfd27fb997f, type: 3}
-  - {fileID: 2800000, guid: a470bb1932d9e404e97493aeb38ea8cd, type: 3}
-  - {fileID: 2800000, guid: b3598a3e878425a4792bf1d6a4bb99f6, type: 3}
-  - {fileID: 2800000, guid: 3b2b3bf76ef497747a776e5a9cab9319, type: 3}
-  - {fileID: 2800000, guid: 0ad4cf2e346eb6c4b976212fda9cbca7, type: 3}
-  - {fileID: 2800000, guid: 02423f72ae4ad484b8f6d7dba6a5454a, type: 3}
+  - {fileID: 2800000, guid: 52fd8af37d1c2d048891b72192335577, type: 3}
+  - {fileID: 2800000, guid: db53fc305ddf4a648b5c5cbac762a377, type: 3}
+  - {fileID: 2800000, guid: 5dcfd0ee3a3d9d147969ba0af3073685, type: 3}
+  - {fileID: 2800000, guid: 7e0e9bdf9fbf7d640ae71c9bcaf35110, type: 3}
+  - {fileID: 2800000, guid: 03b6352b9c5ce3441863265cd7478433, type: 3}
+  - {fileID: 2800000, guid: 32c978805f328a14db04af2ec4f52f7e, type: 3}
   Props:
-  - Name: Spike
-    PropColor: {r: 0.7960785, g: 0.8588236, b: 0.98823535, a: 1}
-    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
-  - Name: Spike 1
-    PropColor: {r: 0.85098046, g: 0.34117648, b: 0.38823533, a: 1}
-    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
-  - Name: Spike 2
-    PropColor: {r: 0.9333334, g: 0.76470596, b: 0.6039216, a: 1}
-    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
-  - Name: Sprite 1
-    PropColor: {r: 0.8745099, g: 0.4431373, b: 0.14901961, a: 1}
-    PropPrefab: {fileID: 5962312162008144255, guid: fcacee9c2b792c04fbaead5afb91552a, type: 3}
-  - Name: Sprite 2
-    PropColor: {r: 0.18823531, g: 0.37647063, b: 0.50980395, a: 1}
-    PropPrefab: {fileID: 5962312162008144255, guid: fcacee9c2b792c04fbaead5afb91552a, type: 3}
-  - Name: Sprite 3
+  - Name: 1
     PropColor: {r: 0.9843138, g: 0.9490197, b: 0.21176472, a: 1}
+    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
+  - Name: 2
+    PropColor: {r: 0.40000004, g: 0.22352943, b: 0.19215688, a: 1}
+    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
+  - Name: 3
+    PropColor: {r: 0.8745099, g: 0.4431373, b: 0.14901961, a: 1}
+    PropPrefab: {fileID: 2752655931807998216, guid: 379a69934bf94e04e85af0bc5455212c, type: 3}
+  - Name: 4
+    PropColor: {r: 0.6, g: 0.8980393, b: 0.3137255, a: 1}
     PropPrefab: {fileID: 5962312162008144255, guid: fcacee9c2b792c04fbaead5afb91552a, type: 3}
-  - Name: Sprite 5
-    PropColor: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
+  - Name: 5
+    PropColor: {r: 0.21568629, g: 0.5803922, b: 0.43137258, a: 1}
     PropPrefab: {fileID: 5962312162008144255, guid: fcacee9c2b792c04fbaead5afb91552a, type: 3}
-  - Name: Sprite 7
-    PropColor: {r: 0.27058825, g: 0.15686275, b: 0.23529413, a: 1}
+  - Name: 6
+    PropColor: {r: 0.29411766, g: 0.41176474, b: 0.18431373, a: 1}
     PropPrefab: {fileID: 5962312162008144255, guid: fcacee9c2b792c04fbaead5afb91552a, type: 3}

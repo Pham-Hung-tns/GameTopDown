@@ -18,6 +18,9 @@ public class DungeonLibrary : ScriptableObject
     [Header("Bonus")]
     public GameObject[] bonus;
     public float range;
+
+    [Header("Portal")]
+    public GameObject portal;
 }
 
 [Serializable]
@@ -26,8 +29,8 @@ public class Level
     public string levelName;
     public GameObject[] dungeons;
     public ChestItem itemsInThisLevel;
-    public EnemyStateMachine Boss;
-    public EnemyStateMachine[] enemies;
+    public BossStates Boss;
+    public NormalEnemyStates[] enemies;
 
     public int minEnemiesPerRoom;
     public int maxEnemiesPerRoom;

@@ -8,6 +8,7 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     public static event Action OnRoomCompleted;
+    public static event Action<float> OnPlayerInRoomBoss;
 
     public GameObject SelectedPlayer { get; set; }
 
@@ -56,18 +57,19 @@ public class LevelManager : Singleton<LevelManager>
             SetStatWhenStart(player);
         }
     }
+    //sau dung Json doc data
     public void SetStatWhenStart(PlayerConfig playerConfig)
     {
         playerConfig.currentHealth = playerConfig.MaxHealth;
         playerConfig.currentArmor = playerConfig.MaxArmor;
         playerConfig.currentEnergy = playerConfig.MaxEnergy;
     }
-    private void CreateBoss()
-    {
-        Vector3 tilePos = currentRoom.GetTilePosition();
-        EnemyStateMachine boss = Instantiate(dungeonLibrary.levels[currentLevelIndex].Boss, tilePos, Quaternion.identity, currentRoom.transform);
-        boss.CurrentRoom = currentRoom;
-    }
+    //private void CreateBoss(Room room)
+    //{
+    //    //Vector3 tilePos = ;
+    //    EnemyStateMachine boss = Instantiate(dungeonLibrary.levels[currentLevelIndex].Boss, room.PositionOfBoss(), Quaternion.identity, currentRoom.transform);
+    //    boss.CurrentRoom = room;
+    //}
     private void CreateEnemies()
     {
         int amount = GetAmountOfEnemies();
@@ -75,14 +77,14 @@ public class LevelManager : Singleton<LevelManager>
         for(int i = 0; i < amountOfEnemies; i++)
         {
             Vector3 tilePos = currentRoom.GetTilePosition();
-            EnemyStateMachine enemy = Instantiate(GetEnemies(), tilePos, Quaternion.identity, currentRoom.transform);
+            NormalEnemyStates enemy = Instantiate(GetEnemies(), tilePos, Quaternion.identity, currentRoom.transform);
             enemy.CurrentRoom = currentRoom;
         } 
     }
 
-    private EnemyStateMachine GetEnemies()
+    private NormalEnemyStates GetEnemies()
     {
-        EnemyStateMachine[] enemies = dungeonLibrary.levels[currentLevelIndex].enemies;
+        NormalEnemyStates[] enemies = dungeonLibrary.levels[currentLevelIndex].enemies;
         int randomIndex = UnityEngine.Random.Range(0, enemies.Length);
         return enemies[randomIndex];
     }
@@ -93,7 +95,7 @@ public class LevelManager : Singleton<LevelManager>
             dungeonLibrary.levels[currentLevelIndex].maxEnemiesPerRoom);
         return amount;
     }
-    
+
     private void CreateChestWhenCompleted()
     {
         Vector3 chestPos = currentRoom.GetTilePosition();
@@ -124,6 +126,7 @@ public class LevelManager : Singleton<LevelManager>
                 SelectedPlayer.transform.position = posDefault.transform.position;
             }
         }
+        AudioManager.Instance.PlayMusic("Theme");
     }
 
     private void ContinueNextLevel()
@@ -141,6 +144,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void PlayerEnterRoom(Room room)
     {
+        AudioManager.Instance.PlaySFX("Door_Close");
+        AudioManager.Instance.PlayMusic("Battle");
         currentRoom = room;
         if (!currentRoom.roomCompleted)
         {
@@ -148,11 +153,16 @@ public class LevelManager : Singleton<LevelManager>
             switch (currentRoom.RoomType)
             {
                 case RoomType.RoomEnemy:
-                    CreateEnemies();
-                    break;
+                    {
+                        CreateEnemies();
+                        break;
+                    }
                 case RoomType.RoomBoss:
-                    CreateBoss();
-                    break;
+                    {
+                        EnemyHealth boss = currentRoom.GetComponentInChildren<EnemyHealth>();
+                        OnPlayerInRoomBoss?.Invoke(boss.Health);
+                        break;
+                    }
             }
         }
     }
@@ -180,12 +190,23 @@ public class LevelManager : Singleton<LevelManager>
         {
             if(currentRoom.roomCompleted == false)
             {
+                AudioManager.Instance.PlaySFX("Door_Open");
                 amountOfEnemies = 0;
                 currentRoom.SetRoomCompleted();
                 CreateChestWhenCompleted();
                 OnRoomCompleted?.Invoke();
             }
+            if(currentRoom.RoomType == RoomType.RoomBoss)
+            {
+                CreatePortal();
+            }
         }
+    }
+
+    private void CreatePortal()
+    {
+        Vector3 pos = currentRoom.GetTilePosition();
+        Instantiate(dungeonLibrary.portal, pos, Quaternion.identity, currentRoom.transform);
     }
 
     private void CreateBonus(Transform enemyPos)

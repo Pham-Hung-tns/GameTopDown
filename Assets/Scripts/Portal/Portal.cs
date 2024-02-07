@@ -10,6 +10,7 @@ public class Portal : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.PlayMusic(null);
             OnNextDungeon?.Invoke();
         }
     }

@@ -8,10 +8,14 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
 
     [SerializeField] private float health;
     public static event Action<Transform> OnEnemyKilledEvent;
+    public static event Action OnChangeState;
     private SpriteRenderer spr;
     private float enemyHealth;
     private Coroutine coroutine;
     private Color initialColor;
+
+    public float Health { get => health; set => health = value; }
+
     private void Awake()
     {
         spr = GetComponent<SpriteRenderer>();   
@@ -19,7 +23,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     // Start is called before the first frame update
     void Start()
     {
-        enemyHealth = health;
+        enemyHealth = Health;
         initialColor = spr.color;
     }
 
@@ -30,6 +34,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     }
     public void TakeDamage(float amount)
     {
+        AudioManager.Instance.PlaySFX("Enemy_Damage");
         enemyHealth -= amount;
         DamageManager.Instance.ShowDmg(amount, transform);
         if(coroutine != null)
@@ -41,6 +46,7 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
         if(enemyHealth <= 0)
         {
             OnEnemyKilledEvent?.Invoke(transform);
+            OnChangeState?.Invoke();
             Destroy(gameObject);
         }
     }

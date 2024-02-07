@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: MK14
   icon: {fileID: -1010989698, guid: e3600cc063e24ce4d8b3cc92c197b44a, type: 3}
-  damage: 4
-  energy: 0
+  damage: 2
+  energy: 2
   weaponType: 1
   weaponRarity: 0
-  minSpread: 1
-  maxSpread: 2
+  minSpread: 0.3
+  maxSpread: 1
+  timeBetweenAttacks: 0.4
   weapon: {fileID: -1525783252973327273, guid: f6416c05537e5374bb39544a2d64a490, type: 3}

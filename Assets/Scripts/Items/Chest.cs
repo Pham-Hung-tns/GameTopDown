@@ -24,6 +24,7 @@ public class Chest : MonoBehaviour
         if (openChest) return;
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.PlaySFX("Chest_Open");
             ShowItem();
             animator.SetTrigger("Open");
         }

@@ -8,7 +8,7 @@ public class BonusBase : MonoBehaviour
 
     protected Transform player;
 
-    private void Update()
+    protected virtual void Update()
     {
         if (player != null)
         {
@@ -22,7 +22,7 @@ public class BonusBase : MonoBehaviour
         else return;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {

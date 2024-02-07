@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Door
+  - Obstacle
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MiniMap
   - Water
   - UI
   - Player
@@ -17,8 +18,8 @@ TagManager:
   - Projectile
   - Enemy
   - Obstacle
-  - 
-  - 
+  - Boss_Projectile
+  - Spike
   - 
   - 
   - 
@@ -71,4 +72,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 1228980549
+    locked: 0
+  - name: Minimap
+    uniqueID: 3918255541
     locked: 0

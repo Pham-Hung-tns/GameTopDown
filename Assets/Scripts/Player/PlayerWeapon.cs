@@ -47,6 +47,7 @@ public class PlayerWeapon : CharacterWeapon
         if (equippedWeapons[0] == null)
         {
             CreateWeapon(weapon);
+            ResetWeaponForChange();
             return;
         }
 
@@ -55,6 +56,7 @@ public class PlayerWeapon : CharacterWeapon
             weaponIndex++;
             equippedWeapons[0].gameObject.SetActive(false);
             CreateWeapon(weapon);
+            ResetWeaponForChange();
             return;
         }
 
@@ -64,6 +66,7 @@ public class PlayerWeapon : CharacterWeapon
 
         // Create new weapon
         CreateWeapon(weapon);
+        ResetWeaponForChange();
     }
 
     private void ChangeWeapon()
@@ -94,7 +97,7 @@ public class PlayerWeapon : CharacterWeapon
 
     public void StartShooting()
     {
-        InvokeRepeating(nameof(Shoot), 0.1f, 0.2f);
+        InvokeRepeating(nameof(Shoot), 0f, currentWeapon.WeaponData.timeBetweenAttacks);
     }
     public void Shoot()
     {

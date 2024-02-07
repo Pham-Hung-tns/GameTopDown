@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Health Potion
   m_EditorClassIdentifier: 
   Name: Health Potion
-  icon: {fileID: -1203446243, guid: 13206ce5c0155524f8b9066ce518f830, type: 3}
-  health: 2
+  icon: {fileID: -2016641715, guid: eb60f75154913de4f82eb4c34b1b4284, type: 3}
+  health: 3

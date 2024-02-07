@@ -9,6 +9,6 @@ public class HealthPotion : ItemData
     public override void PickUp()
     {
         base.PickUp();
-        LevelManager.Instance.SelectedPlayer.GetComponent<PlayerHealth>().RecoverHealth(health);
+        LevelManager.Instance.SelectedPlayer.GetComponent<PlayerHealth>().RecoverHealth(Random.Range(1,health));
     }
 }

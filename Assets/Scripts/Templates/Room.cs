@@ -33,7 +33,10 @@ public class Room : MonoBehaviour
 
     public static event Action<Room> OnPlayerEnterTheRoom;
     public bool roomCompleted { get; set; }
+
     public RoomType RoomType => roomType;
+
+
     private void Start()
     {
         doorsOfRoom = new List<Door>();
@@ -44,7 +47,7 @@ public class Room : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!NormalRoom())
+        if (!NormalRoom() && roomType != RoomType.RoomBoss)
             return;
 
 
@@ -77,8 +80,6 @@ public class Room : MonoBehaviour
         }
     }
 
-
-    // chua co du asset nen dung cach nay
     private void GenerateDoor()
     {
         if(posDoorNS.Length > 0)
@@ -111,7 +112,7 @@ public class Room : MonoBehaviour
             foreach(Vector3Int posTile in extraTilemap.cellBounds.allPositionsWithin)
             {
                 Vector3 position = extraTilemap.CellToWorld(posTile);
-                Vector3 newPos = new Vector3(position.x + 0.5f, position.y + 0.5f);
+                Vector3 newPos = new Vector3(position.x, position.y,position.z);
                 tiles.Add(newPos, true);
             }
         }
@@ -121,7 +122,7 @@ public class Room : MonoBehaviour
 
     private void GenerateRoomUsingTemplate()
     {
-        if(!NormalRoom())
+        if(!NormalRoom() || roomType == RoomType.RoomBoss)
         {
             return;
         }
@@ -131,7 +132,7 @@ public class Room : MonoBehaviour
 
         // danh sach cac position duoc danh dau tu truoc
         List<Vector3> positions = new List<Vector3>(tiles.Keys);
-        for(int y = 0, a =0; y < texture.height; y++)
+        for(int y = 0, a =0;y < texture.height; y++)
         {
             for(int x = 0; x < texture.width; x++, a++)
             {
@@ -159,16 +160,23 @@ public class Room : MonoBehaviour
     public Vector3 GetTilePosition()
     {
         List<Vector3> availibleTiles = (from tile in tiles
-                                        where tile.Value
+                                        where tile.Value == true
                                         select tile.Key).ToList();
         int randomTileIndex = UnityEngine.Random.Range(0, availibleTiles.Count);
         Vector3 pos = availibleTiles[randomTileIndex];
         return pos;
     }
+    public Vector3 PositionOfBoss()
+    {
+        List<Vector3> availibleTiles = (from tile in tiles
+                                        where tile.Value
+                                        select tile.Key).ToList();
+        return availibleTiles[(int)availibleTiles.Count /2];
+    }
 
     private bool NormalRoom()
     {
-        return roomType == RoomType.RoomEnemy || roomType == RoomType.RoomBoss;
+        return roomType == RoomType.RoomEnemy;
     }
 
     private void OnDrawGizmosSelected()
@@ -193,4 +201,5 @@ public class Room : MonoBehaviour
             }
         }
     }
+
 }

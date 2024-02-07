@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: P92
   icon: {fileID: 1043133224, guid: e3600cc063e24ce4d8b3cc92c197b44a, type: 3}
-  damage: 2
-  energy: 0
+  damage: 1
+  energy: 1
   weaponType: 1
   weaponRarity: 0
-  minSpread: 0
-  maxSpread: 0
+  minSpread: -1
+  maxSpread: 1
+  timeBetweenAttacks: 0.2
   weapon: {fileID: 7695661276791493980, guid: e35b9e0affedf974fadf1f67a59f647f, type: 3}

@@ -25,8 +25,13 @@ public class EnemyWeapon : CharacterWeapon
     }
     private void Update()
     {
-        if (LevelManager.Instance.SelectedPlayer == null) { return; }
-        Vector3 dir = LevelManager.Instance.SelectedPlayer.transform.position - transform.position;
+        //if (LevelManager.Instance.SelectedPlayer == null) { return; }
+        //Vector3 dir = LevelManager.Instance.SelectedPlayer.transform.position - transform.position;
+        //RotateWeapon(dir);
+    }
+
+    public void RotateWeaponToPlayer(Vector3 dir)
+    {
         RotateWeapon(dir);
     }
 

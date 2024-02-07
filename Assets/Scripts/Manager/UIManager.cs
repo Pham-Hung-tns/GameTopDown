@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using System.Threading;
+using UnityEditor.Rendering;
+using System;
 
 public class UIManager: Singleton<UIManager>
 {
@@ -38,8 +41,16 @@ public class UIManager: Singleton<UIManager>
 
     [Header("Fire Button")]
     [SerializeField] private GameObject fireButton;
-    [Header("Button Pickup")]
+    
+    [Header("Pickup Button")]
     [SerializeField] private GameObject pickupButton;
+
+    [Header("Use Skill Button")]
+    public Image useSkillButton;
+
+    [Header("UI Boss")]
+    public GameObject HealthBossPanel;
+    public Image HealthUIBoss;
     protected override void Awake()
     {
         base.Awake();
@@ -94,7 +105,6 @@ public class UIManager: Singleton<UIManager>
         completedText.gameObject.SetActive(false);
     }
 
-    [System.Obsolete]
     private void ShowUIWeapon(Weapon weapon)
     {
         if (weaponPanel.active == false)
@@ -122,16 +132,34 @@ public class UIManager: Singleton<UIManager>
         
     }
 
+    public void CoolDownSkill(float cooldown)
+    {
+        useSkillButton.fillAmount -= 1 / cooldown * Time.deltaTime;
+        if(useSkillButton.fillAmount <= 0)
+        {
+            useSkillButton.fillAmount = 1;
+        }
+    }
+    private void ShowHealthUIBoss(float amount)
+    {
+        HealthUIBoss.fillAmount = amount;
+        HealthBossPanel.SetActive(true);
+    }
+
+    
     private void OnEnable()
     {
         LevelManager.OnRoomCompleted += RoomCompleted;
+        LevelManager.OnPlayerInRoomBoss += ShowHealthUIBoss;
         PlayerWeapon.OnShowUIWeaponEvent += ShowUIWeapon;
         PlayerHealth.OnPlayerDeathEvent += ShowGameOverPanel;
     }
 
+
     private void OnDisable()
     {
         LevelManager.OnRoomCompleted -= RoomCompleted;
+        LevelManager.OnPlayerInRoomBoss -= ShowHealthUIBoss;
         PlayerWeapon.OnShowUIWeaponEvent -= ShowUIWeapon;
         PlayerHealth.OnPlayerDeathEvent -= ShowGameOverPanel;
     }
