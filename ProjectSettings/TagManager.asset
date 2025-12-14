@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door
   - Obstacle
+  - collisionTilemap
   layers:
   - Default
   - TransparentFX
@@ -66,6 +67,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 561647781
+    locked: 0
+  - name: Font
+    uniqueID: 4112656661
     locked: 0
   - name: Weapon
     uniqueID: 1957423847
