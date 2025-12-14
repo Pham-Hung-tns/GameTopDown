@@ -19,12 +19,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     private State currentState;
     private Transform player;
-    private Room currentRoom;
+    //private Room currentRoom;
     private string currentAnim;
 
     public Rigidbody2D Rb { get => rb; set => rb = value; }
     public Transform Player { get => player; set => player = value; }
-    public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
+    //public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
     public float RangeCanDetect { get => rangeCanDetect; set => rangeCanDetect = value; }
     public SpriteRenderer Spr { get => spr; set => spr = value; }
 
