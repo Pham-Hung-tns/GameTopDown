@@ -18,42 +18,26 @@ public static class Settings
 
     #region ROOM SETTINGS
     public const float fadeInTime = 0.5f; // time to fade in the room
-    public const int maxChildCorridors = 3; // Max number of child corridors leading from a room. - maximum should be 3 although this is not recommended since it can cause the dungeon building to fail since the rooms are more likely to not fit together;
+    public const int maxChildCorridors = 3; // Max number of child corridors leading from a room.
     public const float doorUnlockDelay = 1f;
     #endregion
 
-
     #region ANIMATOR PARAMETERS
     // Animator parameters - Player
-    public static int aimUp = Animator.StringToHash("aimUp");
-    public static int aimDown = Animator.StringToHash("aimDown");
-    public static int aimUpRight = Animator.StringToHash("aimUpRight");
-    public static int aimUpLeft = Animator.StringToHash("aimUpLeft");
-    public static int aimRight = Animator.StringToHash("aimRight");
-    public static int aimLeft = Animator.StringToHash("aimLeft");
-    public static int isIdle = Animator.StringToHash("isIdle");
-    public static int isMoving = Animator.StringToHash("isMoving");
-    public static int rollUp = Animator.StringToHash("rollUp");
-    public static int rollRight = Animator.StringToHash("rollRight");
-    public static int rollLeft = Animator.StringToHash("rollLeft");
-    public static int rollDown = Animator.StringToHash("rollDown");
-    public static int flipUp = Animator.StringToHash("flipUp");
-    public static int flipRight = Animator.StringToHash("flipRight");
-    public static int flipLeft = Animator.StringToHash("flipLeft");
-    public static int flipDown = Animator.StringToHash("flipDown");
-    public static int use = Animator.StringToHash("use");
-    public static float baseSpeedForPlayerAnimations = 8f;
+
+    public static readonly int isMoving = Animator.StringToHash("moveMotion");
+    public const float baseSpeedForPlayerAnimations = 8f;
 
     // Animator parameters - Enemy
-    public static float baseSpeedForEnemyAnimations = 3f;
+    public const float baseSpeedForEnemyAnimations = 3f;
 
 
     // Animator parameters - Door
-    public static int open = Animator.StringToHash("open");
+    public static readonly int open = Animator.StringToHash("open");
 
     // Animator parameters - DamageableDecoration
-    public static int destroy = Animator.StringToHash("destroy");
-    public static String stateDestroyed = "Destroyed";
+    public static readonly int destroy = Animator.StringToHash("destroy");
+    public static readonly string stateDestroyed = "Destroyed";
 
     #endregion
 
@@ -61,6 +45,7 @@ public static class Settings
     public const string playerTag = "Player";
     public const string playerWeapon = "playerWeapon";
     #endregion
+
 
     #region AUDIO
     public const float musicFadeOutTime = 0.5f;  // Defualt Music Fade Out Transition
