@@ -1,5 +1,8 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public static class Settings
 {
@@ -21,6 +24,7 @@ public static class Settings
 
     #region ANIMATOR PARAMETERS
     // Animator parameters - Player
+
   
     public static readonly int isMoving = Animator.StringToHash("moveMotion");
     public const float baseSpeedForPlayerAnimations = 8f;
