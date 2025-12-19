@@ -44,7 +44,7 @@ public class MenuManager : Singleton<MenuManager>
     {
         foreach (PlayerCreate character in playerCreates)
         {
-            PlayerMove player = Instantiate(character.Character,
+            PlayerMovement player = Instantiate(character.Character,
                 character.initialPosition.position,
                 Quaternion.identity,
                 character.initialPosition);
@@ -63,7 +63,7 @@ public class MenuManager : Singleton<MenuManager>
 
         GameManager.Instance.playerPrefab = currentPlayer.PlayerConfig;
         playerPanel.SetActive(false);
-        currentPlayer.GetComponent<PlayerMove>().enabled = true;
+        currentPlayer.GetComponent<PlayerMovement>().enabled = true;
         currentPlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         playerSelected = true;
         moveButton.SetActive(true);
@@ -157,7 +157,7 @@ public class MenuManager : Singleton<MenuManager>
 [Serializable]
 public class PlayerCreate
 {
-    public PlayerMove Character;
+    public PlayerMovement Character;
     public Transform initialPosition;
 }
 

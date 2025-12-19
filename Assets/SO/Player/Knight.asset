@@ -15,16 +15,23 @@ MonoBehaviour:
   Level: 0
   Name: Knight
   Icon: {fileID: 21300000, guid: 68e9ffa3c841d024a9b1cc2ad0d76195, type: 3}
-  currentHealth: 0
+  speed: 10
+  acceleration: 30
+  deceleration: 20
+  currentHealth: 1
   MaxHealth: 5
   currentArmor: 0
   MaxArmor: 5
+  timeCooldownArmor: 0
+  timeRecoverArmor: 0
   currentEnergy: 200
   MaxEnergy: 200
   CriticalChance: 45
   CriticalDamage: 20
+  rangeDetect: 0
   unlock: 1
   unlockCost: 20
   upgradeCost: 30
   upgradeCostPercent: 30
   playerPrefab: {fileID: 8036680113951382889, guid: 9cf9e9263d19a8545a76cee07ef00420, type: 3}
+  initialWeapon: {fileID: 8736767362372929312, guid: baa395890fa20cd4d87607f63a71d116, type: 3}

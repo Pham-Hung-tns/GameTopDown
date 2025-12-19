@@ -16,8 +16,8 @@ public class EnemyWeapon : CharacterWeapon
     }
     private void CreateWeapon()
     {
-        currentWeapon = Instantiate(initalWeapon, weaponPos.position, Quaternion.identity, 
-            weaponPos);
+        currentWeapon = Instantiate(initalWeapon, weaponPosition.position, Quaternion.identity, 
+            weaponPosition);
     }
     public void UseWeapon()
     {
@@ -32,7 +32,7 @@ public class EnemyWeapon : CharacterWeapon
 
     public void RotateWeaponToPlayer(Vector3 dir)
     {
-        RotateWeapon(dir);
+        RotateWeaponToAgent(dir);
     }
 
     public void DestroyWeapon()
