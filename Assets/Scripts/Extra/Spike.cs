@@ -52,7 +52,7 @@ public class Spike : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerHealth obj = collision.GetComponent<PlayerHealth>();
+            PlayerVitality obj = collision.GetComponent<PlayerVitality>();
             if(obj != null)
             {
                 DungeonCM.Instance.ShakeCM(3f, 1f);
