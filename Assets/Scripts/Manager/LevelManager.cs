@@ -53,7 +53,7 @@ public class LevelManager : Singleton<LevelManager>
         if(GameManager.Instance.playerPrefab != null)
         {
             SelectedPlayer =  Instantiate(GameManager.Instance.playerPrefab.playerPrefab);
-            PlayerConfig player = SelectedPlayer.GetComponent<PlayerHealth>().playerConfig;
+            PlayerConfig player = SelectedPlayer.GetComponent<PlayerController>().PlayerData;
             SetStatWhenStart(player);
         }
     }

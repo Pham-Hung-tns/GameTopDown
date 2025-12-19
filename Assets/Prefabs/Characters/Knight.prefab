@@ -62,12 +62,11 @@ GameObject:
   - component: {fileID: 8036680113951382892}
   - component: {fileID: 8036680113951382894}
   - component: {fileID: 9141284531230830358}
-  - component: {fileID: 8036680113951382893}
-  - component: {fileID: 8487920552017387308}
-  - component: {fileID: 4539270754891536226}
+  - component: {fileID: 5245972844232239822}
   - component: {fileID: 8036680112849361990}
-  - component: {fileID: 8036680112849361985}
-  - component: {fileID: -2831669632461024379}
+  - component: {fileID: 2224640384918632268}
+  - component: {fileID: 2846387004246204559}
+  - component: {fileID: 2125394416}
   m_Layer: 6
   m_Name: Knight
   m_TagString: Player
@@ -140,7 +139,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.52511597, y: 0.86275554}
   m_EdgeRadius: 0
---- !u!114 &8036680113951382893
+--- !u!114 &5245972844232239822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,42 +148,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8036680113951382889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7515b05d1efb2241acfd3ce77eb226f, type: 3}
+  m_Script: {fileID: 11500000, guid: c3f7a5ff415c742429ffea6eabf9d9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  inputReader: {fileID: 11400000, guid: c90b6976fc9abb141a7cb659dc4ce59d, type: 2}
+  playerData: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
+  SpriteRenderer: {fileID: 8036680113977354320}
   rb2D: {fileID: 8036680113951382894}
-  dashSpeed: 10
-  dashTime: 0.3
-  dashWaitTime: 2
-  transperency: 0.1
-  lastPos: {x: 0, y: 0, z: 0}
---- !u!114 &8487920552017387308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8036680113951382889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e403eb573220b274fb343adb28056819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerConfig: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
---- !u!114 &4539270754891536226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8036680113951382889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bdc7f9ec13f38549b3e9df50bab4217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerConfig: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
+  animator: {fileID: 8036680113977354321}
 --- !u!114 &8036680112849361990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,10 +168,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b2302c05e43d2409309583371193fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPos: {fileID: 9141284531428713868}
-  initialWeapon: {fileID: 0}
-  playerConfig: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
---- !u!114 &8036680112849361985
+  weaponPosition: {fileID: 9141284531428713868}
+--- !u!114 &2224640384918632268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036680113951382889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4216fd3ff0a058a4889f701f0a2b1dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2846387004246204559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8036680113951382889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8000fbdfee404c4469b8be3590c81636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2125394416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: d051b0c03ac91594490d661eb596ae9e, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -224,58 +217,12 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8036680113951382893}
-        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
-        m_MethodName: ClaimInput
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e067de27-6a9f-4c35-b935-cf5617d1e3f1
-    m_ActionName: Movement/Move[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 425e5e46-55ed-4d16-a8f4-4f9ef12ffd2b
-    m_ActionName: Movement/Dash[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 41c19535-0927-4f7e-ab31-343eb8cd1a14
-    m_ActionName: Weapon/Shoot[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 54c33de2-cf57-41cb-8571-ad01747b9ea3
-    m_ActionName: Interaction/PickItem[/Keyboard/i]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3dd731d7-051a-4b76-8632-f801ccc7317d
-    m_ActionName: Interaction/ChangeItem[/Keyboard/o]
+  m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Movement
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &-2831669632461024379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8036680113951382889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d0ce9332465e524ca355db52f866fcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeCooldownArmor: 5
-  playerConfig: {fileID: 11400000, guid: 528d00568d51eb64ca23298be53a5d94, type: 2}
 --- !u!1 &8036680113977354334
 GameObject:
   m_ObjectHideFlags: 0

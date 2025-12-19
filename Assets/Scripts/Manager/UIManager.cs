@@ -152,7 +152,7 @@ public class UIManager: Singleton<UIManager>
         LevelManager.OnRoomCompleted += RoomCompleted;
         LevelManager.OnPlayerInRoomBoss += ShowHealthUIBoss;
         PlayerWeapon.OnShowUIWeaponEvent += ShowUIWeapon;
-        PlayerHealth.OnPlayerDeathEvent += ShowGameOverPanel;
+        PlayerVitality.OnPlayerDeathEvent += ShowGameOverPanel;
     }
 
 
@@ -161,6 +161,6 @@ public class UIManager: Singleton<UIManager>
         LevelManager.OnRoomCompleted -= RoomCompleted;
         LevelManager.OnPlayerInRoomBoss -= ShowHealthUIBoss;
         PlayerWeapon.OnShowUIWeaponEvent -= ShowUIWeapon;
-        PlayerHealth.OnPlayerDeathEvent -= ShowGameOverPanel;
+        PlayerVitality.OnPlayerDeathEvent -= ShowGameOverPanel;
     }
 }
