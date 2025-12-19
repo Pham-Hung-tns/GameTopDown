@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterWeapon : MonoBehaviour
 {
-    [SerializeField] protected Transform weaponPos;
+    [SerializeField] protected Transform weaponPosition;
+    
     protected Weapon currentWeapon;
-
     protected int weaponIndex; // 0 - 1
     protected Weapon[] equippedWeapons = new Weapon[2];
 
@@ -20,23 +21,19 @@ public class CharacterWeapon : MonoBehaviour
         }
     }
 
-    protected void RotateWeapon(Vector3 dir)
+    protected void RotateWeaponToAgent(Vector3 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        if (dir.x > 0f) // Facing Right
-        {
-            weaponPos.localScale = Vector3.one;
-            currentWeapon.transform.localScale = Vector3.one;
-            sp.flipX = false;
-        }
-        else // Facing Left
-        {
-            weaponPos.localScale = new Vector3(-1, 1, 1);
-            currentWeapon.transform.localScale = new Vector3(-1, -1, 1);
-            sp.flipX = true;
-        }
 
+        FlipSprite(angle > 90 || angle < -90);
         currentWeapon.transform.eulerAngles = new Vector3(0f, 0f, angle);
-
     }
+
+    private void FlipSprite(bool val)
+    {
+        int flipModifier = val ? -1 : 1;
+        sp.flipX = val;
+        weaponPosition.localScale = new Vector3(weaponPosition.localScale.x, flipModifier * Mathf.Abs(weaponPosition.localScale.y), weaponPosition.localScale.z);
+    }
+
 }

@@ -1,44 +1,44 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerWeapon : CharacterWeapon
 {
     public static event Action<Weapon> OnShowUIWeaponEvent;
-    [SerializeField] Weapon initialWeapon;
 
-    [SerializeField] private PlayerConfig playerConfig;
+    //[SerializeField] private Weapon initialWeapon;
+    
+    private PlayerConfig playerConfig;
 
-    private PlayerMove playerMove;
-    private PlayerControls actions;
-    private PlayerEnergy playerEnergy;
+    private PlayerMovement playerMove;
+    private PlayerVitality playerVitality;
 
     private Coroutine weaponCoroutine;
     private ItemText weaponNameText;
 
+    private SpriteRenderer spriteRenderer;
     private DetectionEnemy detection;
-    protected override void Awake()
+
+    private Vector2 movementDirection;
+    public Vector2 MovementDirection { get => movementDirection; set => movementDirection = value; }
+    //public Weapon InitialWeapon { get => initialWeapon; set => initialWeapon = value; }
+
+
+    public void Initialize(PlayerConfig _data, SpriteRenderer _sp, PlayerVitality _vitality, DetectionEnemy _detection)
     {
-        base.Awake();
-        actions = new PlayerControls();
-        playerMove = GetComponent<PlayerMove>();
-        playerEnergy = GetComponent<PlayerEnergy>();
-        detection = GetComponentInChildren<DetectionEnemy>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        //CreateWeapon(initialWeapon);
+        playerConfig = _data;
+        spriteRenderer = _sp;
+        playerVitality = _vitality;
+        detection = _detection;
     }
 
-    private void CreateWeapon(Weapon weaponPrefab)
+    public void CreateWeapon(Weapon weaponPrefab)
     {
-        currentWeapon = Instantiate(weaponPrefab, weaponPos.position,
-            Quaternion.identity, weaponPos);
+        currentWeapon = Instantiate(weaponPrefab, weaponPosition.position,
+            Quaternion.identity, weaponPosition);
         equippedWeapons[weaponIndex] = currentWeapon;
         equippedWeapons[weaponIndex].Character = this;
-        ShowCurrentWeaponName();
+        //ShowCurrentWeaponName();
         OnShowUIWeaponEvent?.Invoke(currentWeapon);
     }
 
@@ -86,13 +86,10 @@ public class PlayerWeapon : CharacterWeapon
     }
 
 
-    private void StopShooting()
+    public void StopShooting()
     {
-        if (actions.Weapon.Shoot.ReadValue<float>().Equals(0f))
-        {
-            CancelInvoke(nameof(Shoot));
-            return;
-        }
+        CancelInvoke(nameof(Shoot));
+        return; 
     }
 
     public void StartShooting()
@@ -101,15 +98,16 @@ public class PlayerWeapon : CharacterWeapon
     }
     public void Shoot()
     {
-        if (currentWeapon == null)
-            return;
-        if (CanUseWeapon())
-        {
-            currentWeapon.UseWeapon();
-            playerEnergy.UseEnergy(currentWeapon.WeaponData.energy);
-        }
-        else
-            return;
+        Debug.Log("Shoot weapon");
+        //if (currentWeapon == null)
+        //    return;
+        //if (CanUseWeapon())
+        //{
+        //    currentWeapon.UseWeapon();
+        //    playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy);
+        //}
+        //else
+        //    return;
     }
     public float GetDamageCritical()
     {
@@ -122,23 +120,20 @@ public class PlayerWeapon : CharacterWeapon
         }
         return damage;
     }
-    private void Update()
-    {
-        RotateWeapon();
-    }
 
-    private void RotateWeapon()
+    public void RotateWeapon()
     {
-        if (playerMove.MoveDirection != Vector2.zero && currentWeapon != null)
+        if (movementDirection != Vector2.zero && currentWeapon != null)
         {
-            RotateWeapon(playerMove.MoveDirection);
+            RotateWeaponToAgent(movementDirection);
         }
 
         if (detection != null && detection.EnemyTarget != null)
         {
             Vector3 dirToEnemy = detection.EnemyTarget.transform.position - transform.position;
-            RotateWeapon(dirToEnemy);
+            RotateWeaponToAgent(dirToEnemy);
         }
+
     }
     private void ShowCurrentWeaponName()
     {
@@ -169,7 +164,7 @@ public class PlayerWeapon : CharacterWeapon
     }
     public bool CanUseWeapon()
     {
-        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerEnergy.CanUseEnergy)
+        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy))
             return true;
         if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Melee)
             return true;
@@ -181,25 +176,21 @@ public class PlayerWeapon : CharacterWeapon
     {
         Transform weaponTransform = currentWeapon.transform;
         weaponTransform.rotation = Quaternion.identity;
-        weaponTransform.localScale = Vector3.one;
-        weaponPos.rotation = Quaternion.identity;
-        weaponPos.localScale = Vector3.one;
-        playerMove.FacingRightDirection();
+        //weaponTransform.localScale = Vector3.one;
+        weaponPosition.rotation = Quaternion.identity;
+        //weaponPosition.localScale = Vector3.one;
+        spriteRenderer.flipX = false;
     }
 
     private void OnEnable()
     {
-        actions.Enable();
-        actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
-        actions.Weapon.Shoot.performed += _ => StartShooting();
-        actions.Weapon.Shoot.canceled += _ => StopShooting();
-
+        // triển khai thêm interaction cho player (Sau khi thêm UI)
+        //actions.Enable();
+        //actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
     }
     private void OnDisable()
     {
-        actions.Disable();
-        actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
-        actions.Weapon.Shoot.performed -= _ => StartShooting();
-        actions.Weapon.Shoot.canceled -= _ => StopShooting();
+        //actions.Disable();
+        //actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
     }
 }

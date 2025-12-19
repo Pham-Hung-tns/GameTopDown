@@ -8,6 +8,6 @@ public class EnergyPotion : ItemData
     [SerializeField] private float energy;
     public override void PickUp()
     {
-        LevelManager.Instance.SelectedPlayer.GetComponent<PlayerEnergy>().RecoverEnergy(Random.Range(10, energy));
+        LevelManager.Instance.SelectedPlayer.GetComponent<PlayerVitality>().RecoverEnergy(Random.Range(10, energy));
     }
 }

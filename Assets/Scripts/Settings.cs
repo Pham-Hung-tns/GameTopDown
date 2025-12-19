@@ -25,6 +25,7 @@ public static class Settings
     #region ANIMATOR PARAMETERS
     // Animator parameters - Player
 
+  
     public static readonly int isMoving = Animator.StringToHash("moveMotion");
     public const float baseSpeedForPlayerAnimations = 8f;
 
@@ -81,4 +82,5 @@ public static class Settings
     #region HIGHSCORES
     public const int numberOfHighScoresToSave = 100;
     #endregion
+
 }
