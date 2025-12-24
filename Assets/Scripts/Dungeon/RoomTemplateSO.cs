@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -82,13 +82,12 @@ public class RoomTemplateSO : ScriptableObject
 
     //#endregion Header ENEMY DETAILS
 
-    // #region Tooltip
+    //#region Tooltip
 
-    // [Tooltip("Populate the list with all the enemies that can be spawned in this room by dungeon level, including the ratio (random) of this enemy type that will be spawned")]
+    //[Tooltip("Populate the list with all the enemies that can be spawned in this room by dungeon level, including the ratio (random) of this enemy type that will be spawned")]
 
-    // #endregion Tooltip
-
-    //public List<SpawnableObjectsByLevel<EnemyDetailsSO>> enemiesByLevelList;
+    //#endregion Tooltip
+    public List<SpawnableObjectsByLevel<EnemyDetailsSO>> enemiesByLevelList;
 
     #region Tooltip
 
@@ -122,6 +121,8 @@ public class RoomTemplateSO : ScriptableObject
 
         // Check spawn positions populated
         HelperUtilities.ValidateCheckEnumerableValues(this, nameof(spawnPositionArray), spawnPositionArray);
+
+        HelperUtilities.ValidateCheckEnumerableValues(this, nameof(enemiesByLevelList), enemiesByLevelList);
     }
 
 #endif
