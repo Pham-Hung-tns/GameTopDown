@@ -131,7 +131,7 @@
   - `EnemySpawner` (global).
   - (Tuỳ chọn) các `ChestSpawner` trong prefab phòng.
 
-Với cấu hình trên, bạn có thể:
+Với cấu hình trên, có thể điều chỉnh các thông số sau trên Inspector:
 - Điều chỉnh tỉ lệ spawn enemy bằng `SpawnableObjectsByLevel<EnemyDetailsSO>.ratio`.
 - Điều chỉnh tổng số & tốc độ spawn bằng `RoomEnemySpawnParameters`.
 - Thử 2 chế độ spawn rương (`OnRoomEntry` / `OnEnemiesDefeated`) và xác suất min/max để xác nhận behavior mong muốn.
