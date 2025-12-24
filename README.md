@@ -1,4 +1,6 @@
-## GameTopDown
+## Đồ án tốt nghiệp: Rebirth
+
+### Thể loại: Top-down, dungeon, 2D, mobile
 
 ### Pipeline khởi động level & sinh dungeon
 
@@ -39,7 +41,7 @@
 
 - Tạo asset `EnemyDetailsSO` trong menu: `Scriptable Objects/Enemy/Enemy Details`:
   - **enemyPrefab**: prefab enemy (có `EnemyController`, `EnemyVitality`, vũ khí…).
-  - **chaseDistance**: khoảng cách detect đuổi theo player (được AI dùng).
+  - **chaseDistance**: khoảng cách detect đuổi theo player (dùng A* để triển khai).
   - **weapon**: `WeaponData` nếu enemy có bắn.
   - **firingIntervalMin/Max, firingDurationMin/Max, firingLineOfSightRequired**: tham số bắn (sẵn để AI/combat logic dùng).
   - **healthByLevel** (`EnemyHealthDetails[]`):
