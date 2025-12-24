@@ -10,7 +10,7 @@ public class DetectionEnemy : MonoBehaviour
     [SerializeField] private LayerMask obstaceLayer;
     private RaycastHit2D[] hit = new RaycastHit2D[100];
     private List<GameObject> EnemyInSight = new List<GameObject>();
-    public EnemyHealth EnemyTarget { get; private set; } = null;
+    public EnemyVitality EnemyTarget { get; private set; } = null;
 
     private void Update()
     {
@@ -54,14 +54,14 @@ public class DetectionEnemy : MonoBehaviour
     {
         float minDistance = Mathf.Infinity;
 
-        EnemyHealth enemyTarget = null;
+        EnemyVitality enemyTarget = null;
         foreach(var enemy in EnemyInSight)
         {
             float currentDistance = Vector3.Distance( transform.position, enemy.transform.position);
             if(minDistance > currentDistance)
             {
                 minDistance = currentDistance;
-                enemyTarget = enemy.GetComponent<EnemyHealth>();
+                enemyTarget = enemy.GetComponent<EnemyVitality>();
             }
         }
         if (enemyTarget != null)

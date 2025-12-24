@@ -54,19 +54,16 @@ public class InstantiatedRoom : MonoBehaviour
     }
 
 
-    // // Trigger room changed event when player enters a room
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     // If the player triggered the collider
-    //     if (collision.tag == Settings.playerTag && room != GameManager.Instance.GetCurrentRoom())
-    //     {
-    //         // Set room as visited
-    //         this.room.isPreviouslyVisited = true;
+    // Trigger room changed event when player enters a room
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag != Settings.playerTag) return;
 
-    //         // Call room changed event
-    //         StaticEventHandler.CallRoomChangedEvent(room);
-    //     }
-    // }
+        // Set room as visited
+        room.isPreviouslyVisited = true;
+
+        StaticEventHandler.CallRoomChangedEvent(room);
+    }
 
     /// <summary>
     /// Initialise The Instantiated Room
@@ -422,47 +419,47 @@ public class InstantiatedRoom : MonoBehaviour
     /// <summary>
     /// Lock the room doors
     /// </summary>
-    // public void LockDoors()
-    // {
-    //     Door[] doorArray = GetComponentsInChildren<Door>();
+    public void LockDoors()
+    {
+        Door[] doorArray = GetComponentsInChildren<Door>();
 
-    //     // Trigger lock doors
-    //     foreach (Door door in doorArray)
-    //     {
-    //         door.LockDoor();
-    //     }
+        // Trigger lock doors
+        foreach (Door door in doorArray)
+        {
+            door.LockDoor();
+        }
 
-    //     // Disable room trigger collider
-    //     DisableRoomCollider();
-    // }
+        // Disable room trigger collider
+        DisableRoomCollider();
+    }
 
     /// <summary>
     /// Unlock the room doors
     /// </summary>
-    // public void UnlockDoors(float doorUnlockDelay)
-    // {
-    //     StartCoroutine(UnlockDoorsRoutine(doorUnlockDelay));
-    // }
+    public void UnlockDoors(float doorUnlockDelay = 0f)
+    {
+        StartCoroutine(UnlockDoorsRoutine(doorUnlockDelay));
+    }
 
     /// <summary>
     /// Unlock the room doors routine
     /// </summary>
-    // private IEnumerator UnlockDoorsRoutine(float doorUnlockDelay)
-    // {
-    //     if (doorUnlockDelay > 0f)
-    //         yield return new WaitForSeconds(doorUnlockDelay);
+    private IEnumerator UnlockDoorsRoutine(float doorUnlockDelay)
+    {
+        if (doorUnlockDelay > 0f)
+            yield return new WaitForSeconds(doorUnlockDelay);
 
-    //     Door[] doorArray = GetComponentsInChildren<Door>();
+        Door[] doorArray = GetComponentsInChildren<Door>();
 
-    //     // Trigger open doors
-    //     foreach (Door door in doorArray)
-    //     {
-    //         door.UnlockDoor();
-    //     }
+        // Trigger open doors
+        foreach (Door door in doorArray)
+        {
+            door.UnlockDoor();
+        }
 
-    //     // Enable room trigger collider
-    //     EnableRoomCollider();
-    // }
+        // Enable room trigger collider
+        EnableRoomCollider();
+    }
 
     /// <summary>
     /// Create Item Obstacles Array

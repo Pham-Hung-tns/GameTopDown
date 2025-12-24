@@ -10,18 +10,18 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] protected WeaponData weaponData;
 
-    private Animator animator;
+    private Animator animatorator;
     public CharacterWeapon Character { get; set; }
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animatorator = GetComponent<Animator>();
     }
     public WeaponData WeaponData => weaponData;
     public virtual void UseWeapon()
     {
-        if(animator != null)
+        if(animatorator != null)
         {
-            animator.SetTrigger("Attack");
+            animatorator.SetTrigger("Attack");
         }
     }
     public virtual void DestroyWeapon()

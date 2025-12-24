@@ -67,7 +67,11 @@ public static class Settings
     #endregion
 
     #region ENEMY PARAMETERS
-    public const int defaultEnemyHealth = 20;
+    public const int defaultEnemyVitality = 20;
+
+    public const string IDLE_STATE = "idle";
+    public const string WANDER_STATE = "wander";
+    public const string ATTACK_STATE = "attack";
     #endregion
 
     #region UI PARAMETERS

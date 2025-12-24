@@ -11,6 +11,7 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
     private List<RoomTemplateSO> roomTemplateList = null;
     private RoomNodeTypeListSO roomNodeTypeList;
     private bool dungeonBuildSuccessful;
+    private Room entranceRoomCache;
 
     // private void OnEnable()
     // {
@@ -48,6 +49,7 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
     public bool GenerateDungeon(DungeonLevelSO currentDungeonLevel)
     {
         roomTemplateList = currentDungeonLevel.roomTemplateList;
+        entranceRoomCache = null;
 
         // Load the scriptable object room templates into the dictionary
         LoadRoomTemplatesIntoDictionary();
@@ -186,6 +188,7 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
 
                 // Thêm phòng vào dictionary
                 dungeonBuilderRoomDictionary.Add(room.id, room);
+                entranceRoomCache = room;
             }
             // Nếu không phải phòng cửa vào
             else
@@ -543,6 +546,9 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
         //room.roomLevelEnemySpawnParametersList = roomTemplate.roomEnemySpawnParametersList;
         room.templateLowerBounds = roomTemplate.lowerBounds;
         room.templateUpperBounds = roomTemplate.upperBounds;
+        room.spawnPositionArray = roomTemplate.spawnPositionArray != null ? (Vector2Int[])roomTemplate.spawnPositionArray.Clone() : null;
+        room.enemiesByLevelList = CopySpawnableObjectByLevelList(roomTemplate.enemiesByLevelList);
+        room.roomLevelEnemySpawnParametersList = roomTemplate.roomEnemySpawnParametersList != null ? new List<RoomEnemySpawnParameters>(roomTemplate.roomEnemySpawnParametersList) : null;
         room.childRoomIDList = CopyStringList(roomNode.childRoomNodeIDList);
         room.doorWayList = CopyDoorwayList(roomTemplate.doorwayList);
 
@@ -631,6 +637,61 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
         }
 
         return newStringList;
+    }
+
+    /// <summary>
+    /// Deep copy spawnable objects by level list
+    /// </summary>
+    private List<SpawnableObjectsByLevel<EnemyDetailsSO>> CopySpawnableObjectByLevelList(List<SpawnableObjectsByLevel<EnemyDetailsSO>> oldList)
+    {
+        if (oldList == null) return null;
+
+        var newList = new List<SpawnableObjectsByLevel<EnemyDetailsSO>>();
+        foreach (var levelEntry in oldList)
+        {
+            if (levelEntry == null) continue;
+            var copy = new SpawnableObjectsByLevel<EnemyDetailsSO>
+            {
+                dungeonLevel = levelEntry.dungeonLevel,
+                spawnableObjectRatioList = new List<SpawnableObjectRatio<EnemyDetailsSO>>()
+            };
+
+            if (levelEntry.spawnableObjectRatioList != null)
+            {
+                foreach (var ratio in levelEntry.spawnableObjectRatioList)
+                {
+                    if (ratio == null) continue;
+                    copy.spawnableObjectRatioList.Add(new SpawnableObjectRatio<EnemyDetailsSO>
+                    {
+                        dungeonObject = ratio.dungeonObject,
+                        ratio = ratio.ratio
+                    });
+                }
+            }
+
+            newList.Add(copy);
+        }
+
+        return newList;
+    }
+
+    /// <summary>
+    /// Get entrance room if cached
+    /// </summary>
+    public Room GetEntranceRoom()
+    {
+        if (entranceRoomCache != null) return entranceRoomCache;
+
+        foreach (var kvp in dungeonBuilderRoomDictionary)
+        {
+            if (kvp.Value.roomNodeType != null && kvp.Value.roomNodeType.isEntrance)
+            {
+                entranceRoomCache = kvp.Value;
+                break;
+            }
+        }
+
+        return entranceRoomCache;
     }
 
     /// <summary>

@@ -18,9 +18,11 @@ public class LevelManager : Singleton<LevelManager>
     // public RoomTemplate RoomTemplates => roomTemplates;
     //public DungeonLibrary DoorSO => dungeonLibrary;
 
+    [Header("Dungeon Config")]
+    [SerializeField] private DungeonLevelSO startingDungeonLevel;
+
     // private Room currentRoom;
-    private int currentLevelIndex = 0;
-    private int currentDungeonIndex = 0;
+    private DungeonLevelSO currentDungeonLevel;
     private int amountOfEnemies;
     private GameObject currentDungeonGO;
 
@@ -31,18 +33,32 @@ public class LevelManager : Singleton<LevelManager>
     {
         base.Awake();
         CreatePlayerInDungeon();
+        currentDungeonLevel = startingDungeonLevel;
+        DungeonBuilder dungeonBuilder = GameObject.FindObjectOfType<DungeonBuilder>();
 
     }
     private void Start()
     {
         CreateLevel();
     }
+    // todo: fix sau
     private void CreateLevel()
     {
-        //currentDungeonGO =  Instantiate(dungeonLibrary.levels[currentLevelIndex].dungeons[currentDungeonIndex], transform);
-        //itemsInTheLevel = new List<PickableItem>
-        //    (dungeonLibrary.levels[currentLevelIndex].itemsInThisLevel.AvalibleItems);
-        //PositionOfPlayerInDungeon();
+        if (currentDungeonLevel == null)
+        {
+            Debug.LogError("LevelManager: Missing startingDungeonLevel");
+            return;
+        }
+        DungeonBuilder dungeonBuilder = DungeonBuilder.Instance;
+        dungeonBuilder.LoadRoomNodeTypeList();
+        bool built = dungeonBuilder.GenerateDungeon(currentDungeonLevel);
+        if (!built)
+        {
+            Debug.LogError("LevelManager: Dungeon build failed");
+            return;
+        }
+
+        PositionOfPlayerInDungeon();
     }
     public string GetCurrentLevelText()
     {
@@ -112,23 +128,15 @@ public class LevelManager : Singleton<LevelManager>
 
     public void PositionOfPlayerInDungeon()
     {
-        //Room[] dungeonRooms = currentDungeonGO.GetComponentsInChildren<Room>();
-        //Room posDefault = null;
-        //foreach (Room room in dungeonRooms)
-        //{
-        //    if(room.RoomType == RoomType.RoomEntrance)
-        //    {
-        //        posDefault = room;
-        //    }
-        //}
+        // Move player to the entrance room if available
+        if (SelectedPlayer == null) return;
 
-        //if(posDefault != null)
-        //{
-        //    if(SelectedPlayer != null)
-        //    {
-        //        SelectedPlayer.transform.position = posDefault.transform.position;
-        //    }
-        //}
+        Room entrance = DungeonBuilder.Instance.GetEntranceRoom();
+        if (entrance != null && entrance.instantiatedRoom != null)
+        {
+            var entrancePos = entrance.instantiatedRoom.transform.position;
+            SelectedPlayer.transform.position = entrancePos;
+        }
         AudioManager.Instance.PlayMusic("Theme");
     }
 
@@ -162,7 +170,7 @@ public class LevelManager : Singleton<LevelManager>
         //            }
         //        case RoomType.RoomBoss:
         //            {
-        //                EnemyHealth boss = currentRoom.GetComponentInChildren<EnemyHealth>();
+        //                EnemyVitality boss = currentRoom.GetComponentInChildren<EnemyVitality>();
         //                OnPlayerInRoomBoss?.Invoke(boss.Health);
         //                break;
         //            }
@@ -227,14 +235,23 @@ public class LevelManager : Singleton<LevelManager>
     private void OnEnable()
     {
         // Room.OnPlayerEnterTheRoom += PlayerEnterRoom;
-        EnemyHealth.OnEnemyKilledEvent += EnemyKilledBack;
+        EnemyVitality.OnEnemyKilledEvent += EnemyKilledBack;
         Portal.OnNextDungeon += PortalEventCallBack;
+        StaticEventHandler.OnRoomEnemiesDefeated += HandleRoomCleared;
     }
 
     private void OnDisable()
     {
         // Room.OnPlayerEnterTheRoom -= PlayerEnterRoom;
-        EnemyHealth.OnEnemyKilledEvent += EnemyKilledBack;
+        EnemyVitality.OnEnemyKilledEvent -= EnemyKilledBack;
         Portal.OnNextDungeon -= PortalEventCallBack;
+        StaticEventHandler.OnRoomEnemiesDefeated -= HandleRoomCleared;
     }
+
+    private void HandleRoomCleared(Room room)
+    {
+        // Placeholder: update UI or progress
+    }
+
+    public DungeonLevelSO GetCurrentDungeonLevel() => currentDungeonLevel;
 }
