@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ public class PlayerWeapon : CharacterWeapon
         detection = _detection;
     }
 
-    public void CreateWeapon(Weapon weaponPrefab)
+    public override void CreateWeapon(Weapon weaponPrefab)
     {
         currentWeapon = Instantiate(weaponPrefab, weaponPosition.position,
             Quaternion.identity, weaponPosition);

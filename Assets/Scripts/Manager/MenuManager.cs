@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,7 +44,7 @@ public class MenuManager : Singleton<MenuManager>
     {
         foreach (PlayerCreate character in playerCreates)
         {
-            PlayerMovement player = Instantiate(character.Character,
+            PlayerController player = Instantiate(character.Character,
                 character.initialPosition.position,
                 Quaternion.identity,
                 character.initialPosition);
@@ -63,10 +63,11 @@ public class MenuManager : Singleton<MenuManager>
 
         GameManager.Instance.playerPrefab = currentPlayer.PlayerConfig;
         playerPanel.SetActive(false);
-        currentPlayer.GetComponent<PlayerMovement>().enabled = true;
+        currentPlayer.GetComponent<PlayerController>().enabled = true;
         currentPlayer.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         playerSelected = true;
         moveButton.SetActive(true);
+        currentPlayer.GetComponent<ClickHandle>().enabled = false;
     }
 
     // show stat of current player
@@ -157,7 +158,7 @@ public class MenuManager : Singleton<MenuManager>
 [Serializable]
 public class PlayerCreate
 {
-    public PlayerMovement Character;
+    public PlayerController Character;
     public Transform initialPosition;
 }
 

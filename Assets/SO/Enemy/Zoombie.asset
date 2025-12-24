@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8909334218c00f943a0cd09afb0b53e3, type: 3}
   m_Name: Zoombie
   m_EditorClassIdentifier: 
-  timeToWander: 4
-  timeToIdle: 1
-  speed: 0.3
+  Health: 10
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
-  moveRange: {x: 5, y: 5, z: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  rangeCanDetectPlayer: 8
+  timeToWander: 3
+  timeToIdle: 5
+  speed: 10
+  moveRange: {x: 10, y: 10, z: 0}
   timeToAttack: 2
   timeBetweenAttack: 2

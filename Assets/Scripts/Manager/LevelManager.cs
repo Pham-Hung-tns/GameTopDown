@@ -34,11 +34,14 @@ public class LevelManager : Singleton<LevelManager>
         base.Awake();
         CreatePlayerInDungeon();
         currentDungeonLevel = startingDungeonLevel;
+        DungeonBuilder dungeonBuilder = GameObject.FindObjectOfType<DungeonBuilder>();
+
     }
     private void Start()
     {
         CreateLevel();
     }
+    // todo: fix sau
     private void CreateLevel()
     {
         if (currentDungeonLevel == null)
@@ -46,15 +49,16 @@ public class LevelManager : Singleton<LevelManager>
             Debug.LogError("LevelManager: Missing startingDungeonLevel");
             return;
         }
-
-        bool built = DungeonBuilder.Instance.GenerateDungeon(currentDungeonLevel);
+        DungeonBuilder dungeonBuilder = DungeonBuilder.Instance;
+        dungeonBuilder.LoadRoomNodeTypeList();
+        bool built = dungeonBuilder.GenerateDungeon(currentDungeonLevel);
         if (!built)
         {
             Debug.LogError("LevelManager: Dungeon build failed");
             return;
         }
 
-        PositionPlayerInDungeon();
+        PositionOfPlayerInDungeon();
     }
     public string GetCurrentLevelText()
     {

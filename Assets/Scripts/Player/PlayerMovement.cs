@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -7,15 +7,15 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private PlayerConfig _data;
-    private Animator _animator;
+    private Animator _animatorator;
     private SpriteRenderer _spriteRenderer;
 
     private float currentSpeed = 0f;
-    public void Initialize(Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, PlayerConfig data)
+    public void Initialize(Rigidbody2D rb, Animator animatorator, SpriteRenderer spriteRenderer, PlayerConfig data)
     {
         _rb = rb;
         _data = data;
-        _animator = animator;
+        _animatorator = animatorator;
         _spriteRenderer = spriteRenderer;
     }
 
@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public void HandleMovement(Vector2 direction)
     {
         _rb.MovePosition(_rb.position + direction.normalized * (currentSpeed * Time.fixedDeltaTime));
-        _animator.SetBool(Settings.isMoving, direction != Vector2.zero);
+        _animatorator.SetBool(Settings.isMoving, direction != Vector2.zero);
     }
 
     //dung trong update

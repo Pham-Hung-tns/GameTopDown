@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -11,7 +11,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     // Các Event để các script khác đăng ký lắng nghe
     public event UnityAction<Vector2> MoveEvent;
     public event UnityAction<bool> AttackEvent;
-    public event UnityAction SkillEvent;
+    public event UnityAction<bool> SkillEvent;
     public event UnityAction PickupEvent;
     public event UnityAction ChangeItemEvent;
 
@@ -59,7 +59,10 @@ public class InputReader : ScriptableObject, IPlayerActions
     public void OnSkill(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
-            SkillEvent?.Invoke();
+            SkillEvent?.Invoke(true);
+
+        if (context.phase == InputActionPhase.Canceled)
+            SkillEvent?.Invoke(false);
     }
 
     public void OnPickItem(InputAction.CallbackContext context)

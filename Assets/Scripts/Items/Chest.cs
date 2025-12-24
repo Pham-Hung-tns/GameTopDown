@@ -12,12 +12,12 @@ public class Chest : MonoBehaviour
     [SerializeField] private bool usePredefinedItemFromChest; // if true, use predefined item
     [SerializeField] private GameObject predefinedItem; // predefined item
     
-    private Animator animator;
+    private Animator animatorator;
     private bool openChest;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animatorator = GetComponent<Animator>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -26,7 +26,7 @@ public class Chest : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX("Chest_Open");
             ShowItem();
-            animator.SetTrigger("Open");
+            animatorator.SetTrigger("Open");
         }
     }
 

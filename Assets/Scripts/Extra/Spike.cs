@@ -9,7 +9,7 @@ public class Spike : MonoBehaviour
     public const string SHOW_SPIKE = "show";
     public const string HIDE_SPIKE = "hide";
 
-    [SerializeField] private Animator anim;
+    [SerializeField] private Animator animator;
     private string currentState;
     private static float timer;
 
@@ -41,9 +41,9 @@ public class Spike : MonoBehaviour
     {
         if(currentState != newState)
         {
-            anim.ResetTrigger(newState);
+            animator.ResetTrigger(newState);
             currentState = newState;
-            anim.SetTrigger(currentState);
+            animator.SetTrigger(currentState);
         }
 
     }

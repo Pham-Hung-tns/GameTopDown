@@ -5,18 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuDoor : MonoBehaviour
 {
-    private Animator anim;
+    private Animator animator;
     [SerializeField] private CanvasGroup fade;
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            anim.SetTrigger("Open");
+            animator.SetTrigger("Open");
             StartCoroutine(IELoadDungeon());
             collision.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
         }

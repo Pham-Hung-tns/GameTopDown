@@ -1448,6 +1448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d940f3e071b634cb03ae87bc5cb982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingDungeonLevel: {fileID: 11400000, guid: 710fb095fc9e08a48ba9ee939600e6e9, type: 2}
 --- !u!4 &1051979971
 Transform:
   m_ObjectHideFlags: 0
@@ -2386,7 +2387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1461629542
 MonoBehaviour:
   m_ObjectHideFlags: 0
