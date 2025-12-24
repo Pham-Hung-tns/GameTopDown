@@ -94,7 +94,6 @@
 > - Có thể quan sát/tune tỉ lệ quái bằng cách chỉnh `ratio` trong `enemiesByLevelList` của `RoomTemplateSO`:
 >   - Tăng `ratio` của một `EnemyDetailsSO` → thấy loại đó xuất hiện nhiều hơn.
 
-> **Lưu ý**: Hiện tại việc **lock/mở cửa vật lý** (Door prefab) chưa được nối lại với event spawn – behavior này phụ thuộc vào script `Door`/collider trong prefab. Bạn có thể dùng `OnRoomChanged` để:
 > - Gọi `instantiatedRoom.LockDoors()` trước khi spawn (khi có sẵn logic).
 > - Sau `OnRoomEnemiesDefeated` thì unlock và chuyển lại ambient music.
 
@@ -112,7 +111,6 @@
     - `AtSpawnerPosition`: spawn ngay tại transform của `ChestSpawner`.
     - `AtPlayerPosition`: spawn tại vị trí player lúc sự kiện xảy ra.
   - **Loot fields** (`weaponSpawnByLevel`, `healthSpawnByLevel`, `ammoSpawnByLevel`, `numberOfItemsToSpawnMin/Max`):
-    - Các struct đã sẵn sàng để bạn nối với hệ loot thực tế (ví dụ tạo item từ `WeaponData`, heal % máu, ammo %).
     - Mặc định, logic loot vẫn do script `Chest` hiện tại xử lý (spawn 1 predefined item hoặc `RandomItemInEachChest` từ `LevelManager`).
 
 > **Kiểm thử nhanh Chest**  
