@@ -28,3 +28,9 @@ MonoBehaviour:
     isConnected: 0
     isUnavailable: 0
   spawnPositionArray: []
+  enemiesByLevelList:
+  - dungeonLevel: {fileID: 11400000, guid: 710fb095fc9e08a48ba9ee939600e6e9, type: 2}
+    spawnableObjectRatioList: []
+  - dungeonLevel: {fileID: 0}
+    spawnableObjectRatioList: []
+  roomEnemySpawnParametersList: []

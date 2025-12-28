@@ -782,4 +782,21 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
             dungeonBuilderRoomDictionary.Clear();
         }
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Clear dungeon for editor mode. Use DestroyImmediate.
+    /// </summary>
+    public void ClearDungeonForEditor()
+    {
+        // Destroy instantiated dungeon gameobjects
+        while (transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
+        // Clear the dictionary
+        dungeonBuilderRoomDictionary.Clear();
+    }
+#endif
 }

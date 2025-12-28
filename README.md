@@ -1,5 +1,62 @@
 ## GameTopDown
 
+### 🛠️ Setup Test Scene trong Editor Mode
+
+Để test chức năng tạo map và spawn enemies trong Editor Mode:
+
+#### Bước 1: Tạo Scene Test
+1. Mở Unity Editor
+2. Chọn menu: **Tools/Setup Test Scene/Create Empty Test Scene**
+   - Tạo scene mới tại `Assets/Scenes/TestDungeonBuilder.unity`
+
+#### Bước 2: Auto Setup Scene
+1. Chọn menu: **Tools/Setup Test Scene/Auto Setup Test Scene**
+   - Tự động tạo `DungeonBuilder` GameObject
+   - Tạo Main Camera nếu chưa có
+   - Kiểm tra GameResources
+
+#### Bước 3: Validate Setup
+1. Chọn menu: **Tools/Setup Test Scene/Validate Setup**
+   - Kiểm tra các thành phần cần thiết
+   - Xem log để biết còn thiếu gì
+
+#### Bước 4: Cấu hình ScriptableObjects
+
+**A. GameResources:**
+- Tạo asset `GameResources` trong `Resources/GameResources`
+- Gán `RoomNodeTypeListSO` vào `roomNodeTypeList`
+
+**B. DungeonLevelSO:**
+- Tạo `DungeonLevelSO`: `Assets > Create > Scriptable Objects > Dungeon > Dungeon Level`
+- Đặt tên file là `DungeonLevel_1-2` và move vào thư mục `Resources/`
+- Cấu hình:
+  - `roomTemplateList`: thêm các `RoomTemplateSO` cần dùng
+  - `roomNodeGraphList`: thêm các `RoomNodeGraphSO` (layout graph)
+
+**C. RoomTemplateSO:**
+- Mỗi `RoomTemplateSO` cần có:
+  - `spawnPositionArray`: mảng Vector2Int (vị trí spawn enemy/chest)
+  - `enemiesByLevelList`: danh sách enemy theo level
+  - `roomEnemySpawnParametersList`: tham số spawn (số lượng, interval, concurrent)
+
+**D. EnemyDetailsSO:**
+- Tạo `EnemyDetailsSO`: `Assets > Create > Scriptable Objects > Enemy > Enemy Details`
+- Gán `enemyPrefab` (prefab có `EnemyController`, `EnemyVitality`)
+- Cấu hình `healthByLevel` nếu muốn health thay đổi theo level
+
+#### Bước 5: Test trong Editor Mode
+
+**Menu Tools có sẵn:**
+- **Tools/Test Dungeon Builder**: Tạo map + spawn enemies + spawn chests
+- **Tools/Test Dungeon Builder/Generate Map Only**: Chỉ tạo map
+- **Tools/Test Dungeon Builder/Spawn Enemies Only**: Chỉ spawn enemies (cần map đã có)
+- **Tools/Test Dungeon Builder/Spawn Chests Only**: Chỉ spawn chests (cần map đã có)
+
+**Lưu ý:**
+- Enemies sẽ được spawn **ngay trong tất cả các room** khi chạy test (không cần player vào room)
+- Có thể xem enemies trong Scene View ngay sau khi spawn
+- Dùng Undo (Ctrl+Z) để hoàn tác nếu cần
+
 ### Pipeline khởi động level & sinh dungeon
 
 - **Entry**: Scene game chính nên có `GameManager`, `LevelManager`, `DungeonBuilder`, `EnemySpawner` (global), cùng asset `Resources/GameResources`.

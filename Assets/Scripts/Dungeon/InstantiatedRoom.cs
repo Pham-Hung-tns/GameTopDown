@@ -57,11 +57,25 @@ public class InstantiatedRoom : MonoBehaviour
     // Trigger room changed event when player enters a room
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // if player hasn't entered the room then return
         if (collision.tag != Settings.playerTag) return;
+
+        // if room has already been visited then return
+        if (room.isPreviouslyVisited) return;
 
         // Set room as visited
         room.isPreviouslyVisited = true;
 
+        // Get current dungeon level
+        DungeonLevelSO dungeonLevel = LevelManager.Instance.GetCurrentDungeonLevel();
+        
+        if(dungeonLevel == null) return;
+        
+        // Spawn enemies and chests
+        RoomContentSpawner.SpawnEnemiesInRoom(room, dungeonLevel);
+        RoomContentSpawner.SpawnChestsInRoom(room, dungeonLevel);
+
+        // Call room changed event
         StaticEventHandler.CallRoomChangedEvent(room);
     }
 

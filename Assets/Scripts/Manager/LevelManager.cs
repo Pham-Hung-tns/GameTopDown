@@ -157,6 +157,15 @@ public class LevelManager : Singleton<LevelManager>
     {
         AudioManager.Instance.PlaySFX("Door_Close");
         AudioManager.Instance.PlayMusic("Battle");
+        
+        // Spawn enemies và chests khi player vào room
+        Room currentRoom = DungeonBuilder.Instance.GetRoomByRoomID("CurrentRoomID"); // TODO: track current room
+        if (currentRoom != null)
+        {
+            RoomContentSpawner.SpawnEnemiesInRoom(currentRoom, currentDungeonLevel);
+            RoomContentSpawner.SpawnChestsInRoom(currentRoom, currentDungeonLevel);
+        }
+        
         //currentRoom = room;
         //if (!currentRoom.roomCompleted)
         //{
