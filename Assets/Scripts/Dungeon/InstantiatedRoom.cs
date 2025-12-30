@@ -123,28 +123,28 @@ public class InstantiatedRoom : MonoBehaviour
         Tilemap[] tilemaps = roomGameobject.GetComponentsInChildren<Tilemap>();
         foreach (Tilemap tilemap in tilemaps)
         {
-            if (tilemap.gameObject.tag == "groundTilemap")
+            if (tilemap.gameObject.tag == Settings.groundTilemapTag)
             {
                 groundTilemap = tilemap;
             }
-            else if (tilemap.gameObject.tag == "decoration1Tilemap")
+            else if (tilemap.gameObject.tag == Settings.decoration1TilemapTag)
             {
                 decoration1Tilemap = tilemap;
             }
-            else if (tilemap.gameObject.tag == "decoration2Tilemap")
+            else if (tilemap.gameObject.tag == Settings.decoration2TilemapTag)
             {
                 decoration2Tilemap = tilemap;
             }
-            else if (tilemap.gameObject.tag == "frontTilemap")
+            else if (tilemap.gameObject.tag == Settings.frontTilemapTag)
             {
                 frontTilemap = tilemap;
             }
-            else if (tilemap.gameObject.tag == "collisionTilemap")
+            else if (tilemap.gameObject.tag == Settings.collisionTilemapTag)
             {
                 collisionTilemap = tilemap;
                 Debug.Log(room.prefab.name);
             }
-            else if (tilemap.gameObject.tag == "minimapTilemap")
+            else if (tilemap.gameObject.tag == Settings.minimapTilemapTag)
             {
                 minimapTilemap = tilemap;
             }

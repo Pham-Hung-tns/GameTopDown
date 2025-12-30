@@ -110,6 +110,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c87f479b53cb0439aa6a13220d742a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundTilemap: {fileID: 0}
+  collisionTilemap: {fileID: 0}
+  debugDrawPath: 0
+  debugPathColor: {r: 0, g: 1, b: 1, a: 1}
+  debugNodeRadius: 0
 --- !u!114 &4288501162753985576
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Helper class ?? spawn enemies và chests trong room
-/// Dùng cho c? editor mode (TestDungeonBuilderEditor) và runtime mode (LevelManager)
+/// Helper class ?? spawn enemies vï¿½ chests trong room
+/// Dï¿½ng cho c? editor mode (TestDungeonBuilderEditor) vï¿½ runtime mode (LevelManager)
 /// </summary>
 public class RoomContentSpawner
 {
@@ -14,25 +15,25 @@ public class RoomContentSpawner
     {
         if (room == null || room.instantiatedRoom == null)
         {
-            Debug.LogWarning("Room ho?c instantiatedRoom là null, không th? spawn enemy");
+            Debug.LogWarning("Room ho?c instantiatedRoom lï¿½ null, khï¿½ng th? spawn enemy");
             return 0;
         }
 
-        // Skip corridor và entrance
+        // Skip corridor vï¿½ entrance
         if (room.roomNodeType.isCorridor || room.roomNodeType.isEntrance)
             return 0;
 
         // Ki?m tra spawn position
         if (room.spawnPositionArray == null || room.spawnPositionArray.Length == 0)
         {
-            Debug.LogWarning($"Room {room.id} không có spawn positions");
+            Debug.LogWarning($"Room {room.id} khï¿½ng cï¿½ spawn positions");
             return 0;
         }
 
         // Ki?m tra enemy data
         if (room.enemiesByLevelList == null || room.enemiesByLevelList.Count == 0)
         {
-            Debug.LogWarning($"Room {room.id} không có enemy data");
+            Debug.LogWarning($"Room {room.id} khï¿½ng cï¿½ enemy data");
             return 0;
         }
 
@@ -40,11 +41,11 @@ public class RoomContentSpawner
         RoomEnemySpawnParameters spawnParams = room.GetRoomEnemySpawnParameters(dungeonLevel);
         if (spawnParams == null)
         {
-            Debug.LogWarning($"Room {room.id} không có spawn parameters cho level {dungeonLevel.name}");
+            Debug.LogWarning($"Room {room.id} khï¿½ng cï¿½ spawn parameters cho level {dungeonLevel.name}");
             return 0;
         }
 
-        // Tính s? l??ng enemy c?n spawn
+        // Tï¿½nh s? l??ng enemy c?n spawn
         int totalToSpawn = Random.Range(spawnParams.minTotalEnemiesToSpawn, spawnParams.maxTotalEnemiesToSpawn + 1);
 
         int enemiesSpawned = 0;
@@ -61,7 +62,7 @@ public class RoomContentSpawner
             {
                 enemy.name = $"{enemyDetails.name}_{enemiesSpawned}";
 
-                // Áp d?ng health theo level n?u có
+                // ï¿½p d?ng health theo level n?u cï¿½
                 EnemyVitality vitality = enemy.GetComponent<EnemyVitality>();
                 if (vitality != null)
                 {
@@ -69,13 +70,23 @@ public class RoomContentSpawner
                     vitality.Health = health;
                 }
 
-                // Áp d?ng EnemyController n?u có
+                // ï¿½p d?ng EnemyController n?u cï¿½
                 EnemyController controller = enemy.GetComponent<EnemyController>();
                 if (controller != null && enemyDetails != null)
                 {
-                    // EnemyDetailsSO ch?a prefab, còn EnemyConfig là c?u hình riêng
-                    // Do b?n l?y t? RoomTemplateSO, EnemyConfig có th? ???c set t? n?i khác
-                    // T?m th?i b? qua vi?c set EnemyConfig ? ?ây
+                    // EnemyDetailsSO ch?a prefab, cï¿½n EnemyConfig lï¿½ c?u hï¿½nh riï¿½ng
+                    // Do b?n l?y t? RoomTemplateSO, EnemyConfig cï¿½ th? ???c set t? n?i khï¿½c
+                    // T?m th?i b? qua vi?c set EnemyConfig ? ?ï¿½y
+                }
+
+                // Ensure EnemyMovement (if present) receives the room tilemaps so pathfinding uses the correct room
+                EnemyMovement emMovement = enemy.GetComponent<EnemyMovement>();
+                if (emMovement != null && room.instantiatedRoom != null)
+                {
+                    if (emMovement.groundTilemap == null && room.instantiatedRoom.groundTilemap != null)
+                        emMovement.groundTilemap = room.instantiatedRoom.groundTilemap;
+                    if (emMovement.collisionTilemap == null && room.instantiatedRoom.collisionTilemap != null)
+                        emMovement.collisionTilemap = room.instantiatedRoom.collisionTilemap;
                 }
 
                 enemiesSpawned++;
@@ -98,7 +109,7 @@ public class RoomContentSpawner
         if (room == null || room.instantiatedRoom == null)
             return 0;
 
-        // Skip corridor và entrance
+        // Skip corridor vï¿½ entrance
         if (room.roomNodeType.isCorridor || room.roomNodeType.isEntrance)
             return 0;
 
@@ -106,7 +117,7 @@ public class RoomContentSpawner
         if (room.spawnPositionArray == null || room.spawnPositionArray.Length == 0)
             return 0;
 
-        // Tìm chest prefab
+        // Tï¿½m chest prefab
         GameObject chestPrefab = Resources.Load<GameObject>("Chest");
         if (chestPrefab == null)
         {
@@ -119,16 +130,16 @@ public class RoomContentSpawner
 
         if (chestPrefab == null)
         {
-            Debug.LogWarning("Không tìm th?y chest prefab");
+            Debug.LogWarning("Khï¿½ng tï¿½m th?y chest prefab");
             return 0;
         }
 
-        // Roll xác su?t spawn chest (25-50%)
+        // Roll xï¿½c su?t spawn chest (25-50%)
         float chance = Random.Range(0.25f, 0.5f);
         if (Random.value > chance)
             return 0;
 
-        // Ch?n v? trí spawn
+        // Ch?n v? trï¿½ spawn
         Vector3 spawnWorldPos = GetRandomSpawnWorldPosition(room);
         GameObject chest = Object.Instantiate(chestPrefab, spawnWorldPos, Quaternion.identity, room.instantiatedRoom.transform);
         if (chest != null)
@@ -141,7 +152,7 @@ public class RoomContentSpawner
     }
 
     /// <summary>
-    /// Ch?n enemy ng?u nhiên d?a trên weighted ratio
+    /// Ch?n enemy ng?u nhiï¿½n d?a trï¿½n weighted ratio
     /// </summary>
     private static EnemyDetailsSO SelectRandomEnemy(Room room, DungeonLevelSO level)
     {
@@ -172,7 +183,7 @@ public class RoomContentSpawner
     }
 
     /// <summary>
-    /// L?y v? trí spawn world t? spawn position array
+    /// L?y v? trï¿½ spawn world t? spawn position array
     /// </summary>
     private static Vector3 GetRandomSpawnWorldPosition(Room room)
     {
@@ -181,8 +192,8 @@ public class RoomContentSpawner
 
         Vector2Int spawnCell = room.spawnPositionArray[Random.Range(0, room.spawnPositionArray.Length)];
 
-        // spawnCell là local coordinates c?a room template
-        // Công th?c: worldPos = spawnCell + room.lowerBounds - room.templateLowerBounds
+        // spawnCell lï¿½ local coordinates c?a room template
+        // Cï¿½ng th?c: worldPos = spawnCell + room.lowerBounds - room.templateLowerBounds
         Vector3 worldPos = new Vector3(
             spawnCell.x + room.lowerBounds.x - room.templateLowerBounds.x,
             spawnCell.y + room.lowerBounds.y - room.templateLowerBounds.y,

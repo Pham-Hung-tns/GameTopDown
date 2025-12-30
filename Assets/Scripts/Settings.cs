@@ -47,6 +47,14 @@ public static class Settings
     public const string playerWeapon = "playerWeapon";
     #endregion
 
+    #region ROOM TILEMAP TAGS
+    public const string groundTilemapTag = "groundTilemap";
+    public const string decoration1TilemapTag = "decoration1Tilemap";
+    public const string decoration2TilemapTag = "decoration2Tilemap";
+    public const string frontTilemapTag = "frontTilemap";
+    public const string collisionTilemapTag = "collisionTilemap";
+    public const string minimapTilemapTag = "minimapTilemap";
+    #endregion
 
     #region AUDIO
     public const float musicFadeOutTime = 0.5f;  // Defualt Music Fade Out Transition
