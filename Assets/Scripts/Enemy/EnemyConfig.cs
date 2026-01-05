@@ -12,7 +12,6 @@ public class EnemyConfig : ScriptableObject
 
     public float rangeCanDetectPlayer;
 
-
     [Header("Idle State")]
     public float timeToWander;
 

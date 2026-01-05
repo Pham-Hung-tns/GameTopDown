@@ -6,30 +6,64 @@ public class RangeWeapon : Weapon
 {
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] protected Transform shootTrans;
-    public override void UseWeapon()
-    {
-        DungeonCM.Instance.ShakeCM(5f, 1f);
-        //Create projectile
-        Projectile bullet = ObjPoolManager.Instance.Initialization(projectilePrefab);
-        float spread =  Random.Range(weaponData.minSpread, weaponData.maxSpread);
-        bullet.transform.position = shootTrans.position;
-        bullet.transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + spread);
-        bullet.Direction = transform.right;
-        bullet.gameObject.SetActive(true);
-
-        if(Character is PlayerWeapon player)
-        {
-            bullet.Damage = player.GetDamageCritical();
-        }
-        else
-        {
-            bullet.Damage = weaponData.damage;
-        }
-
-    }
 
     public override void DestroyWeapon()
     {
         Destroy(gameObject);
+    }
+
+    public override void ExecuteAttack(float damageMultiplier = 1f)
+    {
+        if (!(weaponData is RangeWeaponDataSO rangeData)) return;
+
+        // Play attack sound
+        PlayAttackSFX();
+
+        float startAngle = -rangeData.spreadAngle / 2f;
+        float angleStep = rangeData.projectileCount > 1 ? rangeData.spreadAngle / (rangeData.projectileCount - 1) : 0f;
+
+        for (int i = 0; i < rangeData.projectileCount; i++)
+        {
+            float currentAngle = startAngle + (angleStep * i);
+            Quaternion rotation = shootTrans.rotation * Quaternion.Euler(0, 0, currentAngle);
+
+            // Use pool if available
+            Projectile bullet = null;
+            if (ObjPoolManager.Instance != null && projectilePrefab != null)
+            {
+                bullet = ObjPoolManager.Instance.Initialization(projectilePrefab);
+                bullet.transform.position = shootTrans.position;
+                bullet.transform.rotation = rotation;
+                bullet.Direction = bullet.transform.right;
+                bullet.gameObject.SetActive(true);
+            }
+            else if (projectilePrefab != null)
+            {
+                Projectile p = Instantiate(projectilePrefab, shootTrans.position, rotation);
+                p.Direction = p.transform.right;
+                bullet = p;
+            }
+
+            if (bullet != null)
+            {
+                float baseDamage = rangeData.damage * damageMultiplier;
+                if (Character is PlayerWeapon player)
+                {
+                    baseDamage = player.GetDamageCritical() * damageMultiplier;
+                }
+
+                bullet.Initialize(Character.Owner, rangeData.projectileSpeed, baseDamage);
+            }
+        }
+    }
+
+    public void StartCharge()
+    {
+        PlayChargeSFX();
+    }
+
+    public void StopCharge()
+    {
+        // optional: stop charge SFX if using looping audio
     }
 }

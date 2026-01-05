@@ -7,6 +7,11 @@ TagManager:
   - Door
   - Obstacle
   - collisionTilemap
+  - groundTilemap
+  - decoration1Tilemap
+  - decoration2Tilemap
+  - frontTilemap
+  - minimapTilemap
   layers:
   - Default
   - TransparentFX
@@ -59,6 +64,9 @@ TagManager:
   - name: Props
     uniqueID: 1249629529
     locked: 0
+  - name: Sword
+    uniqueID: 967134103
+    locked: 0
   - name: Enemy
     uniqueID: 65628399
     locked: 0
@@ -68,11 +76,11 @@ TagManager:
   - name: Player
     uniqueID: 561647781
     locked: 0
+  - name: Gun & Bow
+    uniqueID: 1957423847
+    locked: 0
   - name: Font
     uniqueID: 4112656661
-    locked: 0
-  - name: Weapon
-    uniqueID: 1957423847
     locked: 0
   - name: UI
     uniqueID: 1228980549

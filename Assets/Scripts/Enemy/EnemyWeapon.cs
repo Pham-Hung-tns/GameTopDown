@@ -13,11 +13,18 @@ public class EnemyWeapon : CharacterWeapon
     {
         currentWeapon = Instantiate(initalWeapon, weaponPosition.position, Quaternion.identity, 
             weaponPosition);
+        equippedWeapons[weaponIndex] = currentWeapon;
+        equippedWeapons[weaponIndex].Character = this;
     }
-    public void UseWeapon()
-    {
-        currentWeapon.UseWeapon();
-    }
+    //public void UseWeapon()
+    //{
+    //    if (currentWeapon == null) return;
+    //    // choose weapon type for animator
+    //    int type = (currentWeapon.WeaponData is RangeWeaponDataSO rd && rd.canCharge) ? 1 : 0;
+    //    currentWeapon.SetAnimatorWeaponType(type);
+    //    currentWeapon.TriggerAttackAnimation();
+    //    currentWeapon.ExecuteAttack(1f);
+    //}
 
     public void RotateWeaponToPlayer(Vector3 dir)
     {

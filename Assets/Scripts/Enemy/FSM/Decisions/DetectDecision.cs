@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DetectDecision : AIDecision
 {
-    private GameObject player;
-    public Transform detectpos;
+    private Transform target;
     public override bool MakeADecision()
     {
         return DetectPlayerInRange();
@@ -13,42 +12,36 @@ public class DetectDecision : AIDecision
 
     public bool DetectPlayerInRange()
     {
-        Collider2D hit = Physics2D.OverlapCircle(detectpos.position, _data.rangeCanDetectPlayer, _data.playerLayer);
+        Collider2D hit = Physics2D.OverlapCircle(enemyBrain.transform.position, _data.rangeCanDetectPlayer, _data.playerLayer);
         if (hit != null)
         {
-            player.gameObject.transform.position = hit.transform.position;
+            target = hit.transform;
             return DetectObstace();
         }
-        player = null;
+        target = null;
+        enemyBrain.Player = null;
         return false;
     }
 
     // detect obstace which is between enemy and player;
     public bool DetectObstace()
     {
-        if ((player.transform.position - detectpos.position).magnitude > _data.rangeCanDetectPlayer)
+        if ((target.transform.position - enemyBrain.transform.position).magnitude > _data.rangeCanDetectPlayer)
         {
             return false;
         }
-        Vector3 direction = (player.transform.position - detectpos.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(detectpos.position, direction, _data.rangeCanDetectPlayer, _data.obstacleLayer);
+        Vector3 direction = (target.transform.position - enemyBrain.transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(enemyBrain.transform.position, direction, _data.rangeCanDetectPlayer, _data.obstacleLayer);
         if (hit.collider == null)
         {
+            enemyBrain.Player = target;
             return true;
         }
         else
         {
+            enemyBrain.Player = null;
             return false;
         }
     }
 
-    // Gizmos
-    public virtual void OnDrawGizmos()
-    {
-        //Detect Player
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(detectpos.position, _data.rangeCanDetectPlayer);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(detectpos.position, Vector2.down * _data.rangeCanDetectPlayer);
-    }
 }

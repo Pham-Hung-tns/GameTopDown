@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 5969103319485283871}
   m_Layer: 0
   m_Name: Front
-  m_TagString: Untagged
+  m_TagString: frontTilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -683,7 +683,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -182310635
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -803,7 +803,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -376711755
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 4239842592774937966}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: groundTilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4064,7 +4064,7 @@ GameObject:
   - component: {fileID: 2663843784725110495}
   m_Layer: 0
   m_Name: Decor
-  m_TagString: Untagged
+  m_TagString: decoration1Tilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5008,7 +5008,7 @@ GameObject:
   - component: {fileID: 1258001118156345334}
   - component: {fileID: 2191116874844926467}
   - component: {fileID: 3733883128596776084}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall
   m_TagString: collisionTilemap
   m_Icon: {fileID: 0}

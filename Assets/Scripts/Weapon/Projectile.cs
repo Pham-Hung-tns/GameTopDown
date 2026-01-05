@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public float Speed { get; set; }
     public Vector3 Direction { get; set; }
 
+    private GameObject owner;
 
     // Start is called before the first frame update
     void Start()
@@ -24,22 +25,43 @@ public class Projectile : MonoBehaviour
         transform.Translate(Direction * (speed *Time.deltaTime), Space.World);
     }
 
+    public void Initialize(GameObject owner, float speed, float damage)
+    {
+        this.owner = owner;
+        this.speed = speed;
+        this.Damage = damage;
+        gameObject.SetActive(true);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<ITakeDamage>() != null)
+        if (collision.gameObject == owner) return;
+
+        ITakeDamage td = collision.GetComponent<ITakeDamage>();
+        if(td != null)
         {
-            collision.GetComponent<ITakeDamage>().TakeDamage(Damage);
+            // no knockback info here, pass zero
+            td.TakeDamage(Damage, owner, Vector2.zero, 0f);
             ReturnBullet();
+            return;
         }
 
-        if (collision.CompareTag("Obstacle"))
+        if (collision.CompareTag(Settings.collisionTilemapTag))
         {
             ReturnBullet();
+            return;
         }
     }
 
     private void ReturnBullet()
     {
-        ObjPoolManager.Instance.ReturnBullet(this);
+        if (ObjPoolManager.Instance != null)
+        {
+            ObjPoolManager.Instance.ReturnBullet(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

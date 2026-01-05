@@ -19,16 +19,21 @@ public class EnemyController : CharacterController
     private float currentTime = 0f;
     private float timeLimit = 0f;
     private Vector3 patrolPosition = Vector3.zero;
+    private bool canAttack = false;
 
-    //public Room CurrentRoom { get => currentRoom; set => currentRoom = value; }
-    // public float RangeCanDetect { get => rangeCanDetect; set => rangeCanDetect = value; }
     
     public EnemyWeapon EnemyWeapon { get => enemyWeapon; set => enemyWeapon = value; }
     public EnemyConfig EnemyConfig { get => enemyConfig; set => enemyConfig = value; }
     public Vector3 PatrolPosition { get => patrolPosition; set => patrolPosition = value; }
     public float CurrentTime { get => currentTime; set => currentTime = value; }
     public float TimeLimit { get => timeLimit; set => timeLimit = value; }
+    public Transform Player { get => player; set => player = value; }
+    public bool CanAttack { get => canAttack; set => canAttack = value; }
 
+    private void Awake()
+    {
+        enemyVitality.Initialized(enemyConfig);
+    }
     private void Start()
     {
         // Initialize all states assigned via the Inspector
@@ -70,7 +75,6 @@ public class EnemyController : CharacterController
     public void ChangeToState(AIState nextState)
     {
         var previous = currentState;
-
         if (nextState == previous)
             return;
 
@@ -88,6 +92,7 @@ public class EnemyController : CharacterController
         currentState = nextState;
         CurrentTime = 0f; // reset state timer
         currentState.EnterState();
+        Debug.Log("Current State: " + currentState);
     }
 
     public void ChangeAnim(string animatorName)
@@ -128,5 +133,13 @@ public class EnemyController : CharacterController
     override protected void OnMove(Vector2 input)
     {
         base.OnMove(input);
+    }
+
+    // Gizmos
+    public void OnDrawGizmos()
+    {
+        //Detect Player
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, enemyConfig.rangeCanDetectPlayer);
     }
 }

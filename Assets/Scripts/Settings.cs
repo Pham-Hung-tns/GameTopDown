@@ -22,11 +22,11 @@ public static class Settings
     public const float doorUnlockDelay = 1f;
     #endregion
 
-    #region ANIMATOR PARAMETERS
+    #region ANIMATOR PLAYER PARAMETERS
     // Animator parameters - Player
-
-  
-    public static readonly int isMoving = Animator.StringToHash("moveMotion");
+    public static readonly int PLAYER_IDLE = Animator.StringToHash("Player_Idle");
+    public static readonly int PLAYER_RUN = Animator.StringToHash("Player_Run");
+    public static readonly int PLAYER_SKILL = Animator.StringToHash("Player_Skill");
     public const float baseSpeedForPlayerAnimations = 8f;
 
     // Animator parameters - Enemy
@@ -39,6 +39,13 @@ public static class Settings
     // Animator parameters - DamageableDecoration
     public static readonly int destroy = Animator.StringToHash("destroy");
     public static readonly string stateDestroyed = "Destroyed";
+    #endregion
+
+    #region ANIMATOR WEAPON PARAMETERS
+    // Animator parameters - Weapon: Bow
+    public static readonly int BOW_IDLE = Animator.StringToHash("Bow_Idle");
+    public static readonly int BOW_CHARGING = Animator.StringToHash("Bow_Charging");
+    public static readonly int BOW_RELEASE = Animator.StringToHash("Bow_Release");
 
     #endregion
 
@@ -47,6 +54,14 @@ public static class Settings
     public const string playerWeapon = "playerWeapon";
     #endregion
 
+    #region ROOM TILEMAP TAGS
+    public const string groundTilemapTag = "groundTilemap";
+    public const string decoration1TilemapTag = "decoration1Tilemap";
+    public const string decoration2TilemapTag = "decoration2Tilemap";
+    public const string frontTilemapTag = "frontTilemap";
+    public const string collisionTilemapTag = "collisionTilemap";
+    public const string minimapTilemapTag = "minimapTilemap";
+    #endregion
 
     #region AUDIO
     public const float musicFadeOutTime = 0.5f;  // Defualt Music Fade Out Transition

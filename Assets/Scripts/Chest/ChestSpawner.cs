@@ -13,7 +13,7 @@ public class ChestSpawner : MonoBehaviour
     public ChestSpawnPosition chestSpawnPosition = ChestSpawnPosition.AtSpawnerPosition;
 
     [Header("Loot")]
-    public SpawnableObjectsByLevel<WeaponData> weaponSpawnByLevel;
+    public SpawnableObjectsByLevel<WeaponDataSO> weaponSpawnByLevel;
     public SpawnableObjectsByLevel<HealthLootRange> healthSpawnByLevel;
     public SpawnableObjectsByLevel<AmmoLootRange> ammoSpawnByLevel;
     public int numberOfItemsToSpawnMin = 1;

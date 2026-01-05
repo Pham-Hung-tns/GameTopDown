@@ -17,7 +17,7 @@ public class IdleAction : AIAction
 
     public override void OnUpdate() 
     {
-        Console.WriteLine("IdleAction OnUpdate");
+
     }
 
     public override void OnExit() 

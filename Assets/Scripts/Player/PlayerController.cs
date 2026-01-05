@@ -29,14 +29,8 @@ public class PlayerController : CharacterController
 
     private void Awake()
     {
-        //_movement = GetComponent<PlayerMovement>();
-        //_vitality = GetComponent<PlayerVitality>();
-        //_combat = GetComponent<PlayerWeapon>();
-        //_detection = GetComponentInChildren<DetectionEnemy>();
-        //_skill = GetComponent<PlayerSkill>();
-
         // Dependency Injection: Đẩy dữ liệu vào các module con
-        _movement.Initialize(rigidBody2D,animator, Spr, PlayerData);
+        _movement.Initialize(rigidBody2D, Spr, PlayerData);
         _vitality.Initialize(PlayerData);
         _combat.Initialize(PlayerData, Spr, _vitality, _detection);
         // _skill.Initialize(...);
@@ -68,28 +62,29 @@ public class PlayerController : CharacterController
     {
         _moveInput = direction;
         _combat.MovementDirection = direction;
-        Debug.Log(_moveInput);
+        ChangeAnimationState(_moveInput != Vector2.zero ? Settings.PLAYER_RUN : Settings.PLAYER_IDLE);
     }
 
     protected override void OnAttack(bool canAttack)
     {
-        // Logic về năng lượng sẽ tính trong PlayerWeapon. Tùy thuộc vào số năng lượng tiêu hao của từng loại vũ khí
+        // Delegate attack input to PlayerWeapon; weapon classes manage their own animations
         if (canAttack == true)
         {
-            
-            _combat.StartShooting();
+            _combat.StartAttack();
         }
         else
         {
-            _combat.StopShooting();
+            _combat.ReleaseAttack();
         }
     }
 
     protected override void OnSkill(bool canUseSkill)
     {
-        // Logic tương tự cho Skill
+        ChangeAnimationState(Settings.PLAYER_SKILL);
     }
 
+
+    
     private void OnEnable()
     {
         // Đăng ký nhận lệnh từ Input Reader
