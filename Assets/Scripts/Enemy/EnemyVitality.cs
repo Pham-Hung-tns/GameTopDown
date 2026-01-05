@@ -6,21 +6,17 @@ using UnityEngine;
 public class EnemyVitality : MonoBehaviour, ITakeDamage
 {
 
-    [SerializeField] private float health;
     public static event Action<Transform> OnEnemyKilledEvent;
     public static event Action OnChangeState;
-    private SpriteRenderer spr;
     private float enemyHealth;
     private Coroutine coroutine;
-    private Color initialColor;
 
-    public float Health { get => health; set => health = value; }
+    public float Health { get => enemyHealth; set => enemyHealth = value; }
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialized(EnemyConfig config)
     {
-        enemyHealth = Health;
-        //initialColor = spr.color;
+        enemyHealth = config.Health;
     }
 
     public void TakeDamage(float amount)
@@ -47,5 +43,11 @@ public class EnemyVitality : MonoBehaviour, ITakeDamage
         //spr.color = Color.red;
         yield return new WaitForSeconds(0.3f);
         //spr.color = initialColor;
+    }
+
+    public void TakeDamage(float amount, GameObject attacker, Vector2 knockbackDir, float knockbackForce)
+    {
+        //TODO: Implement knockback
+        Debug.Log("Enemy Take Damage with knockback");
     }
 }

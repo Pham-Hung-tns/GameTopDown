@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class AttackAction : AIAction
 {
+    private Transform player;
+    private float attackDuration = 0f;
     public override void OnEnter()
     {
-        // setup attack (e.g. reset timers)
-        enemyBrain.TimeLimit = enemyBrain.EnemyConfig.timeToAttack;
+        enemyBrain.TimeLimit = enemyBrain.EnemyConfig.timeToIdle;
+        enemyBrain.CanAttack = true;
+        // change to attack animation
     }
 
     public override void OnUpdate()
     {
-        // attack behavior while in attack state
+        attackDuration -= Time.deltaTime;
+        if(attackDuration <= 0f && enemyBrain.CanAttack != false)
+        {
+            enemyBrain.EnemyWeapon.StartAttack();
+            attackDuration = enemyBrain.EnemyConfig.timeBetweenAttack;
+        }
     }
 
     public override void OnExit()
     {
-        // cleanup
+        enemyBrain.Player = null;
+        enemyBrain.CanAttack = false;
     }
 }

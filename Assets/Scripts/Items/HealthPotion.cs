@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Health Potion", menuName = "Items/Health Item")]
-public class HealthPotion : ItemData
+public class HealthPotion : ItemDataSO
 {
     [SerializeField] private float health;
     public override void PickUp()

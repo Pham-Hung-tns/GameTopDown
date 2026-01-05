@@ -7,8 +7,8 @@ using UnityEngine.Tilemaps;
 // Lightweight and suitable for small room-sized graphs on mobile.
 public class EnemyMovement : MonoBehaviour
 {
-    public Tilemap groundTilemap; // CanMove
-    public Tilemap collisionTilemap; // Wall (optional)
+    private Tilemap groundTilemap; // CanMove
+    private Tilemap collisionTilemap; // Wall (optional)
 
     private List<Vector3> currentPath = null;
     private int currentPathIndex = 0;
@@ -28,11 +28,9 @@ public class EnemyMovement : MonoBehaviour
     private byte[] closedArr;
     private int[] heap; // binary heap of indices
     private int heapCount = 0;
-    
-    [Header("Debug")]
-    public bool debugDrawPath = true;
-    public Color debugPathColor = Color.cyan;
-    public float debugNodeRadius = 0.08f;
+
+    public Tilemap GroundTilemap { get => groundTilemap; set => groundTilemap = value; }
+    public Tilemap CollisionTilemap { get => collisionTilemap; set => collisionTilemap = value; }
 
     private void Awake()
     {
@@ -45,13 +43,13 @@ public class EnemyMovement : MonoBehaviour
         var room = GetComponentInParent<InstantiatedRoom>();
         if (room != null)
         {
-            if (groundTilemap == null && room.groundTilemap != null)
-                groundTilemap = room.groundTilemap;
-            if (collisionTilemap == null && room.collisionTilemap != null)
-                collisionTilemap = room.collisionTilemap;
+            if (GroundTilemap == null && room.groundTilemap != null)
+                GroundTilemap = room.groundTilemap;
+            if (CollisionTilemap == null && room.collisionTilemap != null)
+                CollisionTilemap = room.collisionTilemap;
 
             // Build grid cache based on room template bounds (fast lookup for A*)
-            if (groundTilemap != null && room.room != null)
+            if (GroundTilemap != null && room.room != null)
             {
                 templateLower = room.room.templateLowerBounds;
                 Vector2Int templateUpper = room.room.templateUpperBounds;
@@ -73,8 +71,8 @@ public class EnemyMovement : MonoBehaviour
                         int wx = x + templateLower.x;
                         int wy = y + templateLower.y;
                         var cell = new Vector3Int(wx, wy, 0);
-                        bool can = groundTilemap.HasTile(cell);
-                        if (can && collisionTilemap != null && collisionTilemap.HasTile(cell))
+                        bool can = GroundTilemap.HasTile(cell);
+                        if (can && CollisionTilemap != null && CollisionTilemap.HasTile(cell))
                             can = false;
                         walkable[x + y * gridWidth] = can;
                     }
@@ -86,7 +84,7 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             // If not spawned in a room, do not auto-find by name (we rely on InstantiatedRoom assignment).
-            if (groundTilemap == null)
+            if (GroundTilemap == null)
                 Debug.LogWarning($"EnemyMovement on '{gameObject.name}' has no groundTilemap assigned from InstantiatedRoom.");
         }
     }
@@ -140,18 +138,18 @@ public class EnemyMovement : MonoBehaviour
     // Convert world to cell and run A* on tile grid
     public List<Vector3> FindPath(Vector3 worldStart, Vector3 worldTarget)
     {
-        if (groundTilemap == null)
+        if (GroundTilemap == null)
         {
             Debug.LogWarning("EnemyMovement: groundTilemap not assigned (no InstantiatedRoom). Pathfinding aborted.");
             return null;
         }
 
-        Vector3Int startCell = groundTilemap.WorldToCell(worldStart);
-        Vector3Int targetCell = groundTilemap.WorldToCell(worldTarget);
+        Vector3Int startCell = GroundTilemap.WorldToCell(worldStart);
+        Vector3Int targetCell = GroundTilemap.WorldToCell(worldTarget);
 
         // quick bail
         if (startCell == targetCell)
-            return new List<Vector3> { groundTilemap.GetCellCenterWorld(targetCell) };
+            return new List<Vector3> { GroundTilemap.GetCellCenterWorld(targetCell) };
 
         // If we have a precomputed room grid, use the optimized array-based A*
         if (hasRoomGrid)
@@ -229,7 +227,7 @@ public class EnemyMovement : MonoBehaviour
         total.Reverse();
         var worldPath = new List<Vector3>(total.Count);
         foreach (var c in total)
-            worldPath.Add(groundTilemap.GetCellCenterWorld(c));
+            worldPath.Add(GroundTilemap.GetCellCenterWorld(c));
         return worldPath;
     }
 
@@ -280,7 +278,7 @@ public class EnemyMovement : MonoBehaviour
                 {
                     int x = (idx % gridWidth) + templateLower.x;
                     int y = (idx / gridWidth) + templateLower.y;
-                    path.Add(groundTilemap.GetCellCenterWorld(new Vector3Int(x, y, 0)));
+                    path.Add(GroundTilemap.GetCellCenterWorld(new Vector3Int(x, y, 0)));
                 }
                 return path;
             }
@@ -358,26 +356,6 @@ public class EnemyMovement : MonoBehaviour
         return ret;
     }
 
-    // Visual debug of current path using Gizmos
-    private void OnDrawGizmos()
-    {
-        if (!debugDrawPath) return;
-        if (currentPath == null || currentPath.Count == 0) return;
-        Gizmos.color = debugPathColor;
-        for (int i = 0; i < currentPath.Count; i++)
-        {
-            Vector3 p = currentPath[i];
-            Gizmos.DrawSphere(p, debugNodeRadius);
-            if (i > 0)
-            {
-                Gizmos.DrawLine(currentPath[i - 1], p);
-            }
-        }
-        // draw target bigger
-        Vector3 last = currentPath[currentPath.Count - 1];
-        Gizmos.DrawSphere(last, debugNodeRadius * 1.5f);
-    }
-
     private List<Vector3> ReconstructPath(Dictionary<Vector3Int, Vector3Int> cameFrom, Vector3Int current)
     {
         var total = new List<Vector3Int> { current };
@@ -389,7 +367,7 @@ public class EnemyMovement : MonoBehaviour
         total.Reverse();
         var worldPath = new List<Vector3>(total.Count);
         foreach (var c in total)
-            worldPath.Add(groundTilemap.GetCellCenterWorld(c));
+            worldPath.Add(GroundTilemap.GetCellCenterWorld(c));
         return worldPath;
     }
 
@@ -416,9 +394,9 @@ public class EnemyMovement : MonoBehaviour
     private bool IsWalkable(Vector3Int cell)
     {
         // walkable if groundTilemap has tile AND collision tilemap does not have tile
-        bool hasGround = groundTilemap.HasTile(cell);
+        bool hasGround = GroundTilemap.HasTile(cell);
         if (!hasGround) return false;
-        if (collisionTilemap != null && collisionTilemap.HasTile(cell)) return false;
+        if (CollisionTilemap != null && CollisionTilemap.HasTile(cell)) return false;
         return true;
     }
 }

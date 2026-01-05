@@ -9,7 +9,7 @@ public class EnemyDetailsSO : ScriptableObject
     public float chaseDistance = 5f;
 
     [Header("Combat")]
-    public WeaponData weapon;
+    public WeaponDataSO weapon;
     public float firingIntervalMin = 0.5f;
     public float firingIntervalMax = 1.5f;
     public float firingDurationMin = 1f;

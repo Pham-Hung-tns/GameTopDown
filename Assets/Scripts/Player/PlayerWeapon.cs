@@ -5,12 +5,8 @@ using UnityEngine;
 public class PlayerWeapon : CharacterWeapon
 {
     public static event Action<Weapon> OnShowUIWeaponEvent;
-
-    //[SerializeField] private Weapon initialWeapon;
     
     private PlayerConfig playerConfig;
-
-    private PlayerMovement playerMove;
     private PlayerVitality playerVitality;
 
     private Coroutine weaponCoroutine;
@@ -86,29 +82,27 @@ public class PlayerWeapon : CharacterWeapon
     }
 
 
-    public void StopShooting()
-    {
-        CancelInvoke(nameof(Shoot));
-        return; 
-    }
+    //public void StopShooting()
+    //{
+    //    CancelInvoke(nameof(Shoot));
+    //    CancelInvoke(nameof(AutoFire));
+    //    return; 
+    //}
 
-    public void StartShooting()
-    {
-        InvokeRepeating(nameof(Shoot), 0f, currentWeapon.WeaponData.timeBetweenAttacks);
-    }
-    public void Shoot()
-    {
-        Debug.Log("Shoot weapon");
-        //if (currentWeapon == null)
-        //    return;
-        //if (CanUseWeapon())
-        //{
-        //    currentWeapon.UseWeapon();
-        //    playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy);
-        //}
-        //else
-        //    return;
-    }
+    //public void Shoot()
+    //{
+    //    Debug.Log("Shoot weapon");
+    //    //if (currentWeapon == null)
+    //    //    return;
+    //    //if (CanUseWeapon())
+    //    //{
+    //    //    currentWeapon.UseWeapon();
+    //    //    playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy);
+    //    //}
+    //    //else
+    //    //    return;
+    //}
+
     public float GetDamageCritical()
     {
         float damage = currentWeapon.WeaponData.damage;
@@ -164,9 +158,9 @@ public class PlayerWeapon : CharacterWeapon
     }
     public bool CanUseWeapon()
     {
-        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Gun && playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy))
+        if (currentWeapon.WeaponData.weaponType == WeaponDataSO.WeaponType.Gun && playerVitality.TryConsumeEnergy(currentWeapon.WeaponData.energy))
             return true;
-        if (currentWeapon.WeaponData.weaponType == WeaponData.WeaponType.Melee)
+        if (currentWeapon.WeaponData.weaponType == WeaponDataSO.WeaponType.Melee)
             return true;
 
         return false;
@@ -192,5 +186,80 @@ public class PlayerWeapon : CharacterWeapon
     {
         //actions.Disable();
         //actions.Interaction.ChangeItem.performed += ctx => ChangeWeapon();
+    }
+
+    // New: override StartAttack to support auto-fire for non-charge guns
+    public override void StartAttack()
+    {
+        if (currentWeapon == null || currentWeapon.WeaponData == null) return;
+
+        // If weapon supports charging, fall back to base (charge flow)
+        if (currentWeapon.WeaponData is RangeWeaponDataSO rangeData && rangeData.canCharge)
+        {
+            base.StartAttack();
+            return;
+        }
+
+        // For guns (non-charge), start auto-fire using InvokeRepeating with cooldown interval
+        if (currentWeapon.WeaponData.weaponType == WeaponDataSO.WeaponType.Gun)
+        {
+            // Fire immediately and then repeat at cooldown interval
+            AutoFire();
+            float interval = Mathf.Max(0.01f, currentWeapon.WeaponData.cooldown);
+            if (!IsInvoking(nameof(AutoFire)))
+                InvokeRepeating(nameof(AutoFire), interval, interval);
+            return;
+        }
+
+        // Default: use base behavior for melee or other types
+        base.StartAttack();
+    }
+
+    // New: override ReleaseAttack to stop auto-fire and handle charge release
+    public override void ReleaseAttack()
+    {
+        if (currentWeapon == null || currentWeapon.WeaponData == null)
+            return;
+
+        // If weapon supports charging, let base handle release (calculate multiplier)
+        if (currentWeapon.WeaponData is RangeWeaponDataSO rangeData && rangeData.canCharge)
+        {
+            base.ReleaseAttack();
+            return;
+        }
+
+        // For non-charge guns, stop auto-fire
+        if (currentWeapon.WeaponData.weaponType == WeaponDataSO.WeaponType.Gun)
+        {
+            CancelInvoke(nameof(AutoFire));
+            return;
+        }
+
+        // Default
+        base.ReleaseAttack();
+    }
+
+    private void AutoFire()
+    {
+        if (currentWeapon == null || currentWeapon.WeaponData == null)
+        {
+            CancelInvoke(nameof(AutoFire));
+            return;
+        }
+
+        // For guns, ensure we have energy to fire each shot
+        if (currentWeapon.WeaponData.weaponType == WeaponDataSO.WeaponType.Gun)
+        {
+            if (!CanUseWeapon())
+            {
+                // If cannot use (no energy), stop auto-fire
+                CancelInvoke(nameof(AutoFire));
+                return;
+            }
+        }
+
+        // Execute attack with multiplier 1
+        currentWeapon.ExecuteAttack(1f);
+        _lastAttackTime = Time.time;
     }
 }

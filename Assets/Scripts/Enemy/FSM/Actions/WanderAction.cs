@@ -16,9 +16,9 @@ public class WanderAction : AIAction
         movement = enemyBrain != null ? enemyBrain.GetComponent<EnemyMovement>() : null;
 
         // Try to pick a random walkable tile from assigned groundTilemap and request path
-        if (movement != null && movement.groundTilemap != null)
+        if (movement != null && movement.GroundTilemap != null)
         {
-            Vector3? chosen = PickRandomWalkableCellWorld(movement.groundTilemap, movement.collisionTilemap);
+            Vector3? chosen = PickRandomWalkableCellWorld(movement.GroundTilemap, movement.CollisionTilemap);
             if (chosen.HasValue)
             {
                 targetPosition = chosen.Value;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PickableItem : MonoBehaviour
 {
-    [SerializeField] ItemData item;
+    [SerializeField] ItemDataSO item;
     
     private PlayerControls actions;
     private ItemText nameText;
@@ -47,7 +47,7 @@ public class PickableItem : MonoBehaviour
 
     public void ShowNameOfTheItem()
     {
-        if(item is WeaponData weapon)
+        if(item is WeaponDataSO weapon)
         {
             textColor = GameManager.Instance.ChooseColorForWeapon(weapon);
             nameText = ItemTextManager.Instance.ShowName(weapon.name, textColor, Vector3.up + transform.position);

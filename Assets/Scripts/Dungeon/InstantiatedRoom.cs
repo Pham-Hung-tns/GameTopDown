@@ -142,7 +142,6 @@ public class InstantiatedRoom : MonoBehaviour
             else if (tilemap.gameObject.tag == Settings.collisionTilemapTag)
             {
                 collisionTilemap = tilemap;
-                Debug.Log(room.prefab.name);
             }
             else if (tilemap.gameObject.tag == Settings.minimapTilemapTag)
             {

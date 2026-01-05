@@ -15,4 +15,10 @@ public class Prop : MonoBehaviour, ITakeDamage
             Destroy(gameObject);
         }
     }
+
+    public void TakeDamage(float amount, GameObject attacker, Vector2 knockbackDir, float knockbackForce)
+    {
+        //TODO: Add knockback effect to prop
+        Debug.Log("Prop take damage with knockback");
+    }
 }

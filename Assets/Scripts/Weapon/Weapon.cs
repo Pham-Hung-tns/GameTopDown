@@ -8,24 +8,46 @@ public class Weapon : MonoBehaviour
     protected const string LAYER_PLAYER = "Player";
     protected const string LAYER_ENEMY = "Enemy";
 
-    [SerializeField] protected WeaponData weaponData;
+    [SerializeField] protected WeaponDataSO weaponData;
 
-    private Animator animatorator;
+    [Header("Audio")]
+    [SerializeField] protected AudioClip attackSFX;
+    [SerializeField] protected AudioClip chargeSFX;
+
+    [SerializeField] protected Animator animator;
+
+    private int currentState;
     public CharacterWeapon Character { get; set; }
-    private void Awake()
-    {
-        animatorator = GetComponent<Animator>();
-    }
-    public WeaponData WeaponData => weaponData;
-    public virtual void UseWeapon()
-    {
-        if(animatorator != null)
-        {
-            animatorator.SetTrigger("Attack");
-        }
-    }
+    public WeaponDataSO WeaponData => weaponData;
+
     public virtual void DestroyWeapon()
     {
 
+    }
+
+    // New API: execute an attack with an optional damage multiplier
+    public virtual void ExecuteAttack(float damageMultiplier = 1f)
+    {
+        // Default: do nothing. Subclasses should override.
+    }
+    public void ChangeAnimationState(int newState)
+    {
+        Debug.Log(newState);
+        if (currentState == newState) return;
+        animator.Play(newState);
+        currentState = newState;
+    }
+
+    // Audio helpers
+    public void PlayAttackSFX()
+    {
+        if (attackSFX == null) return;
+        AudioManager.Instance.PlaySFX(attackSFX);
+    }
+
+    public void PlayChargeSFX()
+    {
+        if (chargeSFX == null) return;
+        AudioManager.Instance.PlaySFX(chargeSFX);
     }
 }

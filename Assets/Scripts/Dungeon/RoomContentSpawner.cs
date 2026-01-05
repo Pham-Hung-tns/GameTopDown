@@ -83,10 +83,10 @@ public class RoomContentSpawner
                 EnemyMovement emMovement = enemy.GetComponent<EnemyMovement>();
                 if (emMovement != null && room.instantiatedRoom != null)
                 {
-                    if (emMovement.groundTilemap == null && room.instantiatedRoom.groundTilemap != null)
-                        emMovement.groundTilemap = room.instantiatedRoom.groundTilemap;
-                    if (emMovement.collisionTilemap == null && room.instantiatedRoom.collisionTilemap != null)
-                        emMovement.collisionTilemap = room.instantiatedRoom.collisionTilemap;
+                    if (emMovement.GroundTilemap == null && room.instantiatedRoom.groundTilemap != null)
+                        emMovement.GroundTilemap = room.instantiatedRoom.groundTilemap;
+                    if (emMovement.CollisionTilemap == null && room.instantiatedRoom.collisionTilemap != null)
+                        emMovement.CollisionTilemap = room.instantiatedRoom.collisionTilemap;
                 }
 
                 enemiesSpawned++;

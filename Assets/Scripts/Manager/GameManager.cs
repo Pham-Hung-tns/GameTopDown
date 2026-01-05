@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class GameManager : Persistance<GameManager>
 {
-
-    
-
     public Color weaponNormalColor;
      public Color weaponRareColor;
      public Color weaponEpicColor;
@@ -20,17 +17,17 @@ public class GameManager : Persistance<GameManager>
         gameData = SaveSystem.Load();
     }
 
-    public Color ChooseColorForWeapon(WeaponData weapon)
+    public Color ChooseColorForWeapon(WeaponDataSO weapon)
     {
         switch (weapon.weaponRarity)
         {
-            case WeaponData.WeaponRarity.Normal:
+            case WeaponDataSO.WeaponRarity.Normal:
                 return weaponNormalColor;
-            case WeaponData.WeaponRarity.Rare:
+            case WeaponDataSO.WeaponRarity.Rare:
                 return weaponRareColor;
-            case WeaponData.WeaponRarity.Epic:
+            case WeaponDataSO.WeaponRarity.Epic:
                 return weaponEpicColor;
-            case WeaponData.WeaponRarity.Legend:
+            case WeaponDataSO.WeaponRarity.Legend:
                 return weaponLegendColor;
         }
         return weaponNormalColor;

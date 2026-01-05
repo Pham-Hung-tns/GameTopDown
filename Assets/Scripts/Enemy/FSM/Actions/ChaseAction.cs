@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ChaseAction : AIAction
@@ -11,17 +12,15 @@ public class ChaseAction : AIAction
     public override void OnEnter()
     {
         // initialize chase
-        player = GameObject.FindWithTag(Settings.playerTag)?.transform;
+        player = enemyBrain.Player?.transform;
         movement = enemyBrain != null ? enemyBrain.GetComponent<EnemyMovement>() : null;
         if (player != null && movement != null)
             movement.RequestPath(player.position);
-        enemyBrain.ChangeAnim(Settings.ATTACK_STATE);
+        enemyBrain.ChangeAnim(Settings.WANDER_STATE);
     }
 
     public override void OnUpdate()
     {
-        if (player == null)
-            player = GameObject.FindWithTag(Settings.playerTag)?.transform;
         if (player == null || enemyBrain == null)
             return;
 
@@ -29,12 +28,13 @@ public class ChaseAction : AIAction
         if (movement != null && Time.time - lastRequest > 0.25f)
         {
             movement.RequestPath(player.position);
+            enemyBrain.PatrolPosition = player.position;
             lastRequest = Time.time;
         }
     }
 
     public override void OnExit()
     {
-        // cleanup
+        enemyBrain.Player = null;
     }
 }

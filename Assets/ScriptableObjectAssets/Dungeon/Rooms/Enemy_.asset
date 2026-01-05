@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74496e542112cf045bb93de9d86a210b, type: 3}
   m_Name: Enemy_
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4288501162753985557, guid: c2fdfe728100b7a48bf5b120c7f6bdb6, type: 3}
+  enemyPrefab: {fileID: 4288501162753985557, guid: 5cae777befed277489a51d0ff56697ee, type: 3}
   chaseDistance: 5
-  weapon: {fileID: 11400000, guid: b83281004f04ec840b00b27b801366b5, type: 2}
+  weapon: {fileID: 11400000, guid: 18b83579806000444b52a713e8bde4b4, type: 2}
   firingIntervalMin: 0.5
   firingIntervalMax: 1.5
   firingDurationMin: 1
