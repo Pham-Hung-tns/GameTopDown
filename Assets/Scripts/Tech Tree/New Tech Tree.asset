@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c4417d01640bb488898f54d120d78b, type: 3}
   m_Name: New Tech Tree
   m_EditorClassIdentifier: 
-  tree: []
+  tree:
+  - tech: {fileID: 11400000, guid: 756feec7821a92a4ebed188c504a99b0, type: 2}
+    requirements: []
+    researchCost: 0
+    researchInvested: 0
+    UIposition: {x: 445, y: 82.2}
+  - tech: {fileID: 11400000, guid: 1695a3a0c5c27ae449fe0e30bc7ff827, type: 2}
+    requirements: []
+    researchCost: 0
+    researchInvested: 0
+    UIposition: {x: 444, y: 265.2}

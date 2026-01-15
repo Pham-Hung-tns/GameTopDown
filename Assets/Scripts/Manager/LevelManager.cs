@@ -20,6 +20,9 @@ public class LevelManager : Singleton<LevelManager>
 
     [Header("Dungeon Config")]
     [SerializeField] private DungeonLevelSO startingDungeonLevel;
+    [SerializeField] private DungeonLevelSO[] dungeonLevels;
+
+    private int currentDungeonIndex = 0;
 
     // private Room currentRoom;
     private DungeonLevelSO currentDungeonLevel;
@@ -33,7 +36,16 @@ public class LevelManager : Singleton<LevelManager>
     {
         base.Awake();
         CreatePlayerInDungeon();
-        currentDungeonLevel = startingDungeonLevel;
+        // Initialize current dungeon level from provided list or fallback to startingDungeonLevel
+        if (dungeonLevels != null && dungeonLevels.Length > 0)
+        {
+            currentDungeonIndex = 0;
+            currentDungeonLevel = dungeonLevels[currentDungeonIndex];
+        }
+        else
+        {
+            currentDungeonLevel = startingDungeonLevel;
+        }
         DungeonBuilder dungeonBuilder = GameObject.FindObjectOfType<DungeonBuilder>();
 
     }
@@ -142,15 +154,49 @@ public class LevelManager : Singleton<LevelManager>
 
     private void ContinueNextLevel()
     {
-        //currentDungeonIndex++;
-        //if (currentDungeonIndex >= dungeonLibrary.levels[currentLevelIndex].dungeons.Length)
-        //{
-        //    currentLevelIndex++;
-        //    currentDungeonIndex = 0;
-        //}
-        //Destroy(currentDungeonGO);
-        //CreateLevel();
-        //PositionOfPlayerInDungeon();
+        DungeonBuilder db = DungeonBuilder.Instance;
+
+        // If we have a list of levels, advance index; otherwise just regenerate current level
+        if (dungeonLevels != null && dungeonLevels.Length > 0)
+        {
+            // If not the last level -> build next
+            if (currentDungeonIndex < dungeonLevels.Length - 1)
+            {
+                currentDungeonIndex++;
+                currentDungeonLevel = dungeonLevels[currentDungeonIndex];
+
+                db.ClearDungeonRuntime();
+                db.LoadRoomNodeTypeList();
+                bool built = db.GenerateDungeon(currentDungeonLevel);
+                if (!built)
+                {
+                    Debug.LogError("LevelManager: Dungeon build failed on ContinueNextLevel");
+                    return;
+                }
+
+                PositionOfPlayerInDungeon();
+            }
+            else
+            {
+                // Final level completed -> clear dungeon and show end-game debug UI
+                db.ClearDungeonRuntime();
+                Debug.Log("LevelManager: Final level completed. Game finished (debug).");
+                // TODO: show real end-game UI here
+            }
+        }
+        else
+        {
+            // No level list provided: just rebuild the same level
+            db.ClearDungeonRuntime();
+            db.LoadRoomNodeTypeList();
+            bool built = db.GenerateDungeon(currentDungeonLevel);
+            if (!built)
+            {
+                Debug.LogError("LevelManager: Dungeon build failed on ContinueNextLevel (regen)");
+                return;
+            }
+            PositionOfPlayerInDungeon();
+        }
     }
 
     private void PlayerEnterRoom() //parameter: Room room)
@@ -158,7 +204,7 @@ public class LevelManager : Singleton<LevelManager>
         AudioManager.Instance.PlaySFX("Door_Close");
         AudioManager.Instance.PlayMusic("Battle");
         
-        // Spawn enemies và chests khi player vào room
+        // Spawn enemies vï¿½ chests khi player vï¿½o room
         Room currentRoom = DungeonBuilder.Instance.GetRoomByRoomID("CurrentRoomID"); // TODO: track current room
         if (currentRoom != null)
         {
@@ -189,11 +235,28 @@ public class LevelManager : Singleton<LevelManager>
 
     private IEnumerator IEContinueDungeon()
     {
+        // Disable player control during transition
+        if (SelectedPlayer != null)
+        {
+            var pc = SelectedPlayer.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.enabled = false;
+        }
+
         UIManager.Instance.FadeNewDungeon(1);
         yield return new WaitForSeconds(2f);
         ContinueNextLevel();
         UIManager.Instance.UpdateLevelText(GetCurrentLevelText());
         UIManager.Instance.FadeNewDungeon(0f);
+
+        // Re-enable player control after transition (if player still exists)
+        yield return null; // wait one frame to ensure scene objects updated
+        if (SelectedPlayer != null)
+        {
+            var pc = SelectedPlayer.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.enabled = true;
+        }
     }
 
     public GameObject RandomItemInEachChest()
