@@ -19,8 +19,26 @@ public class EnemyVitality : MonoBehaviour, ITakeDamage
         enemyHealth = config.Health;
     }
 
-    public void TakeDamage(float amount)
+    private IEnumerator IEChangeColor()
     {
+        //spr.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        //spr.color = initialColor;
+    }
+
+    public void TakeDamage(float amount, GameObject attacker, Vector2 knockbackDir, float knockbackForce)
+    {
+        // Implement knockback
+        if (knockbackForce > 0)
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
+            }
+        }
+
+        Debug.Log("Enemy Take Damage with knockback");
         AudioManager.Instance.PlaySFX("Enemy_Damage");
         enemyHealth -= amount;
         DamageManager.Instance.ShowDmg(amount, transform);
@@ -36,18 +54,5 @@ public class EnemyVitality : MonoBehaviour, ITakeDamage
             OnChangeState?.Invoke();
             Destroy(gameObject);
         }
-    }
-
-    private IEnumerator IEChangeColor()
-    {
-        //spr.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        //spr.color = initialColor;
-    }
-
-    public void TakeDamage(float amount, GameObject attacker, Vector2 knockbackDir, float knockbackForce)
-    {
-        //TODO: Implement knockback
-        Debug.Log("Enemy Take Damage with knockback");
     }
 }

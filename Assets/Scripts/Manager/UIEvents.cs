@@ -1,9 +1,16 @@
 using System;
+using UnityEngine;
+
+[Serializable]
+public struct PlayerStatsData
+{
+    public float curHp, maxHp, curArmor, maxArmor, curEnergy, maxEnergy;
+}
 
 public static class UIEvents
 {
     // Player stats: curHP, maxHP, curArmor, maxArmor, curEnergy, maxEnergy
-    public static Action<float, float, float, float, float, float> OnPlayerStatsChanged;
+    public static Action<PlayerStatsData> OnPlayerStatsChanged;
 
     // total coins
     public static Action<float> OnCoinChanged;

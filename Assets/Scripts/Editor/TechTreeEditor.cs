@@ -9,7 +9,7 @@ using System;
 public class TechTreeEditor : Editor
 {
     // positioning
-    Vector2 nodeSize = new Vector2(100f,70f);
+    Vector2 nodeSize = new Vector2(150f,100f);
     float minTreeHeight = 720f;
     float minTreeWidth = 1000f;
     Vector2 incomingEdgVec = new Vector2(100f, 10f);
@@ -54,35 +54,45 @@ public class TechTreeEditor : Editor
                 // Draw node
                 Rect nodeRect = new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition, nodeSize);
                 string techName = targetTree.tree[nodeIdx].tech != null ? targetTree.tree[nodeIdx].tech.name : "NULL TECH";
-                EditorGUI.BeginFoldoutHeaderGroup(nodeRect, true, techName, (selectedNode==targetTree.tree[nodeIdx]? selectedNodeStyle : nodeStyle));
                 
-                if (targetTree.tree[nodeIdx].tech == null)
+                if (targetTree.tree[nodeIdx].tech == null) continue;
+                
+                // Draw node background
+                GUI.Box(nodeRect, "", (selectedNode==targetTree.tree[nodeIdx]? selectedNodeStyle : nodeStyle));
+                
+                // Draw icon on the left outside the node
+                Rect iconRect = new Rect(nodeRect.x - 50f, nodeRect.y, 50f, 50f);
+                if (targetTree.tree[nodeIdx].tech != null && targetTree.tree[nodeIdx].tech.image != null)
                 {
-                    EditorGUI.EndFoldoutHeaderGroup();
-                    continue;
+                    GUI.DrawTexture(iconRect, targetTree.tree[nodeIdx].tech.image, ScaleMode.ScaleToFit);
                 }
                 
-                EditorGUI.LabelField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec, nodeLabelSize), "Research cost: ");
-
-                int newCost = EditorGUI.IntField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec + indentVec, nodeContentSize), targetTree.tree[nodeIdx].researchCost);
-                if (newCost != targetTree.tree[nodeIdx].researchCost)
+                // Draw foldout header
+                Rect headerRect = new Rect(nodeRect.x, nodeRect.y, nodeRect.width, 20f);
+                bool expanded = EditorGUI.Foldout(headerRect, true, techName, true);
+                
+                if (expanded)
                 {
-                    Undo.RecordObject(targetTree, "Edit Tech Node");
-                    targetTree.tree[nodeIdx].researchCost = newCost;
-                    EditorUtility.SetDirty(targetTree);
+                    EditorGUI.LabelField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec, nodeLabelSize), "Research cost: ");
+
+                    int newCost = EditorGUI.IntField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec + indentVec, nodeContentSize), targetTree.tree[nodeIdx].researchCost);
+                    if (newCost != targetTree.tree[nodeIdx].researchCost)
+                    {
+                        Undo.RecordObject(targetTree, "Edit Tech Node");
+                        targetTree.tree[nodeIdx].researchCost = newCost;
+                        EditorUtility.SetDirty(targetTree);
+                    }
+
+                    EditorGUI.LabelField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec*2, nodeLabelSize),"Level: ");
+
+                    int newLevel = EditorGUI.IntField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec * 2 + indentVec, nodeContentSize), targetTree.tree[nodeIdx].level);
+                    if (newLevel != targetTree.tree[nodeIdx].level)
+                    {
+                        Undo.RecordObject(targetTree, "Edit Tech Node");
+                        targetTree.tree[nodeIdx].level = newLevel;
+                        EditorUtility.SetDirty(targetTree);
+                    }
                 }
-
-                EditorGUI.LabelField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec*2, nodeLabelSize),"Invested");
-
-                int newInvested = EditorGUI.IntField(new Rect(targetTree.tree[nodeIdx].UIposition - scrollPosition + nextLineVec * 2 + indentVec, nodeContentSize), targetTree.tree[nodeIdx].researchInvested);
-                if (newInvested != targetTree.tree[nodeIdx].researchInvested)
-                {
-                    Undo.RecordObject(targetTree, "Edit Tech Node");
-                    targetTree.tree[nodeIdx].researchInvested = newInvested;
-                    EditorUtility.SetDirty(targetTree);
-                }
-
-                EditorGUI.EndFoldoutHeaderGroup();
 
                 if (targetTree.tree[nodeIdx].requirements != null)
                 {
@@ -205,7 +215,7 @@ public class TechTreeEditor : Editor
                 if( DragAndDrop.objectReferences[i] is Tech)
                 {
                     Undo.RecordObject(targetTree, "Add Tech Node");
-                    targetTree.AddNode(DragAndDrop.objectReferences[i] as Tech, currentEvent.mousePosition + scrollPosition);
+                    targetTree.AddNode(DragAndDrop.objectReferences[i] as Tech, 1, currentEvent.mousePosition + scrollPosition);
                     EditorUtility.SetDirty(targetTree);
                 }
             }
@@ -260,7 +270,7 @@ public class TechTreeEditor : Editor
     {
         public string techGUID;
         public int researchCost;
-        public int researchInvested;
+        public int level;
         public Vector2 UIposition;
         public List<string> requirementsGUIDs;
     }
@@ -286,7 +296,7 @@ public class TechTreeEditor : Editor
                 NodeDTO n = new NodeDTO();
                 n.techGUID = node.tech != null ? AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(node.tech)) : "";
                 n.researchCost = node.researchCost;
-                n.researchInvested = node.researchInvested;
+                n.level = node.level;
                 n.UIposition = node.UIposition;
                 n.requirementsGUIDs = new List<string>();
                 if (node.requirements != null)
@@ -340,8 +350,7 @@ public class TechTreeEditor : Editor
                 if (!string.IsNullOrEmpty(assetPath))
                     t = AssetDatabase.LoadAssetAtPath<Tech>(assetPath);
             }
-            TechNode newNode = new TechNode(t, new List<Tech>(), n.researchCost, n.UIposition);
-            newNode.researchInvested = n.researchInvested;
+            TechNode newNode = new TechNode(t, new List<Tech>(), n.researchCost, n.level, n.UIposition);
             targetTree.tree.Add(newNode);
         }
 
@@ -370,5 +379,22 @@ public class TechTreeEditor : Editor
         EditorUtility.SetDirty(targetTree);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
+}
+
+public class TechTreeAssetPostprocessor : AssetPostprocessor
+{
+    // [UnityEditor.Callbacks.OnOpenAsset]
+    public static bool OnOpenAsset(int instanceID, int line)
+    {
+        UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
+        if (obj is TechTree)
+        {
+            TechTreeWindow w = EditorWindow.GetWindow<TechTreeWindow>("Tech Tree Editor");
+            w.targetTree = (TechTree)obj;
+            w.minSize = new Vector2(600, 400);
+            return true; // Prevent default Inspector from opening
+        }
+        return false;
     }
 }

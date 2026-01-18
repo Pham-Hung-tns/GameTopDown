@@ -50,13 +50,13 @@ public class Spike : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(Settings.playerTag))
         {
             PlayerVitality obj = collision.GetComponent<PlayerVitality>();
             if(obj != null)
             {
                 DungeonCM.Instance.ShakeCM(3f, 1f);
-                obj.TakeDamage(1f);
+                obj.TakeDamage(1f, this.gameObject, Vector2.zero, 0f);
             }
         }    
     }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerVitality : MonoBehaviour
+public class PlayerVitality : MonoBehaviour, ITakeDamage
 {
     // 1 palyer nên dùng static oke. Event này dùng để show Pannel khi player chết
     public static event Action OnPlayerDeathEvent;
@@ -27,7 +27,7 @@ public class PlayerVitality : MonoBehaviour
     }
 
     #region Player Health Methods
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject attacker, Vector2 knockbackDir, float knockbackForce)
     {
         // sau này sẽ thêm âm thanh và hiển thị damage
         //AudioManager.Instance.PlaySFX("Human_Damage");
@@ -50,6 +50,26 @@ public class PlayerVitality : MonoBehaviour
         {
             CurrentHealth = Mathf.Max(CurrentHealth - amount, 0f);
         }
+        UIEvents.OnPlayerStatsChanged?.Invoke(new PlayerStatsData
+        {
+            curHp = CurrentHealth,
+            maxHp = _data.MaxHealth,
+            curArmor = CurrentArmor,
+            maxArmor = _data.MaxArmor,
+            curEnergy = CurrentEnergy,
+            maxEnergy = _data.MaxEnergy
+        });
+
+        // Apply knockback if force > 0
+        if (knockbackForce > 0)
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
+            }
+        }
+
         if (CurrentHealth <= 0f)
         {
             // sau này sẽ thêm trên scene
@@ -58,6 +78,7 @@ public class PlayerVitality : MonoBehaviour
             //AudioManager.Instance.PlaySFX("Human_Defeat");
 
             OnPlayerDeathEvent?.Invoke();
+            UIEvents.OnShowGameOver?.Invoke();
             // PlayerDead(); : tạo thêm hàm destroy player sau này
         }
     }
@@ -69,6 +90,15 @@ public class PlayerVitality : MonoBehaviour
         {
             CurrentHealth = _data.MaxHealth;
         }
+        UIEvents.OnPlayerStatsChanged?.Invoke(new PlayerStatsData
+        {
+            curHp = CurrentHealth,
+            maxHp = _data.MaxHealth,
+            curArmor = CurrentArmor,
+            maxArmor = _data.MaxArmor,
+            curEnergy = CurrentEnergy,
+            maxEnergy = _data.MaxEnergy
+        });
     }
     #endregion
 
@@ -81,6 +111,15 @@ public class PlayerVitality : MonoBehaviour
         {
             CurrentEnergy = _data.MaxEnergy;
         }
+        UIEvents.OnPlayerStatsChanged?.Invoke(new PlayerStatsData
+        {
+            curHp = CurrentHealth,
+            maxHp = _data.MaxHealth,
+            curArmor = CurrentArmor,
+            maxArmor = _data.MaxArmor,
+            curEnergy = CurrentEnergy,
+            maxEnergy = _data.MaxEnergy
+        });
     }
 
     public bool TryConsumeEnergy(float amount)
@@ -88,6 +127,15 @@ public class PlayerVitality : MonoBehaviour
         if (CurrentEnergy >= amount)
         {
             CurrentEnergy -= amount;
+            UIEvents.OnPlayerStatsChanged?.Invoke(new PlayerStatsData
+            {
+                curHp = CurrentHealth,
+                maxHp = _data.MaxHealth,
+                curArmor = CurrentArmor,
+                maxArmor = _data.MaxArmor,
+                curEnergy = CurrentEnergy,
+                maxEnergy = _data.MaxEnergy
+            });
             return true;
         }
         return false;
@@ -125,6 +173,15 @@ public class PlayerVitality : MonoBehaviour
             return;
         }
         CurrentArmor += 1;
+        UIEvents.OnPlayerStatsChanged?.Invoke(new PlayerStatsData
+        {
+            curHp = CurrentHealth,
+            maxHp = _data.MaxHealth,
+            curArmor = CurrentArmor,
+            maxArmor = _data.MaxArmor,
+            curEnergy = CurrentEnergy,
+            maxEnergy = _data.MaxEnergy
+        });
     }
     #endregion
 }

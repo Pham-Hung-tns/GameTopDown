@@ -54,18 +54,18 @@ public class UIManager : Singleton<UIManager>
     private Coroutine skillCooldownCoroutine;
 
     // Event-driven updates (no polling in Update)
-    private void OnPlayerStatsChanged(float curHp, float maxHp, float curArmor, float maxArmor, float curEnergy, float maxEnergy)
+    private void OnPlayerStatsChanged(PlayerStatsData data)
     {
         if (healthBarImage != null)
-            healthBarImage.fillAmount = Mathf.Clamp01((float)curHp / Mathf.Max(1f, maxHp));
+            healthBarImage.fillAmount = Mathf.Clamp01((float)data.curHp / Mathf.Max(1f, data.maxHp));
         if (ArmorBarImage != null)
-            ArmorBarImage.fillAmount = Mathf.Clamp01((float)curArmor / Mathf.Max(1f, maxArmor));
+            ArmorBarImage.fillAmount = Mathf.Clamp01((float)data.curArmor / Mathf.Max(1f, data.maxArmor));
         if (EnergyBarImage != null)
-            EnergyBarImage.fillAmount = Mathf.Clamp01((float)curEnergy / Mathf.Max(1f, maxEnergy));
+            EnergyBarImage.fillAmount = Mathf.Clamp01((float)data.curEnergy / Mathf.Max(1f, data.maxEnergy));
 
-        if (healthText != null) healthText.text = curHp + "/" + maxHp;
-        if (armorText != null) armorText.text = curArmor + "/" + maxArmor;
-        if (energyText != null) energyText.text = curEnergy + "/" + maxEnergy;
+        if (healthText != null) healthText.text = data.curHp + "/" + data.maxHp;
+        if (armorText != null) armorText.text = data.curArmor + "/" + data.maxArmor;
+        if (energyText != null) energyText.text = data.curEnergy + "/" + data.maxEnergy;
     }
 
     private void OnCoinChanged(float totalCoins)

@@ -10,8 +10,11 @@ public class Projectile : MonoBehaviour
     public float Damage { get; set; }
     public float Speed { get; set; }
     public Vector3 Direction { get; set; }
+    public float knockback = 0f; // Lực đẩy khi trúng đạn
+    public bool isKnockbackFromProjectile; // Lực đẩy có từ viên đạn không?
 
     private GameObject owner;
+    private bool canKnockback = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +44,10 @@ public class Projectile : MonoBehaviour
         if(td != null)
         {
             // no knockback info here, pass zero
-            td.TakeDamage(Damage, owner, Vector2.zero, 0f);
+            if(canKnockback == false)
+                td.TakeDamage(Damage, owner, Vector2.zero, 0f);
+            else
+                td.TakeDamage(Damage, owner, Direction, knockback);
             ReturnBullet();
             return;
         }

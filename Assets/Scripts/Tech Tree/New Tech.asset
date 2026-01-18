@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Tech
   m_EditorClassIdentifier: 
   definition: test
-  image: {fileID: 2800000, guid: ce5f11cd993284c4f9c54f854bdc8c9c, type: 3}
+  image: {fileID: 2800000, guid: e01e9f5ff62a79a4da36d6811035ec00, type: 3}

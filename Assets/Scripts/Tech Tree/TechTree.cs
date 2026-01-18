@@ -8,15 +8,15 @@ public class TechNode
     public Tech tech;
     public List<Tech> requirements;
     public int researchCost;
-    public int researchInvested;
+    public int level;
     public Vector2 UIposition; // require for GUI placement
 
-    public TechNode(Tech tech, List<Tech> requirements, int researchCost, Vector2 UIposition)
+    public TechNode(Tech tech, List<Tech> requirements, int researchCost, int level, Vector2 UIposition)
     {
         this.tech = tech;
         this.requirements = requirements;
         this.researchCost = researchCost;
-        this.researchInvested = 0;
+        this.level = level;
         this.UIposition = UIposition;
     }
 }
@@ -26,13 +26,13 @@ public class TechTree : ScriptableObject
 {
     public List<TechNode> tree = new List<TechNode>();
 
-    public bool AddNode(Tech tech, Vector2 UIpos)
+    public bool AddNode(Tech tech, int level, Vector2 UIpos)
     {
         if (tree == null) tree = new List<TechNode>();
         int tIdx = FindTechIndex(tech);
         if(tIdx == -1)
         {
-            tree.Add(new TechNode(tech, new List<Tech>(), 0, UIpos));
+            tree.Add(new TechNode(tech, new List<Tech>(), 0, level, UIpos));
             return true;
         }
         return false;
@@ -81,6 +81,7 @@ public class TechTree : ScriptableObject
     public bool IsConnectible(int incomingNodeIdx, int outgoingNodeIdx)
     {
         if(incomingNodeIdx == outgoingNodeIdx) return false;
+        if (tree[outgoingNodeIdx].level <= tree[incomingNodeIdx].level) return false;
         return !(DoesLeadsToInCascade(incomingNodeIdx,outgoingNodeIdx) || DoesLeadsToInCascade(outgoingNodeIdx,incomingNodeIdx));
     }
 
@@ -100,6 +101,20 @@ public class TechTree : ScriptableObject
             allRequirements.UnionWith(GetAllPastRequirements(idx));
         }
         return allRequirements;
+    }
+
+    public bool AddRequirement(int nodeIdx, Tech requiredTech)
+    {
+        int reqIdx = FindTechIndex(requiredTech);
+        if (reqIdx == -1) return false;
+        if (!IsConnectible(reqIdx, nodeIdx)) return false;
+        if (tree[nodeIdx].requirements == null) tree[nodeIdx].requirements = new List<Tech>();
+        if (!tree[nodeIdx].requirements.Contains(requiredTech))
+        {
+            tree[nodeIdx].requirements.Add(requiredTech);
+            CorrectRequirementsCascades(nodeIdx);
+        }
+        return true;
     }
 
     public void CorrectRequirementsCascades(int idx)

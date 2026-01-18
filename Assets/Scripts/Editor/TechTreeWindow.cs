@@ -10,7 +10,7 @@ public class TechTreeWindow : EditorWindow
     Vector2 scrollPosition = Vector2.zero;
     Vector2 scrollStartPos;
 
-    TechTree targetTree;
+    public TechTree targetTree;
     SerializedObject serializedTree;
     SerializedProperty treeProp;
 
@@ -127,7 +127,7 @@ public class TechTreeWindow : EditorWindow
                 SerializedProperty nodeProp = treeProp.GetArrayElementAtIndex(i);
                 SerializedProperty techProp = nodeProp.FindPropertyRelative("tech");
                 SerializedProperty costProp = nodeProp.FindPropertyRelative("researchCost");
-                SerializedProperty invProp = nodeProp.FindPropertyRelative("researchInvested");
+                SerializedProperty levelProp = nodeProp.FindPropertyRelative("level");
                 SerializedProperty uiPosProp = nodeProp.FindPropertyRelative("UIposition");
 
                 Vector2 uiPos = uiPosProp.vector2Value - scrollPosition + new Vector2(canvas.x, canvas.y);
@@ -159,13 +159,13 @@ public class TechTreeWindow : EditorWindow
                     serializedTree.ApplyModifiedProperties();
                 }
 
-                Rect invRect = new Rect(uiPos + new Vector2(52f, 32f), new Vector2(84f, 16f));
-                EditorGUI.LabelField(new Rect(invRect.x, invRect.y, 52f, invRect.height), "Invested:");
-                int newInv = EditorGUI.IntField(new Rect(invRect.x + 52f, invRect.y, 28f, invRect.height), invProp.intValue);
-                if (newInv != invProp.intValue)
+                Rect levelRect = new Rect(uiPos + new Vector2(52f, 32f), new Vector2(84f, 16f));
+                EditorGUI.LabelField(new Rect(levelRect.x, levelRect.y, 52f, levelRect.height), "Level:");
+                int newLevel = EditorGUI.IntField(new Rect(levelRect.x + 52f, levelRect.y, 28f, levelRect.height), levelProp.intValue);
+                if (newLevel != levelProp.intValue)
                 {
-                    Undo.RecordObject(serializedTree.targetObject, "Edit Tech Node Invested");
-                    invProp.intValue = newInv;
+                    Undo.RecordObject(serializedTree.targetObject, "Edit Tech Node Level");
+                    levelProp.intValue = newLevel;
                     serializedTree.ApplyModifiedProperties();
                 }
 
@@ -284,7 +284,7 @@ public class TechTreeWindow : EditorWindow
     {
         public string techGUID;
         public int researchCost;
-        public int researchInvested;
+        public int level;
         public Vector2 UIposition;
         public List<string> requirementsGUIDs;
     }
@@ -308,13 +308,13 @@ public class TechTreeWindow : EditorWindow
             SerializedProperty techProp = nodeProp.FindPropertyRelative("tech");
             SerializedProperty reqsProp = nodeProp.FindPropertyRelative("requirements");
             SerializedProperty costProp = nodeProp.FindPropertyRelative("researchCost");
-            SerializedProperty invProp = nodeProp.FindPropertyRelative("researchInvested");
+            SerializedProperty levelProp = nodeProp.FindPropertyRelative("level");
             SerializedProperty uiPosProp = nodeProp.FindPropertyRelative("UIposition");
 
             NodeDTO n = new NodeDTO();
             n.techGUID = techProp.objectReferenceValue != null ? AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(techProp.objectReferenceValue)) : "";
             n.researchCost = costProp.intValue;
-            n.researchInvested = invProp.intValue;
+            n.level = levelProp.intValue;
             n.UIposition = uiPosProp.vector2Value;
             n.requirementsGUIDs = new List<string>();
             if (reqsProp != null)
@@ -371,7 +371,7 @@ public class TechTreeWindow : EditorWindow
             }
             newElem.FindPropertyRelative("tech").objectReferenceValue = t;
             newElem.FindPropertyRelative("researchCost").intValue = n.researchCost;
-            newElem.FindPropertyRelative("researchInvested").intValue = n.researchInvested;
+            newElem.FindPropertyRelative("level").intValue = n.level;
             newElem.FindPropertyRelative("UIposition").vector2Value = n.UIposition;
             var reqs = newElem.FindPropertyRelative("requirements");
             reqs.ClearArray();

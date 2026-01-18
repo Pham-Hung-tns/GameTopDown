@@ -26,4 +26,4 @@ MonoBehaviour:
   moveRange: {x: 10, y: 10, z: 0}
   timeToAttack: 2
   timeBetweenAttack: 2
-  initialWeapon: {fileID: 5234706041011484672, guid: 271c5deee500be9418e421ea37324094, type: 3}
+  initialWeapon: {fileID: 8736767362372929312, guid: baa395890fa20cd4d87607f63a71d116, type: 3}

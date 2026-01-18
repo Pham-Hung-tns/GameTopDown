@@ -50,4 +50,14 @@ public class PlayerConfig : ScriptableObject
     [Header("Prefab")]
     public GameObject playerPrefab;
     public Weapon initialWeapon;
+
+    [Space(5)]
+    [Header("Skill Tree")]
+    public TechTree skillTree;
+
+    public List<TechNode> GetSkillNodes()
+    {
+        if (skillTree == null || skillTree.tree == null) return new List<TechNode>();
+        return skillTree.tree;
+    }
 }

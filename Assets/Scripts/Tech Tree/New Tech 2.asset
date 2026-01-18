@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Tech 2
   m_EditorClassIdentifier: 
   definition: 
-  image: {fileID: 0}
+  image: {fileID: 2800000, guid: f3780bf4493735b43ab7b5704963034e, type: 3}
