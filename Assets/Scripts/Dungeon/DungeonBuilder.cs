@@ -798,5 +798,33 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
         // Clear the dictionary
         dungeonBuilderRoomDictionary.Clear();
     }
+
+    /// <summary>
+    /// Clear dungeon at runtime. Destroys instantiated dungeon gameobjects and clears dictionary.
+    /// </summary>
+    public void ClearDungeonRuntime()
+    {
+        if (dungeonBuilderRoomDictionary.Count > 0)
+        {
+            foreach (KeyValuePair<string, Room> keyvaluepair in dungeonBuilderRoomDictionary)
+            {
+                Room room = keyvaluepair.Value;
+
+                if (room.instantiatedRoom != null)
+                {
+                    Destroy(room.instantiatedRoom.gameObject);
+                }
+            }
+
+            dungeonBuilderRoomDictionary.Clear();
+        }
+
+        // Also destroy any remaining children attached to this GameObject
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            if (transform.GetChild(i) != null)
+                Destroy(transform.GetChild(i).gameObject);
+        }
+    }
 #endif
 }

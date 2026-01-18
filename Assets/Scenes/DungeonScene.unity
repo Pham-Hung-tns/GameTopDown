@@ -1449,6 +1449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingDungeonLevel: {fileID: 11400000, guid: 710fb095fc9e08a48ba9ee939600e6e9, type: 2}
+  dungeonLevels: []
 --- !u!4 &1051979971
 Transform:
   m_ObjectHideFlags: 0
